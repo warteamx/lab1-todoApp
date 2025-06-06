@@ -1,9 +1,11 @@
-import express from 'express';
-import { setRoutes } from './routes/index';
+import express from 'express'
+import cors from 'cors'
+import { setRoutes } from './routes/index'
 
 const app = express();
 
 // Middleware
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
