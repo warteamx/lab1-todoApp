@@ -4,7 +4,7 @@ This project is a simple Express server built with TypeScript. It serves as a te
 
 ## Project Structure
 
-```
+```text
 express-ts-server
 ├── src
 │   ├── app.ts               # Configures the Express application
@@ -23,20 +23,23 @@ express-ts-server
 ## Installation
 
 1. Clone the repository:
-   ```
+
+```bash
    git clone <repository-url>
    cd express-ts-server
-   ```
+```
 
 2. Install dependencies:
-   ```
+
+```bash
    npm install
-   ```
+```
 
 ## Usage
 
 To start the server, run the following command:
-```
+
+```bash
 npm start
 ```
 
@@ -45,12 +48,14 @@ The server will listen on the specified port (default is 3000). You can access t
 ## Development
 
 To compile the TypeScript files, use:
-```
+
+```bash
 npm run build
 ```
 
 For development, you can use:
-```
+
+```bash
 npm run dev
 ```
 
