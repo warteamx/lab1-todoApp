@@ -1,6 +1,20 @@
+import axios from "axios";
+import { useState, useEffect } from "react";
 import { Text, View } from "react-native";
 
 export default function Index() {
+  const [data, setData] = useState<any>(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000")
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
   return (
     <View
       style={{
@@ -9,7 +23,11 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      {data ? (
+        <Text>{JSON.stringify(data, null, 2)}</Text>
+      ) : (
+        <Text>Loading...</Text>
+      )}
     </View>
   );
 }
