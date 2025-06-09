@@ -26,32 +26,16 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text> Index Screen </Text>
+      <Text> Legal - Credits Screen </Text>
       {data ? (
         <Text>{JSON.stringify(data, null, 2)}</Text>
       ) : (
         <Text>Loading...</Text>
       )}
-      <View style={{ marginTop: 20 }}>
-        <View style={{ marginBottom: 10 }}>
-          <Button
-            title="Go to Login"
-            onPress={() => router.push('/auth')}
-          />
-        </View>
-        <View style={{ marginBottom: 10 }}>
-          <Button
-            title="Go to legal"
-            onPress={() => router.push('/legal')}
-          />
-        </View>
-        <View style={{ marginBottom: 10 }}>
-          <Button
-            title="Go to todo"
-            onPress={() => router.push('/todo')}
-          />
-        </View>
-      </View>
+      <Button
+        title="Go to home"
+        onPress={() => router.push('/')}
+      />
     </View>
   );
 }
