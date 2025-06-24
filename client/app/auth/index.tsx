@@ -1,9 +1,11 @@
-import axios from "axios";
-import { useState, useEffect } from "react";
-import { Text, View } from "react-native";
+import axios from "axios"
+import { useState, useEffect } from "react"
+import { Text, View, Button } from "react-native"
+import { useRouter } from 'expo-router'
 
 export default function Index() {
   const [data, setData] = useState<any>(null);
+  const router = useRouter();
 
   useEffect(() => {
     axios.get("http://localhost:3000")
@@ -23,12 +25,19 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-        <Text> Login Screen </Text>
+      <Text> Login Screen </Text>
       {data ? (
         <Text>{JSON.stringify(data, null, 2)}</Text>
       ) : (
         <Text>Loading...</Text>
       )}
+
+      <View style={{ marginBottom: 10 }}>
+        <Button
+          title="Go to User"
+          onPress={() => router.push('/auth/user')}
+        />
+      </View>
     </View>
   );
 }
