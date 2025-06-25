@@ -1,7 +1,13 @@
 import React, { useState } from 'react'
+import { makeRedirectUri } from 'expo-auth-session'
+import * as WebBrowser from 'expo-web-browser'
+import * as Linking from 'expo-linking'
 import { Alert, StyleSheet, View, Button, TextInput } from 'react-native'
 import { supabase } from '../lib/supabase'
 // import { Button, Input } from '@rneui/themed'
+
+WebBrowser.maybeCompleteAuthSession() // required for web only
+const redirectTo = makeRedirectUri()
 
 export default function Auth() {
   const [email, setEmail] = useState('')
@@ -25,6 +31,7 @@ export default function Auth() {
     const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
+
     })
 
     if (error) Alert.alert(error.message)

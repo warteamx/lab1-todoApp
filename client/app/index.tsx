@@ -18,6 +18,7 @@ export default function Index() {
       });
   }, []);
 
+
   return (
     <View
       style={{
