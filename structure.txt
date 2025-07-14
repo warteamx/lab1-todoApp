@@ -1,0 +1,89 @@
+.
+├── src
+│   ├── app.ts                # Express server initialization and middlewares
+│   ├── server.ts             # Server setup (entry point)
+│   │
+│   ├── api                   # API routes/controllers
+│   │   ├── auth
+│   │   │   ├── auth.controller.ts
+│   │   │   ├── auth.routes.ts
+│   │   │   ├── auth.schemas.ts
+│   │   │   └── auth.middleware.ts
+│   │   │
+│   │   ├── user
+│   │   │   ├── user.controller.ts
+│   │   │   ├── user.routes.ts
+│   │   │   └── user.schemas.ts
+│   │   │
+│   │   └── todo
+│   │       ├── todo.controller.ts
+│   │       ├── todo.routes.ts
+│   │       └── todo.schemas.ts
+│   │
+│   ├── domain                # Business logic and domain entities
+│   │   ├── auth
+│   │   │   ├── dto
+│   │   │   │   └── auth.dto.ts
+│   │   │   ├── interfaces
+│   │   │   │   └── auth.interface.ts
+│   │   │   ├── services
+│   │   │   │   └── auth.service.ts
+│   │   │   └── entities
+│   │   │       └── auth.entity.ts
+│   │   │
+│   │   ├── user
+│   │   │   ├── dto
+│   │   │   │   └── user.dto.ts
+│   │   │   ├── interfaces
+│   │   │   │   └── user.interface.ts
+│   │   │   ├── services
+│   │   │   │   └── user.service.ts
+│   │   │   └── entities
+│   │   │       └── user.entity.ts
+│   │   │
+│   │   └── todo
+│   │       ├── dto
+│   │       │   └── todo.dto.ts
+│   │       ├── interfaces
+│   │       │   └── todo.interface.ts
+│   │       ├── services
+│   │       │   └── todo.service.ts
+│   │       └── entities
+│   │           └── todo.entity.ts
+│   │
+│   ├── infrastructure        # External interactions, DB connections, utilities
+│   │   ├── config
+│   │   │   └── index.ts
+│   │   ├── database
+│   │   │   ├── postgres.ts
+│   │   │   ├── mongodb.ts
+│   │   │   └── dynamodb.ts
+│   │   └── repositories
+│   │       ├── user.repository.ts
+│   │       ├── todo.repository.ts
+│   │       └── auth.repository.ts
+│   │
+│   ├── common                # Shared utilities, middlewares, exceptions
+│   │   ├── middlewares
+│   │   │   ├── error.middleware.ts
+│   │   │   ├── logger.middleware.ts
+│   │   │   └── validation.middleware.ts
+│   │   ├── exceptions
+│   │   │   └── httpException.ts
+│   │   ├── utils
+│   │   │   └── helper.ts
+│   │   └── types
+│   │       └── express.d.ts
+│   │
+│   └── tests                 # Unit & integration tests
+│       ├── auth
+│       ├── user
+│       └── todo
+│
+├── Dockerfile                # Docker config
+├── docker-compose.yml        # Docker compose for local dev
+├── package.json              # Project metadata and dependencies
+├── tsconfig.json             # TypeScript compiler options
+├── .env                      # Environment variables
+├── .gitignore                # Git ignored files
+└── README.md                 # Project Documentation
