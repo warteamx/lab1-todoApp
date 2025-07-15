@@ -1,21 +1,7 @@
-# expo-lab
-Software lab for Expo App
+# Expo Lab
 
-Logger
-## 30/4/2025
-- Install express 5 
+Hello Wold!
 
-## 29/4/2025
-todo:
-- Add express 5 node api with typescript
-- Connect api to app
-- Choose Database (Postgress)
-  
+Client: expo SDK 53 App
+Server: express 5 server
 
-## 26/4/2025
-- Running the app on Web using `npm run web`.
-- Modify title in home page. 
-- Working to choose future features. 
-  
-## 25/4/2025
-- Created a new Expo app using `npx create-expo-app expo-lab`.
