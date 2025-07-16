@@ -2,6 +2,10 @@
 Software lab for Expo App
 
 Logger
+## 15/7/2025
+- Create DDD server folder structure
+- todo endpoints and testing
+
 ## 30/4/2025
 - Install express 5 
 

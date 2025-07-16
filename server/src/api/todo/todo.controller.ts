@@ -13,8 +13,8 @@ export async function getTodos(req: Request, res: Response, next: NextFunction) 
 
 export async function createTodo(req: Request, res: Response, next: NextFunction) {
   try {
-    const { title } = req.body as CreateTodoDto;
-    const todo = await todoService.createTodo(title);
+    const { task } = req.body as CreateTodoDto;
+    const todo = await todoService.createTodo(task);
     res.status(201).json(todo);
   } catch (err) {
     next(err);
