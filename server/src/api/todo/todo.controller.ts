@@ -6,6 +6,7 @@ export async function getTodos(req: Request, res: Response, next: NextFunction) 
   try {
     const todos = await todoService.getTodos();
     res.json(todos);
+
   } catch (err) {
     next(err);
   }

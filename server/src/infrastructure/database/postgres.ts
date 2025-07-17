@@ -1,17 +1,11 @@
-// import { Pool } from 'pg';
-// import { config } from '../config';
-
-// export const pool = new Pool(config.db);
-import 'dotenv/config'
-
 import postgres from 'postgres'
+import { config } from '../config'
 
-const connectionString = process.env.SUPABASE_DATABASE_URL || 'postgresql://postgres:GlVHx6Ca0Ss0ae8A@db.wwcrjqqaapcasamfplfa.supabase.co:5432/postgres'
-console.log('👀 conection string', connectionString)
+const connectionString = config.supabaseDB!
 
 const sql = postgres(connectionString, {
     onnotice: (notice) => {
-        console.log(` 📥 notice postgress:`, notice)
+        console.log(` 📥 notice postgres:`, notice)
     },
 })
 

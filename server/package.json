@@ -4,7 +4,7 @@
   "main": "src/server.ts",
   "license":"MIT",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "npx dotenvx run -- ts-node-dev src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
     "test": "npx vitest"
@@ -14,10 +14,12 @@
     "pg": "8.16.3",
     "postgres": "3.4.7", 
     "swagger-ui-express": "5.0.1",
-    "swagger-jsdoc": "6.2.8"
+    "swagger-jsdoc": "6.2.8",
+    "supabase":"2.31.4"
   },
   "devDependencies": {
     "dotenv": "17.2.0",
+    "@dotenvx/dotenvx":"1.47.6",
     "typescript": "5.8.3",
     "ts-node-dev": "2.0.0",
     "supertest": "7.1.3",
