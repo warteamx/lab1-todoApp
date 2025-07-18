@@ -1,0 +1,8 @@
+{
+    "name": "expo-lab",
+    "version": "1.1.0",
+    "scripts": {
+        "dev:server": "npm --prefix ./server run dev",
+        "expo:dev": "npm --prefix ./client run start"
+    }
+}
