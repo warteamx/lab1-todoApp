@@ -4,21 +4,23 @@ import { Todo } from '../../domain/todo/entities/todo.entity';
 
 
 
-export async function getTodos(): Promise<Todo[]> {
+export async function getTodos(user_id: string): Promise<Todo[]> {
   const res = await sql<RowList<Todo[]>>`
     SELECT
       *
     FROM
       todos
+    WHERE
+      user_id = ${user_id}
   `
   return res;
   
 }
 
-export async function createTodo(task: string): Promise<Todo> {
+export async function createTodo(task: string, user_id: string): Promise<Todo> {
   const res = await sql<Todo[]>`
-    INSERT INTO todo (task, id, is_complete)
-      VALUES (${task})
+    INSERT INTO todos (task, user_id, is_complete)
+      VALUES (${task}, ${user_id}, false)
     RETURNING
       id, task, is_complete
   `

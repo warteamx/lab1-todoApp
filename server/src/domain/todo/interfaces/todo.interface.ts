@@ -1,6 +1,6 @@
 import { Todo } from '../entities/todo.entity';
 
 export interface ITodoService {
-  getTodos(): Promise<Todo[]>;
-  createTodo(title: string): Promise<Todo>;
+  getTodos(user_id: string): Promise<Todo[]>;
+  createTodo(task: string, user_id: string): Promise<Todo>;
 }
