@@ -20,9 +20,15 @@ const index = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
       <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
-         <Text>TEXT</Text>
+        <Text>TEXT</Text>
         <Link href={'/(user)'} asChild>
-          <Button title="User TODO APP" />
+          <Button title=" 👀 See Task List" />
+        </Link>
+      </View>
+      <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
+        <Text>TEXT</Text>
+        <Link href={'/(user)/todo/newTodo'} asChild>
+          <Button title="➕ Add New Task" />
         </Link>
       </View>
       <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>

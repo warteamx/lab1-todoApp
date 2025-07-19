@@ -39,7 +39,6 @@ function useTodos() {
 
 export default function TodoIndexTab() {
   const { todos, loading, error } = useTodos();
-console.log("TODOS", todos);
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
       <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 10 }}>Todo Index Tab</Text>
@@ -60,6 +59,11 @@ console.log("TODOS", todos);
           )}
         />
       )}
+      { /* Button Add new Todo Modal */ }
+      <View style={{ marginTop: 10 }}>
+        <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>Add New Todo</Text>
+        {/* Modal for adding new todo would go here */}
+        </View>
     </View>
   );
 }
