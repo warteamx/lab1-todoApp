@@ -35,3 +35,14 @@ export async function updateTodo(req: Request, res: Response, next: NextFunction
     next(err);
   }
 }
+
+export async function deleteTodo(req: Request, res: Response, next: NextFunction) {
+  const userId = req.userClaims?.sub!;
+  try {
+    const { id } = req.body;
+    await todoService.deleteTodo(id, userId);
+    res.status(204).send();
+  } catch (err) {
+    next(err);
+  }
+}

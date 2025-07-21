@@ -36,9 +36,18 @@ export const UpdateTodoDtoSchema = {
   required: ['id', 'task', 'is_complete', 'user_id'],
 };
 
+export const DeleteTodoDtoSchema = {
+  type: 'object',
+  required: ['id'],
+  properties: {
+    id: { type: 'string' },
+  },
+};
+
 export const TodoSchemas = {
   CreateTodoDtoSchema,
   UpdateTodoDtoSchema,
+  DeleteTodoDtoSchema,
   TodoSchema,
   TodoListSchema,
 };

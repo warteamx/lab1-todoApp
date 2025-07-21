@@ -9,3 +9,6 @@ export interface UpdateTodoDto {
   is_complete: boolean;
   user_id: string;
 }
+export interface DeleteTodoDto {
+  id: string; 
+}

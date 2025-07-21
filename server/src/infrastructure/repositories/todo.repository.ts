@@ -36,3 +36,11 @@ export async function updateTodo(id: number, task: string, is_complete: boolean,
   `
   return res[0];
 }
+
+export async function deleteTodo(id: number, user_id: string): Promise<void> {
+  await sql`
+    DELETE FROM todos
+    WHERE id = ${id} AND user_id = ${user_id}
+  `;
+}
+

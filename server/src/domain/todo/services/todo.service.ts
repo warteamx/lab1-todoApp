@@ -1,5 +1,5 @@
 import { ITodoService } from '../interfaces/todo.interface';
-import { getTodos, createTodo, updateTodo } from '../../../infrastructure/repositories/todo.repository';
+import { getTodos, createTodo, updateTodo, deleteTodo } from '../../../infrastructure/repositories/todo.repository';
 import { Todo } from '../entities/todo.entity';
 
 export const todoService: ITodoService = {
@@ -11,6 +11,8 @@ export const todoService: ITodoService = {
   },
   async updateTodo(id: number, task: string, is_complete: boolean, user_id: string): Promise<Todo> {
     return updateTodo(id, task, is_complete, user_id);
+  },
+  async deleteTodo(id: number, user_id: string): Promise<void> {
+    return deleteTodo(id, user_id);
   }
-
 };

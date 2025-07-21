@@ -10,9 +10,8 @@ tags:
   - name: Todo
     description: Operations related to todos
     externalDocs:
-      url: https://example.com/todo-api
-      description: Find more info here
-    
+      url: https://github.com/martinrebo/expo-lab
+      description: Github repository. Find more info here
 security:
   - Authorization: [ 'jwt']
 paths:
@@ -60,7 +59,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Todo'
-
+    delete:
+      summary: Delete an existing todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTodoDto'
+      responses:
+        '200':
+          description: OK
+## Components vs Schemas
 components:
   schemas:
     Todo:
@@ -93,3 +103,11 @@ components:
           type: string
         completed:
           type: boolean
+
+    DeleteTodoDto:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
