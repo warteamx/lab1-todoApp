@@ -2,7 +2,7 @@
   "name": "server",
   "version": "1.1.0",
   "main": "src/server.ts",
-  "license":"MIT",
+  "license": "MIT",
   "scripts": {
     "dev": "npx dotenvx run -- ts-node-dev src/server.ts",
     "build": "tsc",
@@ -10,30 +10,29 @@
     "test": "npx vitest"
   },
   "dependencies": {
+    "@supabase/supabase-js": "2.52.0",
     "cors": "2.8.5",
     "express": "5.1.0",
     "pg": "8.16.3",
-    "postgres": "3.4.7", 
+    "postgres": "3.4.7",
     "swagger-ui-express": "5.0.1",
-    "swagger-jsdoc": "6.2.8",
-    "@supabase/supabase-js":"2.52.0"
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
+    "@dotenvx/dotenvx": "1.47.6",
     "@types/cors": "2.8.17",
-    "dotenv": "17.2.0",
-    "@dotenvx/dotenvx":"1.47.6",
-    "typescript": "5.8.3",
-    "ts-node-dev": "2.0.0",
-    "supertest": "7.1.3",
-    "swagger-ui-express":"5.0.1",
-    "pg":"8.16.3",
-    "vitest": "3.2.4",
-    "@types/express":"5.0.3",
+    "@types/express": "5.0.3",
     "@types/node": "22.9.0",
-    "@types/pg":"8.15.4",
+    "@types/pg": "8.15.4",
+    "@types/supertest": "6.0.3",
     "@types/swagger-jsdoc": "6.0.4",
-    "@types/swagger-ui-express":"4.1.8",
-    "@types/supertest": "6.0.3"
-
+    "@types/swagger-ui-express": "4.1.8",
+    "dotenv": "17.2.0",
+    "pg": "8.16.3",
+    "supertest": "7.1.3",
+    "swagger-ui-express": "5.0.1",
+    "ts-node-dev": "2.0.0",
+    "typescript": "5.8.3",
+    "vitest": "3.2.4"
   }
 }

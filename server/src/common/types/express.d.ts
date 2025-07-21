@@ -9,6 +9,15 @@
 
 import { Request } from 'express';
 
+declare global {
+    namespace Express {
+        interface Request {
+            userClaims?: UserClaims;
+        }
+    }
+}
+
+// Supabase Auth JWT decoded user claims type
 type UserClaims = {
     iss: string;
     sub: string; // User ID
@@ -30,12 +39,6 @@ type UserClaims = {
     session_id: string;
     is_anonymous: boolean;
 }
-declare global {
-    namespace Express {
-        interface Request {
-            userClaims?: UserClaims;
-        }
-    }
-}
+
 export { Request, UserClaims };
 

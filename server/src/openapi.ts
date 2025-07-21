@@ -1,13 +1,8 @@
-import swaggerJSDoc from 'swagger-jsdoc';
+import path from 'path';
+import fs from 'fs';
+import yaml from 'yaml';
 
-export const specs = swaggerJSDoc({
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Todo API',
-      version: '1.0.0',
-      description: 'API documentation for the Todo service',
-    },
-  },
-  apis: ['./src/api/todo/*.ts'],
-});
+const openapiPath = path.join(__dirname, './api/todo/todo.openapi.yml');
+const openapiDoc = yaml.parse(fs.readFileSync(openapiPath, 'utf8'));
+
+export default openapiDoc;
