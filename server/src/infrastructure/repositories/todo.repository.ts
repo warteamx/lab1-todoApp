@@ -28,6 +28,8 @@ export async function createTodo(task: string, user_id: string): Promise<Todo> {
 }
 
 export async function updateTodo(id: number, task: string, is_complete: boolean, user_id: string): Promise<Todo> {
+  console.log(`Updating todo with id: ${id}, task: ${task}, is_complete: ${is_complete}, user_id: ${user_id}`);
+
   const res = await sql<Todo[]>`
     UPDATE todos
     SET task = ${task}, is_complete = ${is_complete}

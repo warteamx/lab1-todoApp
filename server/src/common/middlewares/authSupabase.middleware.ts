@@ -8,7 +8,8 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
 export async function authMiddleware(req: Request, res: Response, next: NextFunction) {
     // console.log(`👀 authMiddleware ${req.method} ${req.url}`);
-    console.log(`👀 authMiddleware auth`, req.headers);
+    // console.log(`👀 authMiddleware auth`, req.headers);
+    console.log('👀 authMiddleware req.body', req.body);
     const { data, error } = await supabase.auth.getClaims(req.headers.authorization || '');
     if (error) {
         console.error(`👀 authMiddleware error ${error.message}`);
@@ -17,7 +18,7 @@ export async function authMiddleware(req: Request, res: Response, next: NextFunc
         console.error(`👀 authMiddleware no claims found`)
         return res.status(401).json({ error: 'Unauthorized' })
     }
-    console.log(`👀 authMiddleware user`, data);
+    // console.log(`👀 authMiddleware user`, data);
     // Extract the actual claims object from Supabase response
     req.userClaims = data.claims as unknown as UserClaims;
     next();

@@ -8,8 +8,6 @@ import { useTheme } from '@/providers/themeProvider';
 function SessionAndThemeInfo() {
   const { session, loading, profile } = useAuth();
   const { theme, toggleTheme } = useTheme();
-  // Display session and theme information
-  console.log('Session:', profile);
   return (
     <>
       <Stack />

@@ -1,81 +1,57 @@
 
-import React, { useState, useEffect } from 'react';
-import { View, Text, ActivityIndicator, FlatList } from 'react-native';
-import { useAuth } from '@/providers/authProvider';
+import { View, Text, ActivityIndicator, FlatList, Button } from 'react-native';
+import { Link } from 'expo-router';
+import { useTodos, useUpdateTodo } from '@/api/todo.api';
 
-type Todo = {
-  id: number;
-  inserted_at: Date;
-  task: string;
-  is_completed: boolean;
-};
-// API fetcher function
-async function fetchTodosApi(yourAccessToken: string): Promise<Todo[]> {
-  const response = await fetch('http://localhost:3000/api/todo', {
-    headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'Authorization': `${yourAccessToken}`
-    }
-  });
-  if (!response.ok) throw new Error('Failed to fetch todos');
-  return response.json();
-}
-
-// Custom hook to fetch todos
-function useTodos() {
-  const { session } = useAuth();
-  const yourAccessToken = session?.access_token!;
-  const [todos, setTodos] = useState<Todo[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    fetchTodosApi(yourAccessToken)
-      .then(data => {
-        if (isMounted) setTodos(data);
-      })
-      .catch(err => {
-        if (isMounted) setError(err.message);
-      })
-      .finally(() => {
-        if (isMounted) setLoading(false);
-      });
-    return () => { isMounted = false; };
-  }, []);
-
-  return { todos, loading, error };
-}
 
 export default function TodoIndexTab() {
-  const { todos, loading, error } = useTodos();
+  const { data, isLoading, error } = useTodos();
+  const updateTodo = useUpdateTodo();
+
+  const handleMarkCompleted = (item: any) => {
+    if (!item.is_complete) {
+      updateTodo.mutate({ id: item.id, task: item.task, is_complete: true });
+    }
+  };
+
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
       <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 10 }}>Todo Index Tab</Text>
-      {loading && <ActivityIndicator size="large" color="#888" />}
-      {error && <Text style={{ color: 'red' }}>Error: {error}</Text>}
-      {!loading && !error && (
+      {isLoading && <ActivityIndicator size="large" color="#888" />}
+      {error && <Text style={{ color: 'red' }}>Error: {error.message }</Text>}
+      {!isLoading && !error && (
         <FlatList
-          data={todos}
+          data={data}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <View style={{ padding: 8, borderBottomWidth: 1, borderColor: '#eee' }}>
+            <View style={{ padding: 8, borderWidth: 1,  borderColor: '#888' }}>
+              <View>
+                <Link href={`/todo/editTodo?id=${item.id}`} asChild>
+                  <Text>✏️ Edit</Text>
+                </Link>
+              </View>
               <Text style={{ fontWeight: 'bold' }}>{item.id}- {item.task}</Text>
               <Text>{item.inserted_at.toLocaleString()}</Text>
               <Text> Day {Math.floor((new Date().getTime() - new Date(item.inserted_at).getTime()) / (1000 * 60 * 60 * 24))} ago </Text>
-              <Text style={{ color: item.is_completed ? 'green' : 'gray' }}>
-                {item.is_completed ? 'Completed' : 'Pending'}
+              <Text style={{ color: item.is_complete ? 'green' : 'gray' }}>
+                {item.is_complete ? 'Completed' : 'Pending'}
               </Text>
+              {!item.is_complete && (
+                <Button title="Mark as Completed" onPress={() => handleMarkCompleted(item)} />
+              )}
             </View>
           )}
         />
       )}
-      { /* Button Add new Todo Modal */ }
+      {/* Button Add new Todo Modal */}
       <View style={{ marginTop: 10 }}>
-        <Text style={{ color: 'blue', textDecorationLine: 'underline' }}>Add New Todo</Text>
-        {/* Modal for adding new todo would go here */}
+        <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
+          <Text>TEXT</Text>
+          <Link href={'/(user)/todo/newTodo'} asChild>
+            <Button title="➕ Add New Task" />
+          </Link>
         </View>
+      </View>
     </View>
   );
 }
