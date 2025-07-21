@@ -68,12 +68,8 @@ paths:
             schema:
               $ref: '#/components/schemas/DeleteTodoDto'
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Todo'
+        '204':
+          description: No Content
 ## Components vs Schemas
 components:
   schemas:
