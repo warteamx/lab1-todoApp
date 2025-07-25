@@ -13,6 +13,13 @@ declare global {
     namespace Express {
         interface Request {
             userClaims?: UserClaims;
+            user?: {
+                id: string;
+                // ...other user properties
+            };
+            file?: Express.Multer.File;
+            files?: Express.Multer.File[];
+            session?: any;
         }
     }
 }

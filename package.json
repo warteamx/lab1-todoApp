@@ -4,8 +4,5 @@
     "scripts": {
         "dev:server": "npm --prefix ./server run dev",
         "expo:dev": "npm --prefix ./client run start"
-    },
-    "dependencies": {
-        "yaml": "^2.8.0"
     }
 }
