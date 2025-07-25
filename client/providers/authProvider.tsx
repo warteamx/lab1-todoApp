@@ -8,20 +8,24 @@ import {
   useState,
 } from 'react';
 
-type Profile = { group?: string } | null;
+type Profile = {
+  username?: string;
+  full_name?: string;
+  avatar_url?: string;
+  email?: string;
+  created_at?: string;
+} | null;
 
 type AuthData = {
   session: Session | null;
   profile: Profile;
   loading: boolean;
-  isAdmin: boolean;
 };
 
 const AuthContext = createContext<AuthData>({
   session: null,
   loading: true,
   profile: null,
-  isAdmin: false,
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
@@ -62,7 +66,6 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         session,
         loading,
         profile,
-        isAdmin: profile?.group === 'ADMIN',
       }}
     >
       {children}

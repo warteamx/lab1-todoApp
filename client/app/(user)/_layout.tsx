@@ -2,7 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Redirect, Tabs } from 'expo-router';
 import { Pressable, useColorScheme } from 'react-native';
 
-import Colors from '@/constants/colors';
+// import Colors from '@/constants/colors';
 import { useAuth } from '@/providers/authProvider';
 
 function TabBarIcon(props: {
@@ -23,7 +23,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
       }}
     >
       <Tabs.Screen name="index" options={{ href: null }} />
