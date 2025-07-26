@@ -1,6 +1,23 @@
 # Profile Management Features
 
-This document outlines the new profile management features implemented in the Expo client application.
+This document outlines the new profile ma#### 3. **Error Handling**
+- Centralized error handling utilities
+- User-friendly error messages
+- Proper API error responses
+- Loading states for all async operations
+
+#### 4. **Cross-Platform Compatibility**
+- **Native platforms (iOS/Android)**: 
+  - Camera capture or photo library selection
+  - Image cropping with square aspect ratio
+  - Permission handling for camera and media library access
+- **Web platform**:
+  - HTML file input with custom styling
+  - File type and size validation
+  - Support for modern browsers with File API
+  - Graceful degradation for unsupported browsers
+
+#### 5. **TanStack Query Integration**agement features implemented in the Expo client application.
 
 ## Features Overview
 
@@ -10,10 +27,13 @@ This document outlines the new profile management features implemented in the Ex
 - **Website**: Optional field with URL validation
 
 ### 2. Avatar Upload
-- Upload from camera or photo library
-- Image cropping with square aspect ratio
-- Automatic permission handling
-- Loading states and error handling
+- **Cross-platform support**: Works on iOS, Android, and Web
+- **Native platforms**: Upload from camera or photo library with image cropping
+- **Web platform**: File picker with drag-and-drop support
+- **Validation**: File type and size validation (5MB limit)
+- **Image formats**: Supports JPEG, PNG, GIF, and WebP
+- Automatic permission handling for native platforms
+- Loading states and comprehensive error handling
 
 ### 3. Real-time Data Management
 - Uses TanStack Query for efficient data fetching and caching
@@ -67,7 +87,7 @@ client/
 - `useUploadAvatar`: Upload avatar with cache invalidation
 - Proper cache management and synchronization
 
-#### 5. **Type Safety**
+#### 6. **Type Safety**
 - Full TypeScript integration
 - Shared types between client and server
 - Type-safe API calls and form handling
@@ -83,7 +103,8 @@ client/
 
 #### Constants (`constants/api.ts`)
 - API base URL configuration
-- Image picker options
+- Image picker options for native platforms
+- Web file upload constraints (file types, size limits)
 - Validation messages
 - Default avatar URL
 

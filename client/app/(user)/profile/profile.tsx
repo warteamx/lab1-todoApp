@@ -23,6 +23,8 @@ const ProfileScreen = () => {
     
     const currentProfile = profile || authProfile;
 
+    console.log('Current Profile:', currentProfile);
+
     const onRefresh = async () => {
         setRefreshing(true);
         try {

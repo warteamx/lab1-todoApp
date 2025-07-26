@@ -15,6 +15,13 @@ export const IMAGE_PICKER_OPTIONS = {
     quality: 0.8,
 } as const;
 
+// Web file upload constraints
+export const WEB_FILE_CONSTRAINTS = {
+    maxSizeInBytes: 5 * 1024 * 1024, // 5MB
+    allowedTypes: ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'],
+    allowedExtensions: ['.jpg', '.jpeg', '.png', '.gif', '.webp'],
+} as const;
+
 // Default avatar URL
 export const DEFAULT_AVATAR_URL = 'https://api.dicebear.com/9.x/bottts/svg';
 

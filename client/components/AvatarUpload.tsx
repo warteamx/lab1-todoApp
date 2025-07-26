@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
     View,
     Text,
@@ -7,10 +7,11 @@ import {
     Alert,
     ActivityIndicator,
     StyleSheet,
+    Platform,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useUploadAvatar } from '@/api/profile.api';
-import { DEFAULT_AVATAR_URL, VALIDATION_MESSAGES, IMAGE_PICKER_OPTIONS } from '@/constants/api';
+import { DEFAULT_AVATAR_URL, VALIDATION_MESSAGES, IMAGE_PICKER_OPTIONS, WEB_FILE_CONSTRAINTS } from '@/constants/api';
 import { handleApiError } from '@/lib/api-utils';
 
 interface AvatarUploadProps {
@@ -23,8 +24,14 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
     onSuccess 
 }) => {
     const uploadAvatarMutation = useUploadAvatar();
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const requestPermissions = async () => {
+        if (Platform.OS === 'web') {
+            // No permissions needed for web
+            return true;
+        }
+        
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
             Alert.alert(
@@ -36,7 +43,58 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
         return true;
     };
 
+    const handleWebFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const target = event.target;
+        const file = target.files?.[0];
+        
+        if (file) {
+            // Validate file type
+            if (!WEB_FILE_CONSTRAINTS.allowedTypes.includes(file.type as any)) {
+                Alert.alert('Error', `Please select a valid image file (${WEB_FILE_CONSTRAINTS.allowedExtensions.join(', ')})`);
+                return;
+            }
+            
+            // Validate file size
+            if (file.size > WEB_FILE_CONSTRAINTS.maxSizeInBytes) {
+                Alert.alert('Error', 'Image size must be less than 5MB');
+                return;
+            }
+            
+            uploadWebImage(file);
+        }
+        
+        // Reset the input so the same file can be selected again
+        target.value = '';
+    };
+
+    const uploadWebImage = async (file: File) => {
+        try {
+            const result = await uploadAvatarMutation.mutateAsync(file);
+            onSuccess?.(result.avatar_url);
+            Alert.alert('Success', VALIDATION_MESSAGES.UPLOAD_SUCCESS);
+        } catch (error) {
+            handleApiError(error, VALIDATION_MESSAGES.UPLOAD_ERROR);
+        }
+    };
+
     const pickImage = async () => {
+        console.log('Picking image...');
+        
+        if (Platform.OS === 'web') {
+            // Check if File API is supported
+            if (!window.File || !window.FileReader || !window.FileList || !window.Blob) {
+                Alert.alert('Error', 'File upload is not supported in this browser');
+                return;
+            }
+            
+            // Use HTML file input for web
+            if (fileInputRef.current) {
+                fileInputRef.current.click();
+            }
+            return;
+        }
+        
+        // Native platform logic
         const hasPermission = await requestPermissions();
         if (!hasPermission) return;
 
@@ -115,6 +173,15 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
 
     return (
         <View style={styles.container}>
+            {Platform.OS === 'web' && (
+                <input
+                    ref={fileInputRef as any}
+                    type="file"
+                    accept={WEB_FILE_CONSTRAINTS.allowedExtensions.join(',')}
+                    style={{ display: 'none' }}
+                    onChange={handleWebFileSelect}
+                />
+            )}
             <TouchableOpacity
                 style={styles.avatarContainer}
                 onPress={pickImage}
@@ -133,7 +200,9 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
                     <Text style={styles.editBadgeText}>✏️</Text>
                 </View>
             </TouchableOpacity>
-            <Text style={styles.hint}>Tap to change avatar</Text>
+            <Text style={styles.hint}>
+                {Platform.OS === 'web' ? 'Click to upload avatar' : 'Tap to change avatar'}
+            </Text>
         </View>
     );
 };
