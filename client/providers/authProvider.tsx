@@ -13,6 +13,7 @@ type Profile = {
   full_name?: string;
   avatar_url?: string;
   email?: string;
+  website?: string;
   created_at?: string;
 } | null;
 
@@ -20,18 +21,31 @@ type AuthData = {
   session: Session | null;
   profile: Profile;
   loading: boolean;
+  refreshProfile: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthData>({
   session: null,
   loading: true,
   profile: null,
+  refreshProfile: async () => {},
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile>(null);
   const [loading, setLoading] = useState(true);
+
+  const refreshProfile = async () => {
+    if (session) {
+      const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+      setProfile(data || null);
+    }
+  };
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -66,6 +80,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         session,
         loading,
         profile,
+        refreshProfile,
       }}
     >
       {children}

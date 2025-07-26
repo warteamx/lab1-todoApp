@@ -1,7 +1,10 @@
 import { Router } from 'express';
-import { updateProfile, uploadAvatar } from './profile.controller';
+import { getProfile, updateProfile, uploadAvatar } from './profile.controller';
 
 const router = Router();
+
+// Get profile by user ID
+router.get('/:userId', getProfile);
 
 // Update profile (username, full name)
 router.put('/profile', updateProfile);

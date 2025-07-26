@@ -1,0 +1,191 @@
+import React from 'react';
+import {
+    View,
+    Text,
+    Image,
+    TouchableOpacity,
+    Alert,
+    ActivityIndicator,
+    StyleSheet,
+} from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import { useUploadAvatar } from '@/api/profile.api';
+import { DEFAULT_AVATAR_URL, VALIDATION_MESSAGES, IMAGE_PICKER_OPTIONS } from '@/constants/api';
+import { handleApiError } from '@/lib/api-utils';
+
+interface AvatarUploadProps {
+    currentAvatarUrl?: string;
+    onSuccess?: (newAvatarUrl: string) => void;
+}
+
+export const AvatarUpload: React.FC<AvatarUploadProps> = ({ 
+    currentAvatarUrl, 
+    onSuccess 
+}) => {
+    const uploadAvatarMutation = useUploadAvatar();
+
+    const requestPermissions = async () => {
+        const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert(
+                VALIDATION_MESSAGES.PERMISSION_REQUIRED,
+                VALIDATION_MESSAGES.MEDIA_PERMISSION
+            );
+            return false;
+        }
+        return true;
+    };
+
+    const pickImage = async () => {
+        const hasPermission = await requestPermissions();
+        if (!hasPermission) return;
+
+        Alert.alert(
+            'Select Avatar',
+            'Choose how you\'d like to select your avatar',
+            [
+                {
+                    text: 'Camera',
+                    onPress: () => openCamera(),
+                },
+                {
+                    text: 'Photo Library',
+                    onPress: () => openImagePicker(),
+                },
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                },
+            ]
+        );
+    };
+
+    const openCamera = async () => {
+        const { status } = await ImagePicker.requestCameraPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert(VALIDATION_MESSAGES.PERMISSION_REQUIRED, VALIDATION_MESSAGES.CAMERA_PERMISSION);
+            return;
+        }
+
+        const result = await ImagePicker.launchCameraAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: IMAGE_PICKER_OPTIONS.allowsEditing,
+            aspect: IMAGE_PICKER_OPTIONS.aspect,
+            quality: IMAGE_PICKER_OPTIONS.quality,
+        });
+
+        if (!result.canceled && result.assets[0]) {
+            await uploadImage(result.assets[0]);
+        }
+    };
+
+    const openImagePicker = async () => {
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: IMAGE_PICKER_OPTIONS.allowsEditing,
+            aspect: IMAGE_PICKER_OPTIONS.aspect,
+            quality: IMAGE_PICKER_OPTIONS.quality,
+        });
+
+        if (!result.canceled && result.assets[0]) {
+            await uploadImage(result.assets[0]);
+        }
+    };
+
+    const uploadImage = async (asset: ImagePicker.ImagePickerAsset) => {
+        try {
+            // Create a blob from the image URI
+            const response = await fetch(asset.uri);
+            const blob = await response.blob();
+
+            const result = await uploadAvatarMutation.mutateAsync(blob);
+            onSuccess?.(result.avatar_url);
+            Alert.alert('Success', VALIDATION_MESSAGES.UPLOAD_SUCCESS);
+        } catch (error) {
+            handleApiError(error, VALIDATION_MESSAGES.UPLOAD_ERROR);
+        }
+    };
+
+    const getAvatarSource = () => {
+        if (currentAvatarUrl && currentAvatarUrl.startsWith('http')) {
+            return { uri: currentAvatarUrl };
+        }
+        return { uri: DEFAULT_AVATAR_URL };
+    };
+
+    return (
+        <View style={styles.container}>
+            <TouchableOpacity
+                style={styles.avatarContainer}
+                onPress={pickImage}
+                disabled={uploadAvatarMutation.isPending}
+            >
+                <Image
+                    source={getAvatarSource()}
+                    style={styles.avatar}
+                />
+                {uploadAvatarMutation.isPending && (
+                    <View style={styles.loadingOverlay}>
+                        <ActivityIndicator size="large" color="#007AFF" />
+                    </View>
+                )}
+                <View style={styles.editBadge}>
+                    <Text style={styles.editBadgeText}>✏️</Text>
+                </View>
+            </TouchableOpacity>
+            <Text style={styles.hint}>Tap to change avatar</Text>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        marginVertical: 20,
+    },
+    avatarContainer: {
+        position: 'relative',
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        marginBottom: 8,
+    },
+    avatar: {
+        width: 120,
+        height: 120,
+        borderRadius: 60,
+        backgroundColor: '#f0f0f0',
+    },
+    loadingOverlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderRadius: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    editBadge: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        width: 30,
+        height: 30,
+        borderRadius: 15,
+        backgroundColor: '#007AFF',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: '#fff',
+    },
+    editBadgeText: {
+        fontSize: 12,
+    },
+    hint: {
+        fontSize: 14,
+        color: '#666',
+        marginTop: 4,
+    },
+});

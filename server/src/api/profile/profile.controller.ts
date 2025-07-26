@@ -2,6 +2,25 @@ import { Request, Response, NextFunction } from 'express';
 import { profileService } from '../../domain/profile/services/profile.service';
 import { UpdateProfileDto } from '../../domain/profile/dto/updateProfile.dto';
 
+export async function getProfile(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { userId } = req.params;
+    if (!req.userClaims || !req.userClaims.sub) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    // Users can only fetch their own profile for now
+    if (userId !== req.userClaims.sub) {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    
+    const profile = await profileService.getProfile(userId);
+    res.json(profile);
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function updateProfile(req: Request, res: Response, next: NextFunction) {
   try {
     const dto: UpdateProfileDto = req.body;
