@@ -1,11 +1,10 @@
-import { createServer } from 'http'
-import app from './app'
+// import { V } from 'vitest/dist/chunks/reporters.d.BFLkQcL6';
+import app from './app';
+import { config } from './infrastructure/config';
 
+const PORT = config.port || 3000;
 
-const PORT = process.env.PORT || 3000;
-
-const server = createServer(app);
-
-server.listen(PORT, () => {
-    console.log(`🤪 Server is running wild on http://localhost:${PORT}`);
+app.listen(PORT, () => {
+  console.log(`🧐 Server running on port ${PORT}`);
+  console.log(`🧐 http://localhost:${PORT}/api-docs/`);
 });

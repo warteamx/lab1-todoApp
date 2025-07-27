@@ -1,0 +1,113 @@
+openapi: 3.1.0
+info:
+  title: Todo API
+  version: 1.0.0
+  description: API for managing todos
+servers:
+  - url: http://localhost:3000
+    description: Local server
+tags:
+  - name: Todo
+    description: Operations related to todos
+    externalDocs:
+      url: https://github.com/martinrebo/expo-lab
+      description: Github repository. Find more info here
+security:
+  - Authorization: [ 'jwt']
+paths:
+  /api/todo:
+    get:
+      summary: Get all todos
+      responses:
+        '200':
+          description: List of todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+
+    post:
+      summary: Create a new todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTodoDto'
+      responses:
+        '201':
+          description: Created todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+
+    put:
+      summary: Update an existing todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTodoDto'
+      responses:
+        '200':
+          description: Updated todo
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Todo'
+    delete:
+      summary: Delete an existing todo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeleteTodoDto'
+      responses:
+        '204':
+          description: No Content
+## Components vs Schemas
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+        task:
+          type: string
+        completed:
+          type: boolean
+
+    CreateTodoDto:
+      type: object
+      required:
+        - task
+      properties:
+        task:
+          type: string
+
+    UpdateTodoDto:
+      type: object
+      required:
+        - id
+        - task
+      properties:
+        id:
+          type: string
+        task:
+          type: string
+        completed:
+          type: boolean
+
+    DeleteTodoDto:
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string

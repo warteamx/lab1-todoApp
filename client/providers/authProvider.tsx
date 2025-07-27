@@ -8,27 +8,44 @@ import {
   useState,
 } from 'react';
 
-type Profile = { group?: string } | null;
+type Profile = {
+  username?: string;
+  full_name?: string;
+  avatar_url?: string;
+  email?: string;
+  website?: string;
+  created_at?: string;
+} | null;
 
 type AuthData = {
   session: Session | null;
   profile: Profile;
   loading: boolean;
-  isAdmin: boolean;
+  refreshProfile: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthData>({
   session: null,
   loading: true,
   profile: null,
-  isAdmin: false,
+  refreshProfile: async () => {},
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
-
   const [profile, setProfile] = useState<Profile>(null);
   const [loading, setLoading] = useState(true);
+
+  const refreshProfile = async () => {
+    if (session) {
+      const { data } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', session.user.id)
+        .single();
+      setProfile(data || null);
+    }
+  };
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -63,7 +80,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         session,
         loading,
         profile,
-        isAdmin: profile?.group === 'ADMIN',
+        refreshProfile,
       }}
     >
       {children}
