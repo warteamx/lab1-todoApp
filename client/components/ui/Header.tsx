@@ -4,7 +4,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from './View';
+import { ThemedView as View } from './View';
 import { Text } from './Text';
 import { Button } from './Button';
 import { Inline } from './Layout';

@@ -3,7 +3,7 @@
 import React from 'react';
 import { ScrollView, ScrollViewProps, Platform, Dimensions } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from './View';
+import { ThemedView as View } from './View';
 import { Text } from './Text';
 import { SpacingKey } from '@/themes/spacing';
 
@@ -111,13 +111,13 @@ export const Screen: React.FC<ScreenProps> = ({
   
   const containerPadding = padding || theme.layoutSpacing.containerPadding[screenSize];
   
-  const containerStyle = {
+  const containerStyle = React.useMemo(() => ({
     flex: 1,
     backgroundColor: theme.colors[backgroundColor as keyof typeof theme.colors] || backgroundColor,
     ...(safeArea && Platform.OS !== 'web' && {
       paddingTop: Platform.OS === 'ios' ? 44 : 24,
     }),
-  };
+  }), [theme, backgroundColor, safeArea]);
 
   if (scrollable) {
     return (

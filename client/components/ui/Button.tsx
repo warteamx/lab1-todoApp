@@ -6,6 +6,7 @@ import {
   TouchableOpacityProps, 
   ActivityIndicator, 
   StyleSheet,
+  ViewStyle,
   Platform,
   View as RNView,
 } from 'react-native';
@@ -108,7 +109,7 @@ function getButtonStyles(
         textColor = theme.colors.interactive;
         break;
       case 'danger':
-        backgroundColor = pressed ? '#DC2626' : theme.colors.error;
+        backgroundColor = pressed ? theme.colors.interactivePressed : theme.colors.error;
         textColor = theme.colors.textOnPrimary;
         break;
       default:
@@ -178,7 +179,7 @@ export const Button: React.FC<ThemedButtonProps> = ({
       ...(fullWidth && { width: '100%' }),
       ...(shadow && !isDisabled && theme.shadows[shadow]),
       opacity: isDisabled ? 0.6 : 1,
-    } as ReactNative.ViewStyle,
+    } as ViewStyle,
     content: {
       flexDirection: 'row',
       alignItems: 'center',
