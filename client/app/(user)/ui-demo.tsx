@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from '@/components/ui/View';
+import { ThemedView as View } from '@/components/ui/View';
 import { Text } from '@/components/ui/Text';
 import { Button } from '@/components/ui/Button';
 import { TextInput } from '@/components/ui/Input';

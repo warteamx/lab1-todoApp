@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, Switch } from 'react-native';
 import { useCreateTodo } from '@/api/todo.api';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from '@/components/ui/View';
+import { ThemedView as View } from '@/components/ui/View';
 import { Text } from '@/components/ui/Text';
 import { Button } from '@/components/ui/Button';
 import { TextInput } from '@/components/ui/Input';
