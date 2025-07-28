@@ -1,8 +1,12 @@
 
-import { View, Text, ActivityIndicator, FlatList, Button } from 'react-native';
+import React from 'react';
+import { ActivityIndicator, FlatList } from 'react-native';
 import { Link } from 'expo-router';
 import { useTodos, useUpdateTodo } from '@/api/todo.api';
-
+import { ThemedView as View } from '@/components/ui/View';
+import { Text } from '@/components/ui/Text';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 
 export default function TodoIndexTab() {
   const { data, isLoading, error } = useTodos();
@@ -15,42 +19,90 @@ export default function TodoIndexTab() {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
-      <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 10 }}>Todo Index Tab</Text>
-      {isLoading && <ActivityIndicator size="large" color="#888" />}
-      {error && <Text style={{ color: 'red' }}>Error: {error.message }</Text>}
+    <View flex={1} padding="md" backgroundColor="background">
+      <Text variant="headlineMedium" color="textPrimary" style={{ marginBottom: 16 }}>
+        Todo List
+      </Text>
+      
+      {isLoading && (
+        <View flex={1} justifyContent="center" alignItems="center">
+          <ActivityIndicator size="large" />
+        </View>
+      )}
+      
+      {error && (
+        <View marginBottom="md">
+          <Card backgroundColor="error" padding="md">
+            <Text variant="bodyMedium" color="textOnPrimary">
+              Error: {error.message}
+            </Text>
+          </Card>
+        </View>
+      )}
+      
       {!isLoading && !error && (
         <FlatList
           data={data}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <View style={{ padding: 8, borderWidth: 1,  borderColor: '#888' }}>
-              <View>
-                <Link href={`/todo/editTodo?id=${item.id}`} asChild>
-                  <Text>✏️ Edit</Text>
-                </Link>
-              </View>
-              <Text style={{ fontWeight: 'bold' }}>{item.id}- {item.task}</Text>
-              <Text>{item.inserted_at.toLocaleString()}</Text>
-              <Text> Day {Math.floor((new Date().getTime() - new Date(item.inserted_at).getTime()) / (1000 * 60 * 60 * 24))} ago </Text>
-              <Text style={{ color: item.is_complete ? 'green' : 'gray' }}>
-                {item.is_complete ? 'Completed' : 'Pending'}
-              </Text>
-              {!item.is_complete && (
-                <Button title="Mark as Completed" onPress={() => handleMarkCompleted(item)} />
-              )}
+            <View marginBottom="md">
+              <Card padding="lg">
+                <View flexDirection="row" justifyContent="space-between" alignItems="flex-start">
+                  <View flex={1}>
+                    <Text variant="titleMedium" color="textPrimary">
+                      {item.id} - {item.task}
+                    </Text>
+                    <Text variant="bodySmall" color="textSecondary" style={{ marginTop: 4 }}>
+                      {item.inserted_at.toLocaleString()}
+                    </Text>
+                    <Text variant="bodySmall" color="textTertiary">
+                      Day {Math.floor((new Date().getTime() - new Date(item.inserted_at).getTime()) / (1000 * 60 * 60 * 24))} ago
+                    </Text>
+                    <Text 
+                      variant="labelMedium" 
+                      color={item.is_complete ? "success" : "textTertiary"}
+                      style={{ marginTop: 8 }}
+                    >
+                      {item.is_complete ? 'Completed' : 'Pending'}
+                    </Text>
+                  </View>
+                  
+                  <View marginLeft="md">
+                    <Link href={`/todo/editTodo?id=${item.id}`} asChild>
+                      <Text variant="labelMedium" color="interactive">
+                        ✏️ Edit
+                      </Text>
+                    </Link>
+                  </View>
+                </View>
+                
+                {!item.is_complete && (
+                  <View marginTop="md">
+                    <Button 
+                      title="Mark as Completed" 
+                      variant="secondary"
+                      size="small"
+                      onPress={() => handleMarkCompleted(item)} 
+                    />
+                  </View>
+                )}
+              </Card>
             </View>
           )}
+          showsVerticalScrollIndicator={false}
         />
       )}
-      {/* Button Add new Todo Modal */}
-      <View style={{ marginTop: 10 }}>
-        <View style={{ flex: 1, justifyContent: 'center', padding: 10 }}>
-          <Text>TEXT</Text>
-          <Link href={'/(user)/todo/newTodo'} asChild>
-            <Button title="➕ Add New Task" />
-          </Link>
-        </View>
+      
+      {/* Add new todo button */}
+      <View marginTop="lg">
+        <Link href={'/(user)/todo/newTodo'} asChild>
+          <Button 
+            title="➕ Add New Task" 
+            variant="primary"
+            size="large"
+            fullWidth
+          />
+        </Link>
       </View>
     </View>
   );

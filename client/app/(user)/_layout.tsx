@@ -38,6 +38,16 @@ export default function TabLayout() {
           ),
         }}
       />
+      
+      <Tabs.Screen
+        name="ui-demo"
+        options={{
+          title: 'UI Demo',
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="paint-brush" color={color} />,
+        }}
+      />
+      
       <Tabs.Screen
         name="vr"
         options={{

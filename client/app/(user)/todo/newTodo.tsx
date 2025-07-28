@@ -1,8 +1,12 @@
 
 import React, { useState } from 'react';
-import { View, Text, ActivityIndicator, Button, TextInput, Switch } from 'react-native';
+import { ActivityIndicator, Switch } from 'react-native';
 import { useCreateTodo } from '@/api/todo.api';
 import { useTheme } from '@/providers/themeProvider';
+import { ThemedView as View } from '@/components/ui/View';
+import { Text } from '@/components/ui/Text';
+import { Button } from '@/components/ui/Button';
+import { TextInput } from '@/components/ui/Input';
 
 export default function NewTodoTab() {
   const [task, setTask] = useState('');
@@ -21,25 +25,54 @@ export default function NewTodoTab() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 16, backgroundColor: theme === 'dark' ? '#222' : '#fff' }}>
-      <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 10, color: theme === 'dark' ? '#fff' : '#222' }}>New Todo Tab</Text>
-      <TextInput
-        value={task}
-        onChangeText={setTask}
-        placeholder="Enter task"
-        style={{ borderWidth: 1, borderColor: '#ccc', padding: 8, marginBottom: 10, color: theme === 'dark' ? '#fff' : '#222', backgroundColor: theme === 'dark' ? '#333' : '#fff' }}
-        placeholderTextColor={theme === 'dark' ? '#aaa' : '#888'}
-      />
-      <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-        <Switch
-          value={isCompleted}
-          onValueChange={setIsCompleted}
+    <View flex={1} padding="lg" backgroundColor="background">
+      <Text variant="headlineMedium" color="textPrimary" style={{ marginBottom: 24 }}>
+        Add New Todo
+      </Text>
+      
+      <View style={{ gap: 20 }}>
+        <TextInput
+          label="Task"
+          value={task}
+          onChangeText={setTask}
+          placeholder="Enter your task..."
+          variant="outline"
+          size="medium"
         />
-        <Text style={{ marginLeft: 8, color: theme === 'dark' ? '#fff' : '#222' }}>{isCompleted ? 'Completed' : 'Pending'}</Text>
+
+        <View flexDirection="row" alignItems="center" style={{ gap: 12 }}>
+          <Switch
+            value={isCompleted}
+            onValueChange={setIsCompleted}
+            trackColor={{ 
+              false: theme.colors.neutral300, 
+              true: theme.colors.interactive 
+            }}
+            thumbColor={isCompleted ? theme.colors.surface : theme.colors.neutral100}
+          />
+          <Text variant="bodyMedium" color="textPrimary">
+            {isCompleted ? 'Mark as completed' : 'Mark as pending'}
+          </Text>
+        </View>
+
+        <Button 
+          title="Add Todo" 
+          variant="primary"
+          size="large"
+          fullWidth
+          onPress={handleAddTodo} 
+          disabled={isPending || !task.trim()}
+          loading={isPending}
+        />
+
+        {error && (
+          <View padding="md" backgroundColor="error" borderRadius="md">
+            <Text variant="bodyMedium" color="textOnPrimary">
+              Error: {(error as Error).message}
+            </Text>
+          </View>
+        )}
       </View>
-      <Button title="Add Todo" onPress={handleAddTodo} disabled={isPending} />
-      {isPending && <ActivityIndicator size="large" color="#888" />}
-      {error && <Text style={{ color: 'red' }}>Error: {(error as Error).message}</Text>}
     </View>
   );
 }
