@@ -1,10 +1,11 @@
-import { View, Text, TextInput, StyleSheet, Alert, Button } from 'react-native';
 import React, { useState } from 'react';
-// import Button from '../../components/Button';
-// import Colors from '../../constants/Colors';
-import Colors from '@/constants/colors';
+import { Alert } from 'react-native';
 import { Link, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
+import { View } from '@/components/ui/View';
+import { Text } from '@/components/ui/Text';
+import { TextInput } from '@/components/ui/Input';
+import { Button } from '@/components/ui/Button';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -14,8 +15,8 @@ const SignInScreen = () => {
   async function signInWithEmail() {
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email: email,
+      password: password,
     });
 
     if (error) Alert.alert(error.message);
@@ -23,62 +24,61 @@ const SignInScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View flex={1} padding="lg" backgroundColor="background" justifyContent="center">
       <Stack.Screen options={{ title: 'Sign in' }} />
 
-      <Text style={styles.label}>Email</Text>
-      <TextInput
-        value={email}
-        onChangeText={setEmail}
-        placeholder="yourmail@gmail.com"
-        style={styles.input}
-      />
+      <View style={{ maxWidth: 400, alignSelf: 'center', width: '100%' }}>
+        <Text variant="displaySmall" color="textPrimary" align="center" style={{ marginBottom: 8 }}>
+          Welcome Back
+        </Text>
+        <Text variant="bodyLarge" color="textSecondary" align="center" style={{ marginBottom: 32 }}>
+          Sign in to your account to continue
+        </Text>
 
-      <Text style={styles.label}>Password</Text>
-      <TextInput
-        value={password}
-        onChangeText={setPassword}
-        placeholder="yourpassword-length-6"
-        style={styles.input}
-        secureTextEntry
-      />
+        <View style={{ gap: 20 }}>
+          <TextInput
+            label="Email"
+            value={email}
+            onChangeText={setEmail}
+            placeholder="yourmail@gmail.com"
+            keyboardType="email-address"
+            autoCapitalize="none"
+            variant="outline"
+          />
 
-      <Button
-        onPress={signInWithEmail}
-        disabled={loading}
-        title={loading ? 'Signing in...' : 'Sign in'}
-      />
-      <Link href="/sign-up" style={styles.textButton}>
-        Create an account
-      </Link>
+          <TextInput
+            label="Password"
+            value={password}
+            onChangeText={setPassword}
+            placeholder="Your password"
+            secureTextEntry
+            variant="outline"
+          />
+
+          <Button
+            title={loading ? 'Signing in...' : 'Sign in'}
+            variant="primary"
+            size="large"
+            fullWidth
+            onPress={signInWithEmail}
+            disabled={loading}
+            loading={loading}
+          />
+
+          <View style={{ alignItems: 'center', marginTop: 16 }}>
+            <Text variant="bodyMedium" color="textSecondary">
+              Don't have an account?{' '}
+            </Text>
+            <Link href="/sign-up">
+              <Text variant="bodyMedium" color="interactive">
+                Create an account
+              </Text>
+            </Link>
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    justifyContent: 'center',
-    flex: 1,
-  },
-  label: {
-    color: 'gray',
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    padding: 10,
-    marginTop: 5,
-    marginBottom: 20,
-    backgroundColor: 'white',
-    borderRadius: 5,
-  },
-  textButton: {
-    alignSelf: 'center',
-    fontWeight: 'bold',
-    color: Colors.light.tint,
-    marginVertical: 10,
-  },
-});
 
 export default SignInScreen;

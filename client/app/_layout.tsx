@@ -7,14 +7,14 @@ import { useTheme } from '@/providers/themeProvider';
 
 function SessionAndThemeInfo() {
   const { session, loading, profile } = useAuth();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleDarkMode, themeVariant } = useTheme();
   return (
     <>
       <Stack />
       <>
-        <View style={{ position: 'absolute', top: 0, right: 0, padding: 8, zIndex: 100, backgroundColor: '#eee' }}>
-          <Text>Session: {loading ? 'Loading...' : session ? 'Logged in' : 'Not logged in'}</Text>
-          <Text>Theme: {theme} <Button onPress={toggleTheme} title="Toggle" /></Text>
+        <View style={{ position: 'absolute', top: 0, right: 0, padding: 8, zIndex: 100, backgroundColor: theme.colors.surface }}>
+          <Text style={{ color: theme.colors.textPrimary }}>Session: {loading ? 'Loading...' : session ? 'Logged in' : 'Not logged in'}</Text>
+          <Text style={{ color: theme.colors.textPrimary }}>Theme: {themeVariant} <Button onPress={toggleDarkMode} title="Toggle" /></Text>
         </View>
       </>
     </>
