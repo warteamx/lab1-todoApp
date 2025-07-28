@@ -9,7 +9,7 @@ import {
   Platform,
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { ThemedView as View } from './View';
+import { View } from './View';
 import { Text } from './Text';
 import { Theme } from '@/themes/themes';
 

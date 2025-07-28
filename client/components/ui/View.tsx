@@ -6,8 +6,6 @@ import { useTheme } from '@/providers/themeProvider';
 import { SpacingKey, BorderRadiusKey } from '@/themes/spacing';
 import { ShadowLevel } from '@/themes/shadows';
 import { Theme } from '@/themes/themes';
-import { View } from 'react-native-reanimated/lib/typescript/Animated';
-// Removed import of View from 'react-native-reanimated/lib/typescript/Animated'
 
 interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
   // Background color
@@ -91,7 +89,7 @@ function getBorderRadiusValue(theme: Theme, value: BorderRadiusKey | number): nu
   return theme.borderRadius[value];
 }
 
-export const ThemedView: React.FC<ThemedViewProps> = ({
+export const View: React.FC<ThemedViewProps> = ({
   backgroundColor,
   
   // Spacing
@@ -274,7 +272,7 @@ export const ThemedView: React.FC<ThemedViewProps> = ({
 
 // Convenient preset components for common layouts
 export const SafeView: React.FC<ThemedViewProps> = (props) => (
-  <ThemedView
+  <View
     flex={1}
     backgroundColor="background"
     {...props}
@@ -282,7 +280,7 @@ export const SafeView: React.FC<ThemedViewProps> = (props) => (
 );
 
 export const CenterView: React.FC<ThemedViewProps> = (props) => (
-  <ThemedView
+  <View
     flex={1}
     justifyContent="center"
     alignItems="center"
@@ -291,7 +289,7 @@ export const CenterView: React.FC<ThemedViewProps> = (props) => (
 );
 
 export const RowView: React.FC<ThemedViewProps> = (props) => (
-  <ThemedView
+  <View
     flexDirection="row"
     alignItems="center"
     {...props}
@@ -299,7 +297,7 @@ export const RowView: React.FC<ThemedViewProps> = (props) => (
 );
 
 export const ColumnView: React.FC<ThemedViewProps> = (props) => (
-  <ThemedView
+  <View
     flexDirection="column"
     {...props}
   />

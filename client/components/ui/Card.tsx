@@ -3,7 +3,7 @@
 import React from 'react';
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { ThemedView as View } from './View';
+import { View } from './View';
 import { Text } from './Text';
 import { SpacingKey, BorderRadiusKey } from '@/themes/spacing';
 import { ShadowLevel } from '@/themes/shadows';
