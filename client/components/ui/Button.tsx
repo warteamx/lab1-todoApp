@@ -178,7 +178,7 @@ export const Button: React.FC<ThemedButtonProps> = ({
       ...(fullWidth && { width: '100%' }),
       ...(shadow && !isDisabled && theme.shadows[shadow]),
       opacity: isDisabled ? 0.6 : 1,
-    } as any,
+    } as ReactNative.ViewStyle,
     content: {
       flexDirection: 'row',
       alignItems: 'center',
