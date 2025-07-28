@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { 
   TextInput as RNTextInput, 
   TextInputProps as RNTextInputProps, 
+  TextStyle as RNTextStyle,
   StyleSheet,
   Platform,
 } from 'react-native';
@@ -173,7 +174,7 @@ export const TextInput: React.FC<ThemedInputProps> = ({
       ...(Platform.OS === 'web' && {
         outlineStyle: 'none',
       }),
-    } as any,
+    } as RNTextStyle,
     leftIcon: {
       marginRight: theme.spacing.sm,
     },
