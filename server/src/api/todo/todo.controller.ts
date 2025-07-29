@@ -3,18 +3,25 @@ import { Request } from '@/common/types/express';
 import { todoService } from '../../domain/todo/services/todo.service';
 import { CreateTodoDto, UpdateTodoDto } from '../../domain/todo/dto/todo.dto';
 
-export async function getTodos(req: Request, res: Response, next: NextFunction) {
+export async function getTodos(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const userId = await req.userClaims?.sub!;
   try {
     const todos = await todoService.getTodos(userId);
     res.json(todos);
-
   } catch (err) {
     next(err);
   }
 }
 
-export async function createTodo(req: Request, res: Response, next: NextFunction) {
+export async function createTodo(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const userId = req.userClaims?.sub!;
   try {
     const { task } = req.body as CreateTodoDto;
@@ -25,7 +32,11 @@ export async function createTodo(req: Request, res: Response, next: NextFunction
   }
 }
 
-export async function updateTodo(req: Request, res: Response, next: NextFunction) {
+export async function updateTodo(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const userId = req.userClaims?.sub!;
   try {
     const { id, task, is_complete } = req.body as UpdateTodoDto;
@@ -36,7 +47,11 @@ export async function updateTodo(req: Request, res: Response, next: NextFunction
   }
 }
 
-export async function deleteTodo(req: Request, res: Response, next: NextFunction) {
+export async function deleteTodo(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
   const userId = req.userClaims?.sub!;
   try {
     const { id } = req.body;

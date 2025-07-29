@@ -1,6 +1,10 @@
 import { IProfileService } from '../interfaces/profile.interface';
 import { UpdateProfileDto } from '../dto/updateProfile.dto';
-import { updateProfile, uploadProfileAvatar, getProfile } from '../../../infrastructure/repositories/profile.repository';
+import {
+  updateProfile,
+  uploadProfileAvatar,
+  getProfile,
+} from '../../../infrastructure/repositories/profile.repository';
 
 export const profileService: IProfileService = {
   async getProfile(user_id: string) {
@@ -13,7 +17,5 @@ export const profileService: IProfileService = {
 
   async uploadProfileAvatar(userId: string, file: Express.Multer.File) {
     return uploadProfileAvatar(userId, file);
-  }
-}
-
-
+  },
+};

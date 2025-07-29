@@ -1,7 +1,12 @@
 // Themed View component with layout utilities and responsive spacing
 
 import React from 'react';
-import { View as RNView, ViewProps as RNViewProps, StyleSheet, ViewStyle } from 'react-native';
+import {
+  View as RNView,
+  ViewProps as RNViewProps,
+  StyleSheet,
+  ViewStyle,
+} from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
 import { SpacingKey, BorderRadiusKey } from '@/themes/spacing';
 import { ShadowLevel } from '@/themes/shadows';
@@ -10,7 +15,7 @@ import { Theme } from '@/themes/themes';
 interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
   // Background color
   backgroundColor?: keyof Theme['colors'];
-  
+
   // Spacing props
   padding?: SpacingKey | number;
   paddingHorizontal?: SpacingKey | number;
@@ -19,7 +24,7 @@ interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
   paddingBottom?: SpacingKey | number;
   paddingLeft?: SpacingKey | number;
   paddingRight?: SpacingKey | number;
-  
+
   margin?: SpacingKey | number;
   marginHorizontal?: SpacingKey | number;
   marginVertical?: SpacingKey | number;
@@ -27,17 +32,17 @@ interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
   marginBottom?: SpacingKey | number;
   marginLeft?: SpacingKey | number;
   marginRight?: SpacingKey | number;
-  
+
   // Border radius
   borderRadius?: BorderRadiusKey | number;
   borderTopLeftRadius?: BorderRadiusKey | number;
   borderTopRightRadius?: BorderRadiusKey | number;
   borderBottomLeftRadius?: BorderRadiusKey | number;
   borderBottomRightRadius?: BorderRadiusKey | number;
-  
+
   // Shadow
   shadow?: ShadowLevel;
-  
+
   // Border
   borderWidth?: number;
   borderColor?: keyof Theme['colors'];
@@ -45,14 +50,26 @@ interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
   borderBottomWidth?: number;
   borderLeftWidth?: number;
   borderRightWidth?: number;
-  
+
   // Layout
   flex?: number;
   flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-  justifyContent?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around' | 'space-evenly';
+  justifyContent?:
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around'
+    | 'space-evenly';
   alignItems?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
-  alignSelf?: 'auto' | 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
-  
+  alignSelf?:
+    | 'auto'
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'stretch'
+    | 'baseline';
+
   // Width and height
   width?: number | string;
   height?: number | string;
@@ -60,7 +77,7 @@ interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
   minHeight?: number | string;
   maxWidth?: number | string;
   maxHeight?: number | string;
-  
+
   // Position
   position?: 'absolute' | 'relative';
   top?: number | string;
@@ -68,7 +85,7 @@ interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
   left?: number | string;
   right?: number | string;
   zIndex?: number;
-  
+
   // Custom style
   style?: RNViewProps['style'];
 }
@@ -82,7 +99,10 @@ function getSpacingValue(theme: Theme, value: SpacingKey | number): number {
 }
 
 // Helper function to get border radius value
-function getBorderRadiusValue(theme: Theme, value: BorderRadiusKey | number): number {
+function getBorderRadiusValue(
+  theme: Theme,
+  value: BorderRadiusKey | number
+): number {
   if (typeof value === 'number') {
     return value;
   }
@@ -91,7 +111,7 @@ function getBorderRadiusValue(theme: Theme, value: BorderRadiusKey | number): nu
 
 export const View: React.FC<ThemedViewProps> = ({
   backgroundColor,
-  
+
   // Spacing
   padding,
   paddingHorizontal,
@@ -100,7 +120,7 @@ export const View: React.FC<ThemedViewProps> = ({
   paddingBottom,
   paddingLeft,
   paddingRight,
-  
+
   margin,
   marginHorizontal,
   marginVertical,
@@ -108,17 +128,17 @@ export const View: React.FC<ThemedViewProps> = ({
   marginBottom,
   marginLeft,
   marginRight,
-  
+
   // Border radius
   borderRadius,
   borderTopLeftRadius,
   borderTopRightRadius,
   borderBottomLeftRadius,
   borderBottomRightRadius,
-  
+
   // Shadow
   shadow,
-  
+
   // Border
   borderWidth,
   borderColor,
@@ -126,14 +146,14 @@ export const View: React.FC<ThemedViewProps> = ({
   borderBottomWidth,
   borderLeftWidth,
   borderRightWidth,
-  
+
   // Layout
   flex,
   flexDirection,
   justifyContent,
   alignItems,
   alignSelf,
-  
+
   // Size
   width,
   height,
@@ -141,7 +161,7 @@ export const View: React.FC<ThemedViewProps> = ({
   minHeight,
   maxWidth,
   maxHeight,
-  
+
   // Position
   position,
   top,
@@ -149,102 +169,109 @@ export const View: React.FC<ThemedViewProps> = ({
   left,
   right,
   zIndex,
-  
+
   style,
   children,
   ...props
 }) => {
   const { theme } = useTheme();
-  
+
   const themedStyle = StyleSheet.create({
     view: {
       // Background
-      ...(backgroundColor && { 
-        backgroundColor: theme.colors[backgroundColor as keyof typeof theme.colors] 
+      ...(backgroundColor && {
+        backgroundColor:
+          theme.colors[backgroundColor as keyof typeof theme.colors],
       }),
-      
+
       // Spacing
-      ...(padding !== undefined && { 
-        padding: getSpacingValue(theme, padding) 
+      ...(padding !== undefined && {
+        padding: getSpacingValue(theme, padding),
       }),
-      ...(paddingHorizontal !== undefined && { 
-        paddingHorizontal: getSpacingValue(theme, paddingHorizontal) 
+      ...(paddingHorizontal !== undefined && {
+        paddingHorizontal: getSpacingValue(theme, paddingHorizontal),
       }),
-      ...(paddingVertical !== undefined && { 
-        paddingVertical: getSpacingValue(theme, paddingVertical) 
+      ...(paddingVertical !== undefined && {
+        paddingVertical: getSpacingValue(theme, paddingVertical),
       }),
-      ...(paddingTop !== undefined && { 
-        paddingTop: getSpacingValue(theme, paddingTop) 
+      ...(paddingTop !== undefined && {
+        paddingTop: getSpacingValue(theme, paddingTop),
       }),
-      ...(paddingBottom !== undefined && { 
-        paddingBottom: getSpacingValue(theme, paddingBottom) 
+      ...(paddingBottom !== undefined && {
+        paddingBottom: getSpacingValue(theme, paddingBottom),
       }),
-      ...(paddingLeft !== undefined && { 
-        paddingLeft: getSpacingValue(theme, paddingLeft) 
+      ...(paddingLeft !== undefined && {
+        paddingLeft: getSpacingValue(theme, paddingLeft),
       }),
-      ...(paddingRight !== undefined && { 
-        paddingRight: getSpacingValue(theme, paddingRight) 
+      ...(paddingRight !== undefined && {
+        paddingRight: getSpacingValue(theme, paddingRight),
       }),
-      
-      ...(margin !== undefined && { 
-        margin: getSpacingValue(theme, margin) 
+
+      ...(margin !== undefined && {
+        margin: getSpacingValue(theme, margin),
       }),
-      ...(marginHorizontal !== undefined && { 
-        marginHorizontal: getSpacingValue(theme, marginHorizontal) 
+      ...(marginHorizontal !== undefined && {
+        marginHorizontal: getSpacingValue(theme, marginHorizontal),
       }),
-      ...(marginVertical !== undefined && { 
-        marginVertical: getSpacingValue(theme, marginVertical) 
+      ...(marginVertical !== undefined && {
+        marginVertical: getSpacingValue(theme, marginVertical),
       }),
-      ...(marginTop !== undefined && { 
-        marginTop: getSpacingValue(theme, marginTop) 
+      ...(marginTop !== undefined && {
+        marginTop: getSpacingValue(theme, marginTop),
       }),
-      ...(marginBottom !== undefined && { 
-        marginBottom: getSpacingValue(theme, marginBottom) 
+      ...(marginBottom !== undefined && {
+        marginBottom: getSpacingValue(theme, marginBottom),
       }),
-      ...(marginLeft !== undefined && { 
-        marginLeft: getSpacingValue(theme, marginLeft) 
+      ...(marginLeft !== undefined && {
+        marginLeft: getSpacingValue(theme, marginLeft),
       }),
-      ...(marginRight !== undefined && { 
-        marginRight: getSpacingValue(theme, marginRight) 
+      ...(marginRight !== undefined && {
+        marginRight: getSpacingValue(theme, marginRight),
       }),
-      
+
       // Border radius
-      ...(borderRadius !== undefined && { 
-        borderRadius: getBorderRadiusValue(theme, borderRadius) 
+      ...(borderRadius !== undefined && {
+        borderRadius: getBorderRadiusValue(theme, borderRadius),
       }),
-      ...(borderTopLeftRadius !== undefined && { 
-        borderTopLeftRadius: getBorderRadiusValue(theme, borderTopLeftRadius) 
+      ...(borderTopLeftRadius !== undefined && {
+        borderTopLeftRadius: getBorderRadiusValue(theme, borderTopLeftRadius),
       }),
-      ...(borderTopRightRadius !== undefined && { 
-        borderTopRightRadius: getBorderRadiusValue(theme, borderTopRightRadius) 
+      ...(borderTopRightRadius !== undefined && {
+        borderTopRightRadius: getBorderRadiusValue(theme, borderTopRightRadius),
       }),
-      ...(borderBottomLeftRadius !== undefined && { 
-        borderBottomLeftRadius: getBorderRadiusValue(theme, borderBottomLeftRadius) 
+      ...(borderBottomLeftRadius !== undefined && {
+        borderBottomLeftRadius: getBorderRadiusValue(
+          theme,
+          borderBottomLeftRadius
+        ),
       }),
-      ...(borderBottomRightRadius !== undefined && { 
-        borderBottomRightRadius: getBorderRadiusValue(theme, borderBottomRightRadius) 
+      ...(borderBottomRightRadius !== undefined && {
+        borderBottomRightRadius: getBorderRadiusValue(
+          theme,
+          borderBottomRightRadius
+        ),
       }),
-      
+
       // Shadow
       ...(shadow && theme.shadows[shadow]),
-      
+
       // Border
       ...(borderWidth !== undefined && { borderWidth }),
-      ...(borderColor && { 
-        borderColor: theme.colors[borderColor as keyof typeof theme.colors] 
+      ...(borderColor && {
+        borderColor: theme.colors[borderColor as keyof typeof theme.colors],
       }),
       ...(borderTopWidth !== undefined && { borderTopWidth }),
       ...(borderBottomWidth !== undefined && { borderBottomWidth }),
       ...(borderLeftWidth !== undefined && { borderLeftWidth }),
       ...(borderRightWidth !== undefined && { borderRightWidth }),
-      
+
       // Layout
       ...(flex !== undefined && { flex }),
       ...(flexDirection && { flexDirection }),
       ...(justifyContent && { justifyContent }),
       ...(alignItems && { alignItems }),
       ...(alignSelf && { alignSelf }),
-      
+
       // Size
       ...(width !== undefined && { width }),
       ...(height !== undefined && { height }),
@@ -252,7 +279,7 @@ export const View: React.FC<ThemedViewProps> = ({
       ...(minHeight !== undefined && { minHeight }),
       ...(maxWidth !== undefined && { maxWidth }),
       ...(maxHeight !== undefined && { maxHeight }),
-      
+
       // Position
       ...(position && { position }),
       ...(top !== undefined && { top }),
@@ -271,34 +298,18 @@ export const View: React.FC<ThemedViewProps> = ({
 };
 
 // Convenient preset components for common layouts
-export const SafeView: React.FC<ThemedViewProps> = (props) => (
-  <View
-    flex={1}
-    backgroundColor="background"
-    {...props}
-  />
+export const SafeView: React.FC<ThemedViewProps> = props => (
+  <View flex={1} backgroundColor="background" {...props} />
 );
 
-export const CenterView: React.FC<ThemedViewProps> = (props) => (
-  <View
-    flex={1}
-    justifyContent="center"
-    alignItems="center"
-    {...props}
-  />
+export const CenterView: React.FC<ThemedViewProps> = props => (
+  <View flex={1} justifyContent="center" alignItems="center" {...props} />
 );
 
-export const RowView: React.FC<ThemedViewProps> = (props) => (
-  <View
-    flexDirection="row"
-    alignItems="center"
-    {...props}
-  />
+export const RowView: React.FC<ThemedViewProps> = props => (
+  <View flexDirection="row" alignItems="center" {...props} />
 );
 
-export const ColumnView: React.FC<ThemedViewProps> = (props) => (
-  <View
-    flexDirection="column"
-    {...props}
-  />
+export const ColumnView: React.FC<ThemedViewProps> = props => (
+  <View flexDirection="column" {...props} />
 );

@@ -15,22 +15,27 @@ export default function ThemeDemoScreen() {
   const { theme, setThemeVariant, themeVariant } = useTheme();
   const [inputValue, setInputValue] = useState('');
 
-  const themeVariants: Array<'modern' | 'dark' | 'warm' | 'cool'> = ['modern', 'dark', 'warm', 'cool'];
+  const themeVariants: Array<'modern' | 'dark' | 'warm' | 'cool'> = [
+    'modern',
+    'dark',
+    'warm',
+    'cool',
+  ];
 
   return (
     <View flex={1} backgroundColor="background">
-      <Header 
-        title="UI Demo" 
-        subtitle="Showcase of themed components"
-      />
-      
+      <Header title="UI Demo" subtitle="Showcase of themed components" />
+
       <ScrollView style={{ flex: 1 }}>
         <View padding="lg">
           <Stack spacing="xl">
             {/* Theme Switcher */}
-            <Section title="Themes" subtitle="Switch between different theme variants">
+            <Section
+              title="Themes"
+              subtitle="Switch between different theme variants"
+            >
               <Inline spacing="sm" wrap>
-                {themeVariants.map((variant) => (
+                {themeVariants.map(variant => (
                   <Button
                     key={variant}
                     title={variant.charAt(0).toUpperCase() + variant.slice(1)}
@@ -51,8 +56,13 @@ export default function ThemeDemoScreen() {
                 <Text variant="headlineMedium">Headline Medium</Text>
                 <Text variant="titleLarge">Title Large</Text>
                 <Text variant="titleMedium">Title Medium</Text>
-                <Text variant="bodyLarge">Body Large - This is regular body text that you would use for paragraphs and longer content.</Text>
-                <Text variant="bodyMedium">Body Medium - Standard body text size</Text>
+                <Text variant="bodyLarge">
+                  Body Large - This is regular body text that you would use for
+                  paragraphs and longer content.
+                </Text>
+                <Text variant="bodyMedium">
+                  Body Medium - Standard body text size
+                </Text>
                 <Text variant="labelLarge">Label Large</Text>
                 <Text variant="caption">Caption text for smaller details</Text>
                 <Text variant="overline">OVERLINE TEXT</Text>
@@ -63,16 +73,32 @@ export default function ThemeDemoScreen() {
             <Section title="Colors" subtitle="Color palette showcase">
               <Stack spacing="sm">
                 <Inline spacing="sm" wrap>
-                  <View padding="md" backgroundColor="primary500" borderRadius="md">
+                  <View
+                    padding="md"
+                    backgroundColor="primary500"
+                    borderRadius="md"
+                  >
                     <Text color="textOnPrimary">Primary</Text>
                   </View>
-                  <View padding="md" backgroundColor="secondary500" borderRadius="md">
+                  <View
+                    padding="md"
+                    backgroundColor="secondary500"
+                    borderRadius="md"
+                  >
                     <Text color="textOnSecondary">Secondary</Text>
                   </View>
-                  <View padding="md" backgroundColor="success" borderRadius="md">
+                  <View
+                    padding="md"
+                    backgroundColor="success"
+                    borderRadius="md"
+                  >
                     <Text color="textOnPrimary">Success</Text>
                   </View>
-                  <View padding="md" backgroundColor="warning" borderRadius="md">
+                  <View
+                    padding="md"
+                    backgroundColor="warning"
+                    borderRadius="md"
+                  >
                     <Text color="textOnPrimary">Warning</Text>
                   </View>
                   <View padding="md" backgroundColor="error" borderRadius="md">
@@ -83,10 +109,15 @@ export default function ThemeDemoScreen() {
             </Section>
 
             {/* Buttons */}
-            <Section title="Buttons" subtitle="Different button variants and sizes">
+            <Section
+              title="Buttons"
+              subtitle="Different button variants and sizes"
+            >
               <Stack spacing="md">
                 <View>
-                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>Variants</Text>
+                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>
+                    Variants
+                  </Text>
                   <Inline spacing="sm" wrap>
                     <Button title="Primary" variant="primary" />
                     <Button title="Secondary" variant="secondary" />
@@ -97,7 +128,9 @@ export default function ThemeDemoScreen() {
                 </View>
 
                 <View>
-                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>Sizes</Text>
+                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>
+                    Sizes
+                  </Text>
                   <Stack spacing="sm">
                     <Button title="Large Button" size="large" fullWidth />
                     <Button title="Medium Button" size="medium" fullWidth />
@@ -106,7 +139,9 @@ export default function ThemeDemoScreen() {
                 </View>
 
                 <View>
-                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>States</Text>
+                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>
+                    States
+                  </Text>
                   <Inline spacing="sm" wrap>
                     <Button title="Normal" variant="primary" />
                     <Button title="Loading" variant="primary" loading />
@@ -126,21 +161,21 @@ export default function ThemeDemoScreen() {
                   value={inputValue}
                   onChangeText={setInputValue}
                 />
-                
+
                 <TextInput
                   label="Filled Input"
                   placeholder="Enter text..."
                   variant="filled"
                   helperText="This is helper text"
                 />
-                
+
                 <TextInput
                   label="Input with Error"
                   placeholder="Enter text..."
                   variant="outline"
                   errorText="This field is required"
                 />
-                
+
                 <TextInput
                   label="Disabled Input"
                   placeholder="Disabled..."
@@ -180,19 +215,39 @@ export default function ThemeDemoScreen() {
             <Section title="Spacing" subtitle="Consistent spacing system">
               <Stack spacing="md">
                 <View>
-                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>Spacing Scale</Text>
+                  <Text variant="titleSmall" style={{ marginBottom: 8 }}>
+                    Spacing Scale
+                  </Text>
                   <Stack spacing="xs">
-                    <View backgroundColor="primary200" padding="xs" borderRadius="sm">
+                    <View
+                      backgroundColor="primary200"
+                      padding="xs"
+                      borderRadius="sm"
+                    >
                       <Text variant="bodySmall">XS Padding</Text>
                     </View>
-                    <View backgroundColor="primary300" padding="sm" borderRadius="sm">
+                    <View
+                      backgroundColor="primary300"
+                      padding="sm"
+                      borderRadius="sm"
+                    >
                       <Text variant="bodySmall">SM Padding</Text>
                     </View>
-                    <View backgroundColor="primary400" padding="md" borderRadius="sm">
+                    <View
+                      backgroundColor="primary400"
+                      padding="md"
+                      borderRadius="sm"
+                    >
                       <Text variant="bodySmall">MD Padding</Text>
                     </View>
-                    <View backgroundColor="primary500" padding="lg" borderRadius="sm">
-                      <Text variant="bodySmall" color="textOnPrimary">LG Padding</Text>
+                    <View
+                      backgroundColor="primary500"
+                      padding="lg"
+                      borderRadius="sm"
+                    >
+                      <Text variant="bodySmall" color="textOnPrimary">
+                        LG Padding
+                      </Text>
                     </View>
                   </Stack>
                 </View>

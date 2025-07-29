@@ -1,10 +1,12 @@
 import { UpdateProfileDto } from '../../domain/profile/dto/updateProfile.dto';
-import { Profile } from '../../domain/profile/entities/profile.entity'
-import sql from '../database/postgres'
+import { Profile } from '../../domain/profile/entities/profile.entity';
+import sql from '../database/postgres';
 import { supabase } from '../storage/supabase.storage';
 
-export async function updateProfile(userId: string, dto: UpdateProfileDto): Promise<UpdateProfileDto> {
-
+export async function updateProfile(
+  userId: string,
+  dto: UpdateProfileDto
+): Promise<UpdateProfileDto> {
   if (!dto.username || !dto.full_name) {
     throw new Error('username and full_name must be provided');
   }
@@ -24,13 +26,17 @@ export async function updateProfile(userId: string, dto: UpdateProfileDto): Prom
   return res[0];
 }
 
-
-export async function uploadProfileAvatar(userId: string, file: Express.Multer.File) {
-
-  const { data, error } = await supabase.storage.from('avatars').upload(`profile/avatars/${userId}/${file.originalname}`, file.buffer);
+export async function uploadProfileAvatar(
+  userId: string,
+  file: Express.Multer.File
+) {
+  const { data, error } = await supabase.storage
+    .from('avatars')
+    .upload(`profile/avatars/${userId}/${file.originalname}`, file.buffer);
   if (error) throw error;
 
-  const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path).data.publicUrl;
+  const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path)
+    .data.publicUrl;
   console.log('Avatar uploaded:', avatarUrl);
   await sql`
     UPDATE
@@ -42,7 +48,6 @@ export async function uploadProfileAvatar(userId: string, file: Express.Multer.F
   `;
   return avatarUrl;
 }
-
 
 export async function getProfile(userId: string): Promise<Profile> {
   const res = await sql<Profile[]>`

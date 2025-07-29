@@ -2,7 +2,13 @@
 
 import { ColorPalette, colorThemes, ThemeVariant } from './colors';
 import { Typography, typography, responsiveTypography } from './typography';
-import { SpacingScale, spacing, borderRadius, layoutSpacing, componentSpacing } from './spacing';
+import {
+  SpacingScale,
+  spacing,
+  borderRadius,
+  layoutSpacing,
+  componentSpacing,
+} from './spacing';
 import { shadows, componentShadows } from './shadows';
 
 export interface Theme {
@@ -10,19 +16,19 @@ export interface Theme {
   name: string;
   variant: ThemeVariant;
   isDark: boolean;
-  
+
   // Color system
   colors: ColorPalette;
-  
+
   // Typography system
   typography: Typography;
-  
+
   // Spacing system
   spacing: SpacingScale;
   borderRadius: typeof borderRadius;
   layoutSpacing: typeof layoutSpacing;
   componentSpacing: typeof componentSpacing;
-  
+
   // Shadow system
   shadows: typeof shadows;
   componentShadows: typeof componentShadows;
@@ -62,7 +68,9 @@ export const themes = {
 export const defaultTheme = themes.modern;
 
 // Theme utilities
-export const getResponsiveTypography = (screenSize: 'mobile' | 'tablet' | 'desktop') => {
+export const getResponsiveTypography = (
+  screenSize: 'mobile' | 'tablet' | 'desktop'
+) => {
   return responsiveTypography[screenSize];
 };
 

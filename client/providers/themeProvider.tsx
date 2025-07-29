@@ -13,7 +13,7 @@ const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [themeVariant, setThemeVariant] = useState<ThemeVariant>('modern');
-  
+
   const theme = themes[themeVariant];
   const isDark = theme.isDark;
 
@@ -26,13 +26,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ 
-      theme, 
-      themeVariant, 
-      setThemeVariant, 
-      isDark, 
-      toggleDarkMode 
-    }}>
+    <ThemeContext.Provider
+      value={{
+        theme,
+        themeVariant,
+        setThemeVariant,
+        isDark,
+        toggleDarkMode,
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

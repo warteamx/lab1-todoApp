@@ -1,6 +1,5 @@
-
 import { View, Text, Button } from 'react-native';
-import { Stack } from "expo-router";
+import { Stack } from 'expo-router';
 import { AppProviders } from '@/providers';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
@@ -12,9 +11,24 @@ function SessionAndThemeInfo() {
     <>
       <Stack />
       <>
-        <View style={{ position: 'absolute', top: 0, right: 0, padding: 8, zIndex: 100, backgroundColor: theme.colors.surface }}>
-          <Text style={{ color: theme.colors.textPrimary }}>Session: {loading ? 'Loading...' : session ? 'Logged in' : 'Not logged in'}</Text>
-          <Text style={{ color: theme.colors.textPrimary }}>Theme: {themeVariant} <Button onPress={toggleDarkMode} title="Toggle" /></Text>
+        <View
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            padding: 8,
+            zIndex: 100,
+            backgroundColor: theme.colors.surface,
+          }}
+        >
+          <Text style={{ color: theme.colors.textPrimary }}>
+            Session:{' '}
+            {loading ? 'Loading...' : session ? 'Logged in' : 'Not logged in'}
+          </Text>
+          <Text style={{ color: theme.colors.textPrimary }}>
+            Theme: {themeVariant}{' '}
+            <Button onPress={toggleDarkMode} title="Toggle" />
+          </Text>
         </View>
       </>
     </>

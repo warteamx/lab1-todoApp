@@ -10,5 +10,5 @@ export interface UpdateTodoDto {
   user_id: string;
 }
 export interface DeleteTodoDto {
-  id: string; 
+  id: string;
 }

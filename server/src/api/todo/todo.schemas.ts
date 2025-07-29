@@ -20,7 +20,6 @@ export const CreateTodoDtoSchema = {
     task: { type: 'string' },
     user_id: { type: 'string' },
     is_complete: { type: 'boolean', default: false },
-
   },
   required: ['task', 'user_id', 'is_complete'],
 };

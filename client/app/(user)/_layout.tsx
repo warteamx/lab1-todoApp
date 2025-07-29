@@ -22,9 +22,11 @@ export default function TabLayout() {
 
   return (
     <Tabs
-      screenOptions={{
-        // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-      }}
+      screenOptions={
+        {
+          // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        }
+      }
     >
       <Tabs.Screen name="index" options={{ href: null }} />
 
@@ -38,16 +40,18 @@ export default function TabLayout() {
           ),
         }}
       />
-      
+
       <Tabs.Screen
         name="ui-demo"
         options={{
           title: 'UI Demo',
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="paint-brush" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="paint-brush" color={color} />
+          ),
         }}
       />
-      
+
       <Tabs.Screen
         name="vr"
         options={{

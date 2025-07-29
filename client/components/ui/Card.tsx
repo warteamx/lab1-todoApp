@@ -14,24 +14,24 @@ type CardVariant = 'elevated' | 'outlined' | 'filled';
 interface ThemedCardProps {
   // Content
   children: React.ReactNode;
-  
+
   // Styling
   variant?: CardVariant;
   padding?: SpacingKey;
   borderRadius?: BorderRadiusKey;
   shadow?: ShadowLevel;
-  
+
   // Colors
   backgroundColor?: keyof Theme['colors'];
   borderColor?: keyof Theme['colors'];
-  
+
   // Interaction
   onPress?: TouchableOpacityProps['onPress'];
   disabled?: boolean;
-  
+
   // Layout
   fullWidth?: boolean;
-  
+
   // Custom style
   style?: any;
 }
@@ -50,7 +50,7 @@ export const Card: React.FC<ThemedCardProps> = ({
   style,
 }) => {
   const { theme } = useTheme();
-  
+
   // Determine colors based on variant
   const getCardColors = () => {
     switch (variant) {
@@ -80,9 +80,9 @@ export const Card: React.FC<ThemedCardProps> = ({
         };
     }
   };
-  
+
   const colors = getCardColors();
-  
+
   const cardProps = {
     backgroundColor: colors.backgroundColor as any,
     borderColor: colors.borderColor as any,
@@ -93,7 +93,7 @@ export const Card: React.FC<ThemedCardProps> = ({
     fullWidth,
     style,
   };
-  
+
   if (onPress) {
     return (
       <TouchableOpacity
@@ -102,18 +102,12 @@ export const Card: React.FC<ThemedCardProps> = ({
         activeOpacity={0.8}
         style={{ opacity: disabled ? 0.6 : 1 }}
       >
-        <View {...cardProps}>
-          {children}
-        </View>
+        <View {...cardProps}>{children}</View>
       </TouchableOpacity>
     );
   }
-  
-  return (
-    <View {...cardProps}>
-      {children}
-    </View>
-  );
+
+  return <View {...cardProps}>{children}</View>;
 };
 
 // Card Header component
@@ -131,19 +125,15 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
   children,
 }) => {
   const { theme } = useTheme();
-  
+
   if (children) {
-    return (
-      <View marginBottom="md">
-        {children}
-      </View>
-    );
+    return <View marginBottom="md">{children}</View>;
   }
-  
+
   return (
-    <View 
-      flexDirection="row" 
-      justifyContent="space-between" 
+    <View
+      flexDirection="row"
+      justifyContent="space-between"
       alignItems="flex-start"
       marginBottom="md"
     >
@@ -154,16 +144,16 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
           </Text>
         )}
         {subtitle && (
-          <Text variant="bodyMedium" color="textSecondary" style={{ marginTop: theme.spacing.xs }}>
+          <Text
+            variant="bodyMedium"
+            color="textSecondary"
+            style={{ marginTop: theme.spacing.xs }}
+          >
             {subtitle}
           </Text>
         )}
       </View>
-      {action && (
-        <View marginLeft="md">
-          {action}
-        </View>
-      )}
+      {action && <View marginLeft="md">{action}</View>}
     </View>
   );
 };
@@ -178,11 +168,7 @@ export const CardContent: React.FC<CardContentProps> = ({
   children,
   padding,
 }) => {
-  return (
-    <View padding={padding}>
-      {children}
-    </View>
-  );
+  return <View padding={padding}>{children}</View>;
 };
 
 // Card Footer component
@@ -196,8 +182,8 @@ export const CardFooter: React.FC<CardFooterProps> = ({
   justify = 'flex-end',
 }) => {
   return (
-    <View 
-      flexDirection="row" 
+    <View
+      flexDirection="row"
       justifyContent={justify}
       alignItems="center"
       marginTop="md"
@@ -208,15 +194,15 @@ export const CardFooter: React.FC<CardFooterProps> = ({
 };
 
 // Convenient preset card components
-export const ElevatedCard: React.FC<Omit<ThemedCardProps, 'variant'>> = (props) => (
-  <Card variant="elevated" {...props} />
-);
+export const ElevatedCard: React.FC<
+  Omit<ThemedCardProps, 'variant'>
+> = props => <Card variant="elevated" {...props} />;
 
-export const OutlinedCard: React.FC<Omit<ThemedCardProps, 'variant'>> = (props) => (
-  <Card variant="outlined" {...props} />
-);
+export const OutlinedCard: React.FC<
+  Omit<ThemedCardProps, 'variant'>
+> = props => <Card variant="outlined" {...props} />;
 
-export const FilledCard: React.FC<Omit<ThemedCardProps, 'variant'>> = (props) => (
+export const FilledCard: React.FC<Omit<ThemedCardProps, 'variant'>> = props => (
   <Card variant="filled" {...props} />
 );
 
@@ -240,12 +226,8 @@ export const ListCard: React.FC<ListCardProps> = ({
   return (
     <Card padding="md" {...props}>
       <View flexDirection="row" alignItems="center">
-        {leftElement && (
-          <View marginRight="md">
-            {leftElement}
-          </View>
-        )}
-        
+        {leftElement && <View marginRight="md">{leftElement}</View>}
+
         <View flex={1}>
           <Text variant="titleMedium" color="textPrimary">
             {title}
@@ -261,12 +243,8 @@ export const ListCard: React.FC<ListCardProps> = ({
             </Text>
           )}
         </View>
-        
-        {rightElement && (
-          <View marginLeft="md">
-            {rightElement}
-          </View>
-        )}
+
+        {rightElement && <View marginLeft="md">{rightElement}</View>}
       </View>
     </Card>
   );

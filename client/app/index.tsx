@@ -26,25 +26,30 @@ const index = () => {
         <Text variant="headlineMedium" color="textPrimary" align="center">
           Welcome to Your Todo App
         </Text>
-        <Text variant="bodyLarge" color="textSecondary" align="center" style={{ marginTop: 8 }}>
+        <Text
+          variant="bodyLarge"
+          color="textSecondary"
+          align="center"
+          style={{ marginTop: 8 }}
+        >
           Manage your tasks efficiently with a beautiful interface
         </Text>
       </View>
 
       <View style={{ gap: 16 }}>
         <Link href={'/(user)'} asChild>
-          <Button 
-            title="👀 See Task List" 
-            variant="primary" 
+          <Button
+            title="👀 See Task List"
+            variant="primary"
             size="large"
             fullWidth
           />
         </Link>
-        
+
         <Link href={'/(user)/todo/newTodo'} asChild>
-          <Button 
-            title="➕ Add New Task" 
-            variant="secondary" 
+          <Button
+            title="➕ Add New Task"
+            variant="secondary"
             size="large"
             fullWidth
           />

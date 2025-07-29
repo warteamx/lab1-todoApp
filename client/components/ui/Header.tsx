@@ -25,7 +25,8 @@ export const Header: React.FC<HeaderProps> = ({
   actions = [],
   themeToggle = true,
 }) => {
-  const { theme, toggleDarkMode, isDark, setThemeVariant, themeVariant } = useTheme();
+  const { theme, toggleDarkMode, isDark, setThemeVariant, themeVariant } =
+    useTheme();
   const router = useRouter();
 
   const handleThemeToggle = () => {
@@ -33,7 +34,12 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const handleThemeVariantToggle = () => {
-    const variants: Array<'modern' | 'dark' | 'warm' | 'cool'> = ['modern', 'dark', 'warm', 'cool'];
+    const variants: Array<'modern' | 'dark' | 'warm' | 'cool'> = [
+      'modern',
+      'dark',
+      'warm',
+      'cool',
+    ];
     const currentIndex = variants.indexOf(themeVariant);
     const nextIndex = (currentIndex + 1) % variants.length;
     setThemeVariant(variants[nextIndex]);
@@ -63,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
               </Text>
             </TouchableOpacity>
           )}
-          
+
           <View>
             {title && (
               <Text variant="titleLarge" color="textPrimary">
@@ -81,11 +87,9 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Right side - Actions and theme toggle */}
         <Inline spacing="sm">
           {actions.map((action, index) => (
-            <View key={index}>
-              {action}
-            </View>
+            <View key={index}>{action}</View>
           ))}
-          
+
           {themeToggle && (
             <Inline spacing="xs">
               <TouchableOpacity onPress={handleThemeToggle}>
@@ -93,7 +97,7 @@ export const Header: React.FC<HeaderProps> = ({
                   {isDark ? '☀️' : '🌙'}
                 </Text>
               </TouchableOpacity>
-              
+
               <TouchableOpacity onPress={handleThemeVariantToggle}>
                 <Text variant="labelMedium" color="interactive">
                   🎨

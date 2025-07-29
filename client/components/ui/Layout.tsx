@@ -1,7 +1,12 @@
 // Layout components for responsive design and consistent spacing
 
 import React from 'react';
-import { ScrollView, ScrollViewProps, Platform, Dimensions } from 'react-native';
+import {
+  ScrollView,
+  ScrollViewProps,
+  Platform,
+  Dimensions,
+} from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from './View';
 import { Text } from './Text';
@@ -46,14 +51,15 @@ export const Container: React.FC<ContainerProps> = ({
 }) => {
   const { theme } = useTheme();
   const screenSize = size || useScreenSize();
-  
+
   // Get responsive padding
-  const containerPadding = padding || theme.layoutSpacing.containerPadding[screenSize];
-  
+  const containerPadding =
+    padding || theme.layoutSpacing.containerPadding[screenSize];
+
   // Get max width for content
   const getMaxWidth = () => {
     if (maxWidth) return maxWidth;
-    
+
     switch (screenSize) {
       case 'desktop':
         return 1200;
@@ -65,11 +71,7 @@ export const Container: React.FC<ContainerProps> = ({
   };
 
   return (
-    <View
-      flex={1}
-      backgroundColor={backgroundColor as any}
-      style={style}
-    >
+    <View flex={1} backgroundColor={backgroundColor as any} style={style}>
       <View
         flex={1}
         alignSelf="center"
@@ -77,9 +79,10 @@ export const Container: React.FC<ContainerProps> = ({
         maxWidth={getMaxWidth() as any}
         padding={containerPadding as any}
         style={{
-          ...(safeArea && Platform.OS !== 'web' && {
-            paddingTop: Platform.OS === 'ios' ? 44 : 24,
-          }),
+          ...(safeArea &&
+            Platform.OS !== 'web' && {
+              paddingTop: Platform.OS === 'ios' ? 44 : 24,
+            }),
         }}
       >
         {children}
@@ -108,16 +111,23 @@ export const Screen: React.FC<ScreenProps> = ({
 }) => {
   const { theme } = useTheme();
   const screenSize = useScreenSize();
-  
-  const containerPadding = padding || theme.layoutSpacing.containerPadding[screenSize];
-  
-  const containerStyle = React.useMemo(() => ({
-    flex: 1,
-    backgroundColor: theme.colors[backgroundColor as keyof typeof theme.colors] || backgroundColor,
-    ...(safeArea && Platform.OS !== 'web' && {
-      paddingTop: Platform.OS === 'ios' ? 44 : 24,
+
+  const containerPadding =
+    padding || theme.layoutSpacing.containerPadding[screenSize];
+
+  const containerStyle = React.useMemo(
+    () => ({
+      flex: 1,
+      backgroundColor:
+        theme.colors[backgroundColor as keyof typeof theme.colors] ||
+        backgroundColor,
+      ...(safeArea &&
+        Platform.OS !== 'web' && {
+          paddingTop: Platform.OS === 'ios' ? 44 : 24,
+        }),
     }),
-  }), [theme, backgroundColor, safeArea]);
+    [theme, backgroundColor, safeArea]
+  );
 
   if (scrollable) {
     return (
@@ -162,12 +172,9 @@ export const Section: React.FC<SectionProps> = ({
   style,
 }) => {
   const { theme } = useTheme();
-  
+
   return (
-    <View 
-      marginBottom={spacing}
-      style={style}
-    >
+    <View marginBottom={spacing} style={style}>
       {/* Section Header */}
       {(title || subtitle) && (
         <View marginBottom="lg">
@@ -177,8 +184,8 @@ export const Section: React.FC<SectionProps> = ({
             </Text>
           )}
           {subtitle && (
-            <Text 
-              variant="bodyLarge" 
+            <Text
+              variant="bodyLarge"
               color="textSecondary"
               style={{ marginTop: theme.spacing.xs }}
             >
@@ -187,7 +194,7 @@ export const Section: React.FC<SectionProps> = ({
           )}
         </View>
       )}
-      
+
       {/* Section Content */}
       {children}
     </View>
@@ -209,7 +216,7 @@ export const Stack: React.FC<StackProps> = ({
   style,
 }) => {
   const { theme } = useTheme();
-  
+
   const childrenArray = React.Children.toArray(children);
   const spacingValue = theme.spacing[spacing];
 
@@ -235,7 +242,12 @@ interface InlineProps {
   children: React.ReactNode;
   spacing?: SpacingKey;
   align?: 'flex-start' | 'flex-end' | 'center' | 'baseline';
-  justify?: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around';
+  justify?:
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around';
   wrap?: boolean;
   style?: any;
 }
@@ -249,7 +261,7 @@ export const Inline: React.FC<InlineProps> = ({
   style,
 }) => {
   const { theme } = useTheme();
-  
+
   const childrenArray = React.Children.toArray(children);
   const spacingValue = theme.spacing[spacing];
 
@@ -295,18 +307,18 @@ export const Grid: React.FC<GridProps> = ({
 }) => {
   const { theme } = useTheme();
   const screenSize = useScreenSize();
-  
+
   // Responsive columns
   const getColumns = () => {
     if (screenSize === 'mobile') return Math.min(columns, 2);
     if (screenSize === 'tablet') return Math.min(columns, 3);
     return columns;
   };
-  
+
   const numColumns = getColumns();
   const spacingValue = theme.spacing[spacing];
   const childrenArray = React.Children.toArray(children);
-  
+
   // Split children into rows
   const rows: React.ReactNode[][] = [];
   for (let i = 0; i < childrenArray.length; i += numColumns) {
@@ -334,14 +346,12 @@ export const Grid: React.FC<GridProps> = ({
               {child}
             </View>
           ))}
-          
+
           {/* Fill empty spaces in incomplete rows */}
           {row.length < numColumns &&
             Array(numColumns - row.length)
               .fill(null)
-              .map((_, index) => (
-                <View key={`empty-${index}`} flex={1} />
-              ))}
+              .map((_, index) => <View key={`empty-${index}`} flex={1} />)}
         </View>
       ))}
     </View>
@@ -356,15 +366,14 @@ interface SpacerProps {
 
 export const Spacer: React.FC<SpacerProps> = ({ size, flex }) => {
   const { theme } = useTheme();
-  
+
   if (flex) {
     return <View flex={flex} />;
   }
-  
-  const spacingValue = typeof size === 'number' 
-    ? size 
-    : theme.spacing[size || 'md'];
-  
+
+  const spacingValue =
+    typeof size === 'number' ? size : theme.spacing[size || 'md'];
+
   return <View style={{ height: spacingValue }} />;
 };
 

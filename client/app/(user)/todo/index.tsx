@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ActivityIndicator, FlatList } from 'react-native';
 import { Link } from 'expo-router';
@@ -20,16 +19,20 @@ export default function TodoIndexTab() {
 
   return (
     <View flex={1} padding="md" backgroundColor="background">
-      <Text variant="headlineMedium" color="textPrimary" style={{ marginBottom: 16 }}>
+      <Text
+        variant="headlineMedium"
+        color="textPrimary"
+        style={{ marginBottom: 16 }}
+      >
         Todo List
       </Text>
-      
+
       {isLoading && (
         <View flex={1} justifyContent="center" alignItems="center">
           <ActivityIndicator size="large" />
         </View>
       )}
-      
+
       {error && (
         <View marginBottom="md">
           <Card backgroundColor="error" padding="md">
@@ -39,7 +42,7 @@ export default function TodoIndexTab() {
           </Card>
         </View>
       )}
-      
+
       {!isLoading && !error && (
         <FlatList
           data={data}
@@ -47,26 +50,40 @@ export default function TodoIndexTab() {
           renderItem={({ item }) => (
             <View marginBottom="md">
               <Card padding="lg">
-                <View flexDirection="row" justifyContent="space-between" alignItems="flex-start">
+                <View
+                  flexDirection="row"
+                  justifyContent="space-between"
+                  alignItems="flex-start"
+                >
                   <View flex={1}>
                     <Text variant="titleMedium" color="textPrimary">
                       {item.id} - {item.task}
                     </Text>
-                    <Text variant="bodySmall" color="textSecondary" style={{ marginTop: 4 }}>
+                    <Text
+                      variant="bodySmall"
+                      color="textSecondary"
+                      style={{ marginTop: 4 }}
+                    >
                       {item.inserted_at.toLocaleString()}
                     </Text>
                     <Text variant="bodySmall" color="textTertiary">
-                      Day {Math.floor((new Date().getTime() - new Date(item.inserted_at).getTime()) / (1000 * 60 * 60 * 24))} ago
+                      Day{' '}
+                      {Math.floor(
+                        (new Date().getTime() -
+                          new Date(item.inserted_at).getTime()) /
+                          (1000 * 60 * 60 * 24)
+                      )}{' '}
+                      ago
                     </Text>
-                    <Text 
-                      variant="labelMedium" 
-                      color={item.is_complete ? "success" : "textTertiary"}
+                    <Text
+                      variant="labelMedium"
+                      color={item.is_complete ? 'success' : 'textTertiary'}
                       style={{ marginTop: 8 }}
                     >
                       {item.is_complete ? 'Completed' : 'Pending'}
                     </Text>
                   </View>
-                  
+
                   <View marginLeft="md">
                     <Link href={`/todo/editTodo?id=${item.id}`} asChild>
                       <Text variant="labelMedium" color="interactive">
@@ -75,14 +92,14 @@ export default function TodoIndexTab() {
                     </Link>
                   </View>
                 </View>
-                
+
                 {!item.is_complete && (
                   <View marginTop="md">
-                    <Button 
-                      title="Mark as Completed" 
+                    <Button
+                      title="Mark as Completed"
                       variant="secondary"
                       size="small"
-                      onPress={() => handleMarkCompleted(item)} 
+                      onPress={() => handleMarkCompleted(item)}
                     />
                   </View>
                 )}
@@ -92,12 +109,12 @@ export default function TodoIndexTab() {
           showsVerticalScrollIndicator={false}
         />
       )}
-      
+
       {/* Add new todo button */}
       <View marginTop="lg">
         <Link href={'/(user)/todo/newTodo'} asChild>
-          <Button 
-            title="➕ Add New Task" 
+          <Button
+            title="➕ Add New Task"
             variant="primary"
             size="large"
             fullWidth

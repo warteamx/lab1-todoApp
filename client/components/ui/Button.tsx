@@ -1,10 +1,10 @@
 // Themed Button component with multiple variants and states
 
 import React from 'react';
-import { 
-  TouchableOpacity, 
-  TouchableOpacityProps, 
-  ActivityIndicator, 
+import {
+  TouchableOpacity,
+  TouchableOpacityProps,
+  ActivityIndicator,
   StyleSheet,
   ViewStyle,
   Platform,
@@ -23,40 +23,40 @@ interface ThemedButtonProps extends Omit<TouchableOpacityProps, 'style'> {
   // Button content
   title?: string;
   children?: React.ReactNode;
-  
+
   // Button styling
   variant?: ButtonVariant;
   size?: ButtonSize;
-  
+
   // State
   loading?: boolean;
   disabled?: boolean;
-  
+
   // Icon
   leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   iconOnly?: boolean;
-  
+
   // Layout
   fullWidth?: boolean;
-  
+
   // Custom styling
   backgroundColor?: keyof Theme['colors'];
   textColor?: keyof Theme['colors'];
   borderColor?: keyof Theme['colors'];
   shadow?: ShadowLevel;
   borderRadius?: number;
-  
+
   // Custom style
   style?: TouchableOpacityProps['style'];
 }
 
 // Helper function to get button styles based on variant and state
 function getButtonStyles(
-  theme: Theme, 
-  variant: ButtonVariant, 
-  size: ButtonSize, 
-  disabled: boolean, 
+  theme: Theme,
+  variant: ButtonVariant,
+  size: ButtonSize,
+  disabled: boolean,
   pressed: boolean
 ) {
   const baseStyles = {
@@ -78,7 +78,7 @@ function getButtonStyles(
   };
 
   const sizeStyle = baseStyles[size];
-  
+
   let backgroundColor: string;
   let textColor: string;
   let borderColor: string | undefined;
@@ -91,11 +91,15 @@ function getButtonStyles(
   } else {
     switch (variant) {
       case 'primary':
-        backgroundColor = pressed ? theme.colors.interactivePressed : theme.colors.interactive;
+        backgroundColor = pressed
+          ? theme.colors.interactivePressed
+          : theme.colors.interactive;
         textColor = theme.colors.textOnPrimary;
         break;
       case 'secondary':
-        backgroundColor = pressed ? theme.colors.secondary700 : theme.colors.secondary500;
+        backgroundColor = pressed
+          ? theme.colors.secondary700
+          : theme.colors.secondary500;
         textColor = theme.colors.textOnSecondary;
         break;
       case 'outline':
@@ -109,11 +113,15 @@ function getButtonStyles(
         textColor = theme.colors.interactive;
         break;
       case 'danger':
-        backgroundColor = pressed ? theme.colors.interactivePressed : theme.colors.error;
+        backgroundColor = pressed
+          ? theme.colors.interactivePressed
+          : theme.colors.error;
         textColor = theme.colors.textOnPrimary;
         break;
       default:
-        backgroundColor = pressed ? theme.colors.interactivePressed : theme.colors.interactive;
+        backgroundColor = pressed
+          ? theme.colors.interactivePressed
+          : theme.colors.interactive;
         textColor = theme.colors.textOnPrimary;
     }
   }
@@ -149,19 +157,25 @@ export const Button: React.FC<ThemedButtonProps> = ({
 }) => {
   const { theme } = useTheme();
   const [pressed, setPressed] = React.useState(false);
-  
+
   const isDisabled = disabled || loading;
-  const buttonStyles = getButtonStyles(theme, variant, size, isDisabled, pressed);
-  
+  const buttonStyles = getButtonStyles(
+    theme,
+    variant,
+    size,
+    isDisabled,
+    pressed
+  );
+
   // Override colors if custom ones are provided
-  const finalBackgroundColor = backgroundColor 
-    ? theme.colors[backgroundColor as keyof typeof theme.colors] 
+  const finalBackgroundColor = backgroundColor
+    ? theme.colors[backgroundColor as keyof typeof theme.colors]
     : buttonStyles.backgroundColor;
-  const finalTextColor = textColor 
-    ? theme.colors[textColor as keyof typeof theme.colors] 
+  const finalTextColor = textColor
+    ? theme.colors[textColor as keyof typeof theme.colors]
     : buttonStyles.textColor;
-  const finalBorderColor = borderColor 
-    ? theme.colors[borderColor as keyof typeof theme.colors] 
+  const finalBorderColor = borderColor
+    ? theme.colors[borderColor as keyof typeof theme.colors]
     : buttonStyles.borderColor;
 
   const themedStyle = StyleSheet.create({
@@ -214,32 +228,21 @@ export const Button: React.FC<ThemedButtonProps> = ({
 
   const renderContent = () => {
     if (loading) {
-      return (
-        <ActivityIndicator 
-          size="small" 
-          color={finalTextColor} 
-        />
-      );
+      return <ActivityIndicator size="small" color={finalTextColor} />;
     }
 
     return (
       <RNView style={themedStyle.content as any}>
         {leftIcon && (
-          <RNView style={themedStyle.leftIcon as any}>
-            {leftIcon}
-          </RNView>
+          <RNView style={themedStyle.leftIcon as any}>{leftIcon}</RNView>
         )}
-        
+
         {!iconOnly && (title || children) && (
-          <Text style={themedStyle.text}>
-            {children || title}
-          </Text>
+          <Text style={themedStyle.text}>{children || title}</Text>
         )}
-        
+
         {rightIcon && (
-          <RNView style={themedStyle.rightIcon as any}>
-            {rightIcon}
-          </RNView>
+          <RNView style={themedStyle.rightIcon as any}>{rightIcon}</RNView>
         )}
       </RNView>
     );
@@ -261,26 +264,26 @@ export const Button: React.FC<ThemedButtonProps> = ({
 };
 
 // Convenient preset button components
-export const PrimaryButton: React.FC<Omit<ThemedButtonProps, 'variant'>> = (props) => (
-  <Button variant="primary" {...props} />
-);
+export const PrimaryButton: React.FC<
+  Omit<ThemedButtonProps, 'variant'>
+> = props => <Button variant="primary" {...props} />;
 
-export const SecondaryButton: React.FC<Omit<ThemedButtonProps, 'variant'>> = (props) => (
-  <Button variant="secondary" {...props} />
-);
+export const SecondaryButton: React.FC<
+  Omit<ThemedButtonProps, 'variant'>
+> = props => <Button variant="secondary" {...props} />;
 
-export const OutlineButton: React.FC<Omit<ThemedButtonProps, 'variant'>> = (props) => (
-  <Button variant="outline" {...props} />
-);
+export const OutlineButton: React.FC<
+  Omit<ThemedButtonProps, 'variant'>
+> = props => <Button variant="outline" {...props} />;
 
-export const GhostButton: React.FC<Omit<ThemedButtonProps, 'variant'>> = (props) => (
-  <Button variant="ghost" {...props} />
-);
+export const GhostButton: React.FC<
+  Omit<ThemedButtonProps, 'variant'>
+> = props => <Button variant="ghost" {...props} />;
 
-export const DangerButton: React.FC<Omit<ThemedButtonProps, 'variant'>> = (props) => (
-  <Button variant="danger" {...props} />
-);
+export const DangerButton: React.FC<
+  Omit<ThemedButtonProps, 'variant'>
+> = props => <Button variant="danger" {...props} />;
 
-export const IconButton: React.FC<Omit<ThemedButtonProps, 'iconOnly'>> = (props) => (
-  <Button iconOnly {...props} />
-);
+export const IconButton: React.FC<
+  Omit<ThemedButtonProps, 'iconOnly'>
+> = props => <Button iconOnly {...props} />;
