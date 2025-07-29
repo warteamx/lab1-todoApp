@@ -2,6 +2,12 @@
 Software lab for Expo App
 
 Logger
+## 29/7/2025
+
+- improve ui
+- add logger
+- improve and fix eslint
+
 ## 15/7/2025
 - Create DDD server folder structure
 - todo endpoints and testing
