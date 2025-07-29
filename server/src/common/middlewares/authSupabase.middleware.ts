@@ -2,6 +2,7 @@
 import { Response, NextFunction } from 'express';
 import { Request, UserClaims } from '@/common/types/express';
 import { createClient } from '@supabase/supabase-js';
+import { logger } from '../utils/logger';
 const SUPABASE_URL =
   process.env.SUPABASE_URL || 'https://your-supabase-url.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_KEY || 'your-supabase-key';
@@ -12,21 +13,14 @@ export async function authMiddleware(
   res: Response,
   next: NextFunction
 ) {
-  // console.log(`👀 authMiddleware ${req.method} ${req.url}`);
-  // console.log(`👀 authMiddleware auth`, req.headers);
-  console.log('👀 authMiddleware req.body', req.body);
   const { data, error } = await supabase.auth.getClaims(
     req.headers.authorization || ''
   );
   if (error) {
-    console.error(`👀 authMiddleware error ${error.message}`);
     return res.status(401).json({ error: 'Unauthorized' });
   } else if (!data || !data.claims) {
-    console.error('👀 authMiddleware no claims found');
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  // console.log(`👀 authMiddleware user`, data);
-  // Extract the actual claims object from Supabase response
   req.userClaims = data.claims as unknown as UserClaims;
   next();
 }

@@ -6,7 +6,7 @@ import todoRouter from './api/todo/todo.routes';
 import userRouter from './api/profile/profile.routes';
 import multer from 'multer';
 import { errorMiddleware } from './common/middlewares/error.middleware';
-import { loggerMiddleware } from './common/middlewares/logger.middleware';
+import { loggerMiddleware, errorLoggerMiddleware } from './common/middlewares/logger.middleware';
 import { authMiddleware } from './common/middlewares/authSupabase.middleware';
 import cors from 'cors';
 
@@ -30,6 +30,8 @@ app.use('/api/profile/avatar', upload.single('avatar'));
 app.use('/api/profile', userRouter);
 app.use('/api/todo', todoRouter);
 
+// Add error logging middleware before error handling
+app.use(errorLoggerMiddleware);
 app.use(errorMiddleware);
 
 export default app;
