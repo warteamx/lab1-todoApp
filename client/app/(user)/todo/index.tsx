@@ -4,7 +4,7 @@ import { Link } from 'expo-router';
 import { useTodos, useUpdateTodo } from '@/api/todo.api';
 import { View } from '@/components/ui/View';
 import { Text } from '@/components/ui/Text';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button/Button';
 import { Card } from '@/components/ui/Card';
 
 export default function TodoIndexTab() {
@@ -71,7 +71,7 @@ export default function TodoIndexTab() {
                       {Math.floor(
                         (new Date().getTime() -
                           new Date(item.inserted_at).getTime()) /
-                          (1000 * 60 * 60 * 24)
+                        (1000 * 60 * 60 * 24)
                       )}{' '}
                       ago
                     </Text>

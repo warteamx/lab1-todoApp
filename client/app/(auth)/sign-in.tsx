@@ -5,7 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { View } from '@/components/ui/View';
 import { Text } from '@/components/ui/Text';
 import { TextInput } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button/Button';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');

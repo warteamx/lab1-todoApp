@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from './View';
 import { Text } from './Text';
-import { Button } from './Button';
+import { Button } from './Button/Button';
 import { Inline } from './Layout';
 import { TouchableOpacity } from 'react-native';
 

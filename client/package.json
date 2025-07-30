@@ -10,7 +10,11 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "lint:fix": "expo lint --fix",
-    "format": "prettier --write **/*.{js,jsx,ts,tsx,json}"
+    "format": "prettier --write **/*.{js,jsx,ts,tsx,json}",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:ci": "jest --ci --coverage"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -66,5 +70,11 @@
     "prettier": "^3.6.2",
     "typescript": "~5.8.3"
   },
-  "private": true
+  "private": true,
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg)"
+    ]
+  }
 }

@@ -3,137 +3,15 @@
 import React from 'react';
 import {
   TouchableOpacity,
-  TouchableOpacityProps,
   ActivityIndicator,
   StyleSheet,
   ViewStyle,
-  Platform,
   View as RNView,
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { Text } from './Text';
-import { SpacingKey } from '@/themes/spacing';
-import { ShadowLevel } from '@/themes/shadows';
-import { Theme } from '@/themes/themes';
-
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-type ButtonSize = 'small' | 'medium' | 'large';
-
-interface ThemedButtonProps extends Omit<TouchableOpacityProps, 'style'> {
-  // Button content
-  title?: string;
-  children?: React.ReactNode;
-
-  // Button styling
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-
-  // State
-  loading?: boolean;
-  disabled?: boolean;
-
-  // Icon
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
-  iconOnly?: boolean;
-
-  // Layout
-  fullWidth?: boolean;
-
-  // Custom styling
-  backgroundColor?: keyof Theme['colors'];
-  textColor?: keyof Theme['colors'];
-  borderColor?: keyof Theme['colors'];
-  shadow?: ShadowLevel;
-  borderRadius?: number;
-
-  // Custom style
-  style?: TouchableOpacityProps['style'];
-}
-
-// Helper function to get button styles based on variant and state
-function getButtonStyles(
-  theme: Theme,
-  variant: ButtonVariant,
-  size: ButtonSize,
-  disabled: boolean,
-  pressed: boolean
-) {
-  const baseStyles = {
-    small: {
-      paddingVertical: theme.spacing.sm,
-      paddingHorizontal: theme.spacing.md,
-      minHeight: 32,
-    },
-    medium: {
-      paddingVertical: theme.spacing.md,
-      paddingHorizontal: theme.spacing.lg,
-      minHeight: 44,
-    },
-    large: {
-      paddingVertical: theme.spacing.lg,
-      paddingHorizontal: theme.spacing.xl,
-      minHeight: 56,
-    },
-  };
-
-  const sizeStyle = baseStyles[size];
-
-  let backgroundColor: string;
-  let textColor: string;
-  let borderColor: string | undefined;
-  let borderWidth = 0;
-
-  if (disabled) {
-    backgroundColor = theme.colors.interactiveDisabled;
-    textColor = theme.colors.textDisabled;
-    borderColor = theme.colors.borderSecondary;
-  } else {
-    switch (variant) {
-      case 'primary':
-        backgroundColor = pressed
-          ? theme.colors.interactivePressed
-          : theme.colors.interactive;
-        textColor = theme.colors.textOnPrimary;
-        break;
-      case 'secondary':
-        backgroundColor = pressed
-          ? theme.colors.secondary700
-          : theme.colors.secondary500;
-        textColor = theme.colors.textOnSecondary;
-        break;
-      case 'outline':
-        backgroundColor = pressed ? theme.colors.neutral100 : 'transparent';
-        textColor = theme.colors.interactive;
-        borderColor = theme.colors.interactive;
-        borderWidth = 1;
-        break;
-      case 'ghost':
-        backgroundColor = pressed ? theme.colors.neutral100 : 'transparent';
-        textColor = theme.colors.interactive;
-        break;
-      case 'danger':
-        backgroundColor = pressed
-          ? theme.colors.interactivePressed
-          : theme.colors.error;
-        textColor = theme.colors.textOnPrimary;
-        break;
-      default:
-        backgroundColor = pressed
-          ? theme.colors.interactivePressed
-          : theme.colors.interactive;
-        textColor = theme.colors.textOnPrimary;
-    }
-  }
-
-  return {
-    ...sizeStyle,
-    backgroundColor,
-    borderColor,
-    borderWidth,
-    textColor,
-  };
-}
+import { Text } from '../Text';
+import { ThemedButtonProps } from './Button.interfaces';
+import { getButtonStyles } from './Button.helpers';
 
 export const Button: React.FC<ThemedButtonProps> = ({
   title,
@@ -232,9 +110,9 @@ export const Button: React.FC<ThemedButtonProps> = ({
     }
 
     return (
-      <RNView style={themedStyle.content as any}>
+      <RNView style={themedStyle.content}>
         {leftIcon && (
-          <RNView style={themedStyle.leftIcon as any}>{leftIcon}</RNView>
+          <RNView style={themedStyle.leftIcon}>{leftIcon}</RNView>
         )}
 
         {!iconOnly && (title || children) && (
@@ -242,7 +120,7 @@ export const Button: React.FC<ThemedButtonProps> = ({
         )}
 
         {rightIcon && (
-          <RNView style={themedStyle.rightIcon as any}>{rightIcon}</RNView>
+          <RNView style={themedStyle.rightIcon}>{rightIcon}</RNView>
         )}
       </RNView>
     );

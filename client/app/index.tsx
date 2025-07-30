@@ -3,7 +3,7 @@ import { View, ActivityIndicator } from 'react-native';
 import { Link, Redirect } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { Text } from '@/components/ui/Text';
-import { Button } from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button/Button';
 
 const index = () => {
   const { session, loading } = useAuth();
