@@ -30,6 +30,9 @@ export interface ThemedCardProps {
 
   // Custom style
   style?: any;
+
+  // Testing
+  testID?: string;
 }
 
 

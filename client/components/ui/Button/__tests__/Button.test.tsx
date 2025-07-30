@@ -7,9 +7,8 @@ import {
   renderWithTheme,
   MockIcon,
   TEST_DATA,
-  INTERACTION_SCENARIOS,
   ACCESSIBILITY_HELPERS
-} from './Button.testUtils';
+} from './Button.skip.utils';
 
 describe('<Button />', () => {
   describe('Rendering', () => {

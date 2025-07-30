@@ -3,6 +3,12 @@ import { render } from '@testing-library/react-native';
 import { View } from 'react-native';
 import { ThemeProvider } from '@/providers/themeProvider';
 
+describe.skip("Skipped test suite", () => {
+  it("won’t run", () => {
+    expect(true).toBe(false);
+  });
+});
+
 /**
  * Test utility for rendering components wrapped with ThemeProvider
  * This follows the DRY principle and ensures consistent theming across tests

@@ -20,6 +20,7 @@ export const Card: React.FC<ThemedCardProps> = ({
   disabled = false,
   fullWidth = true,
   style,
+  testID,
 }) => {
 
   const colors = getCardColors(variant, backgroundColor, borderColor);
@@ -42,13 +43,14 @@ export const Card: React.FC<ThemedCardProps> = ({
         disabled={disabled}
         activeOpacity={0.8}
         style={{ opacity: disabled ? 0.6 : 1 }}
+        testID={testID}
       >
         <View {...cardProps}>{children}</View>
       </TouchableOpacity>
     );
   }
 
-  return <View {...cardProps}>{children}</View>;
+  return <View {...cardProps} testID={testID}>{children}</View>;
 };
 
 
