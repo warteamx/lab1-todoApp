@@ -5,4 +5,4 @@ export * from './Button/Button';
 export * from './Input';
 export * from './Card/Card';
 export * from './Layout';
-export * from './Header';
+export * from './Header/Header';

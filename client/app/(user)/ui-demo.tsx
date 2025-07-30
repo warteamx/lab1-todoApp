@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/Button/Button';
 import { TextInput } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card/Card';
 import { Stack, Inline, Section } from '@/components/ui/Layout';
-import { Header } from '@/components/ui/Header';
+import { Header } from '@/components/ui/Header/Header';
 
 export default function ThemeDemoScreen() {
   const { theme, setThemeVariant, themeVariant } = useTheme();

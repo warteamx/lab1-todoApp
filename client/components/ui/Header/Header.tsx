@@ -4,19 +4,11 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from './View';
-import { Text } from './Text';
-import { Button } from './Button/Button';
-import { Inline } from './Layout';
+import { View } from '../View';
+import { Text } from '../Text';
+import { Inline } from '../Layout';
 import { TouchableOpacity } from 'react-native';
-
-interface HeaderProps {
-  title?: string;
-  subtitle?: string;
-  showBack?: boolean;
-  actions?: React.ReactNode[];
-  themeToggle?: boolean;
-}
+import { HeaderProps, variantType } from './Header.interface';
 
 export const Header: React.FC<HeaderProps> = ({
   title,
@@ -34,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const handleThemeVariantToggle = () => {
-    const variants: Array<'modern' | 'dark' | 'warm' | 'cool'> = [
+    const variants: Array<variantType> = [
       'modern',
       'dark',
       'warm',
@@ -53,7 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
       paddingVertical="md"
       style={{
         ...(Platform.OS === 'web' && {
-          position: 'sticky' as any,
+          position: 'sticky',
           top: 0,
           zIndex: 100,
         }),
