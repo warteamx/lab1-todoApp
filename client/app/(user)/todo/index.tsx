@@ -5,7 +5,7 @@ import { useTodos, useUpdateTodo } from '@/api/todo.api';
 import { View } from '@/components/ui/View';
 import { Text } from '@/components/ui/Text';
 import { Button } from '@/components/ui/Button/Button';
-import { Card } from '@/components/ui/Card';
+import { Card } from '@/components/ui/Card/Card';
 
 export default function TodoIndexTab() {
   const { data, isLoading, error } = useTodos();

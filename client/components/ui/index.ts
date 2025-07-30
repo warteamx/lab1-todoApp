@@ -3,6 +3,6 @@ export * from './Text';
 export * from './View';
 export * from './Button/Button';
 export * from './Input';
-export * from './Card';
+export * from './Card/Card';
 export * from './Layout';
 export * from './Header';

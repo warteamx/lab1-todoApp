@@ -1,40 +1,12 @@
 // Themed Card component for content grouping
 
 import React from 'react';
-import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from './View';
-import { Text } from './Text';
-import { SpacingKey, BorderRadiusKey } from '@/themes/spacing';
-import { ShadowLevel } from '@/themes/shadows';
-import { Theme } from '@/themes/themes';
-
-type CardVariant = 'elevated' | 'outlined' | 'filled';
-
-interface ThemedCardProps {
-  // Content
-  children: React.ReactNode;
-
-  // Styling
-  variant?: CardVariant;
-  padding?: SpacingKey;
-  borderRadius?: BorderRadiusKey;
-  shadow?: ShadowLevel;
-
-  // Colors
-  backgroundColor?: keyof Theme['colors'];
-  borderColor?: keyof Theme['colors'];
-
-  // Interaction
-  onPress?: TouchableOpacityProps['onPress'];
-  disabled?: boolean;
-
-  // Layout
-  fullWidth?: boolean;
-
-  // Custom style
-  style?: any;
-}
+import { View } from '../View';
+import { Text } from '../Text';
+import { ThemedCardProps, CardHeaderProps, CardContentProps, CardFooterProps } from './Card.interface';
+import { getCardColors } from './Card.helpers';
 
 export const Card: React.FC<ThemedCardProps> = ({
   children,
@@ -49,43 +21,12 @@ export const Card: React.FC<ThemedCardProps> = ({
   fullWidth = true,
   style,
 }) => {
-  const { theme } = useTheme();
 
-  // Determine colors based on variant
-  const getCardColors = () => {
-    switch (variant) {
-      case 'elevated':
-        return {
-          backgroundColor: backgroundColor || 'card',
-          borderColor: undefined,
-          borderWidth: 0,
-        };
-      case 'outlined':
-        return {
-          backgroundColor: backgroundColor || 'card',
-          borderColor: borderColor || 'border',
-          borderWidth: 1,
-        };
-      case 'filled':
-        return {
-          backgroundColor: backgroundColor || 'surface',
-          borderColor: undefined,
-          borderWidth: 0,
-        };
-      default:
-        return {
-          backgroundColor: backgroundColor || 'card',
-          borderColor: undefined,
-          borderWidth: 0,
-        };
-    }
-  };
-
-  const colors = getCardColors();
+  const colors = getCardColors(variant, backgroundColor, borderColor);
 
   const cardProps = {
-    backgroundColor: colors.backgroundColor as any,
-    borderColor: colors.borderColor as any,
+    backgroundColor: colors.backgroundColor,
+    borderColor: colors.borderColor,
     borderWidth: colors.borderWidth,
     borderRadius,
     padding,
@@ -110,13 +51,7 @@ export const Card: React.FC<ThemedCardProps> = ({
   return <View {...cardProps}>{children}</View>;
 };
 
-// Card Header component
-interface CardHeaderProps {
-  title?: string;
-  subtitle?: string;
-  action?: React.ReactNode;
-  children?: React.ReactNode;
-}
+
 
 export const CardHeader: React.FC<CardHeaderProps> = ({
   title,
@@ -158,11 +93,7 @@ export const CardHeader: React.FC<CardHeaderProps> = ({
   );
 };
 
-// Card Content component
-interface CardContentProps {
-  children: React.ReactNode;
-  padding?: SpacingKey;
-}
+
 
 export const CardContent: React.FC<CardContentProps> = ({
   children,
@@ -171,11 +102,6 @@ export const CardContent: React.FC<CardContentProps> = ({
   return <View padding={padding}>{children}</View>;
 };
 
-// Card Footer component
-interface CardFooterProps {
-  children: React.ReactNode;
-  justify?: 'flex-start' | 'flex-end' | 'center' | 'space-between';
-}
 
 export const CardFooter: React.FC<CardFooterProps> = ({
   children,
