@@ -8,8 +8,8 @@ import {
   Dimensions,
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from './View';
-import { Text } from './Text';
+import { View } from '../View';
+import { Text } from '../Text';
 import { SpacingKey } from '@/themes/spacing';
 
 // Get screen dimensions
@@ -81,8 +81,8 @@ export const Container: React.FC<ContainerProps> = ({
         style={{
           ...(safeArea &&
             Platform.OS !== 'web' && {
-              paddingTop: Platform.OS === 'ios' ? 44 : 24,
-            }),
+            paddingTop: Platform.OS === 'ios' ? 44 : 24,
+          }),
         }}
       >
         {children}
@@ -123,8 +123,8 @@ export const Screen: React.FC<ScreenProps> = ({
         backgroundColor,
       ...(safeArea &&
         Platform.OS !== 'web' && {
-          paddingTop: Platform.OS === 'ios' ? 44 : 24,
-        }),
+        paddingTop: Platform.OS === 'ios' ? 44 : 24,
+      }),
     }),
     [theme, backgroundColor, safeArea]
   );
@@ -243,11 +243,11 @@ interface InlineProps {
   spacing?: SpacingKey;
   align?: 'flex-start' | 'flex-end' | 'center' | 'baseline';
   justify?:
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around';
+  | 'flex-start'
+  | 'flex-end'
+  | 'center'
+  | 'space-between'
+  | 'space-around';
   wrap?: boolean;
   style?: any;
 }

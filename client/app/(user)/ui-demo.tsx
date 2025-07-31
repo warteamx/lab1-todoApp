@@ -8,7 +8,7 @@ import { Text } from '@/components/ui/Text';
 import { Button } from '@/components/ui/Button/Button';
 import { TextInput } from '@/components/ui/Input/Input';
 import { Card } from '@/components/ui/Card/Card';
-import { Stack, Inline, Section } from '@/components/ui/Layout';
+import { Stack, Inline, Section } from '@/components/ui/Layout/Layout';
 import { Header } from '@/components/ui/Header/Header';
 
 export default function ThemeDemoScreen() {
