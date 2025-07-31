@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
 import { View, Text } from 'react-native';
-import { ThemeProvider, useTheme } from '@/providers/themeProvider';
+import { ThemeProvider } from '@/providers/themeProvider';
 import { ThemedInputProps } from '../Input.interface';
 import { Theme, ThemeContextType, themes, defaultTheme } from '@/themes/themes';
 

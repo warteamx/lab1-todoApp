@@ -2,6 +2,16 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import { View } from 'react-native';
 import { ThemeProvider } from '@/providers/themeProvider';
+
+interface TestElement {
+  props: {
+    accessible?: boolean;
+    accessibilityLabel?: string;
+    accessibilityRole?: string;
+    [key: string]: any;
+  };
+}
+
 /**
  * Test utility for rendering components wrapped with ThemeProvider
  * This follows the DRY principle and ensures consistent theming across tests
@@ -57,13 +67,13 @@ export const INTERACTION_SCENARIOS = {
  * Accessibility test helpers
  */
 export const ACCESSIBILITY_HELPERS = {
-  expectToBeAccessible: (element: any) => {
+  expectToBeAccessible: (element: TestElement) => {
     expect(element.props.accessible).toBe(true);
   },
-  expectToBeDisabled: (element: any) => {
+  expectToBeDisabled: (element: TestElement) => {
     expect(element.props.accessibilityState?.disabled).toBe(true);
   },
-  expectToHaveLabel: (element: any, label: string) => {
+  expectToHaveLabel: (element: TestElement, label: string) => {
     expect(element.props.accessibilityLabel).toBe(label);
   },
 };

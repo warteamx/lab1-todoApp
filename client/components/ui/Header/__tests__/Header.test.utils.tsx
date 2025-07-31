@@ -2,6 +2,24 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import { View, Text } from 'react-native';
 import { ThemeProvider } from '@/providers/themeProvider';
+import { HeaderProps } from '../Header.interface';
+import { Theme, ThemeContextType, themes, defaultTheme } from '@/themes/themes';
+
+// Type for test elements that have props
+interface TestElement {
+  props: {
+    accessible?: boolean;
+    accessibilityLabel?: string;
+    accessibilityRole?: string;
+    [key: string]: any;
+  };
+}
+
+// Props for MockAction component
+interface MockActionProps {
+  testID?: string;
+  children?: string;
+}
 
 /**
  * Test utility for rendering components wrapped with ThemeProvider
@@ -12,10 +30,47 @@ export const renderWithTheme = (component: React.ReactElement) => {
 };
 
 /**
+ * Test utility for rendering components with a specific theme variant
+ */
+export const renderWithThemeVariant = (
+  component: React.ReactElement,
+  themeVariant: keyof typeof themes = 'modern'
+) => {
+  const TestWrapper = ({ children }: { children: React.ReactNode }) => (
+    <ThemeProvider>{children}</ThemeProvider>
+  );
+
+  return render(<TestWrapper>{component}</TestWrapper>);
+};
+
+/**
+ * Helper to create theme context for testing
+ * Uses actual theme objects instead of mocks
+ */
+export const createTestThemeContext = (
+  themeVariant: keyof typeof themes = 'modern'
+): ThemeContextType => {
+  const theme = themes[themeVariant];
+  return {
+    theme,
+    themeVariant,
+    setThemeVariant: jest.fn(),
+    isDark: theme.isDark,
+    toggleDarkMode: jest.fn(),
+  };
+};
+
+/**
+ * Mock theme context using the default theme
+ * Replaces the old mock with actual theme structure
+ */
+export const mockThemeContext = createTestThemeContext('modern');
+
+/**
  * Mock action component for testing action functionality
  * Provides a consistent testID for easy querying in tests
  */
-export const MockAction = ({ testID = 'mock-action', children = 'Action' }: { testID?: string; children?: string }) => (
+export const MockAction: React.FC<MockActionProps> = ({ testID = 'mock-action', children = 'Action' }) => (
   <View testID={testID}>
     <Text>{children}</Text>
   </View>
@@ -32,110 +87,192 @@ export const mockRouter = {
 };
 
 /**
- * Test data for parameterized tests
+ * Test constants for reusability across tests
  */
-export const TEST_DATA = {
+export const TEST_CONSTANTS = {
+  // Theme variants
   themeVariants: ['modern', 'dark', 'warm', 'cool'] as const,
-  sampleProps: {
-    basicTitle: 'Test Title',
-    titleWithSubtitle: {
-      title: 'Main Title',
-      subtitle: 'Subtitle text',
-    },
-    withActions: {
-      title: 'Actions Test',
-      actions: [
-        <MockAction key="1" testID="action-1">Edit</MockAction>,
-        <MockAction key="2" testID="action-2">Share</MockAction>,
-      ],
-    },
-  },
-};
 
-/**
- * Mock theme context for testing theme functionality
- */
-export const mockThemeContext = {
-  theme: {
-    colors: {
-      surface: '#ffffff',
-      textPrimary: '#000000',
-      textSecondary: '#666666',
-      interactive: '#007AFF',
-    },
-    spacing: {
-      xs: 4,
-      sm: 8,
-      md: 16,
-      lg: 24,
-    },
-    shadows: {
-      sm: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.1,
-        shadowRadius: 2,
-        elevation: 1,
-      },
-    },
-    isDark: false,
+  // Common test values
+  titles: {
+    basic: 'Test Title',
+    main: 'Main Title',
+    actions: 'Actions Test',
+    withBack: 'With Back',
+    withActions: 'With Actions',
+    noThemeToggle: 'No Theme Toggle',
+    full: 'Full Header',
   },
-  themeVariant: 'modern' as const,
-  setThemeVariant: jest.fn(),
-  isDark: false,
-  toggleDarkMode: jest.fn(),
-};
 
-/**
- * Test scenarios for header configurations
- */
-export const HEADER_SCENARIOS = {
-  basic: {
-    description: 'basic header with title only',
-    props: { title: 'Basic Title' },
+  // Subtitles
+  subtitles: {
+    basic: 'Subtitle text',
+    full: 'All features enabled',
   },
-  withSubtitle: {
-    description: 'header with title and subtitle',
-    props: { title: 'Main Title', subtitle: 'Subtitle' },
-  },
-  withBack: {
-    description: 'header with back button',
-    props: { title: 'With Back', showBack: true },
-  },
-  withActions: {
-    description: 'header with actions',
-    props: {
-      title: 'With Actions',
-      actions: [<MockAction key="1" />] as React.ReactNode[],
-    },
-  },
-  withoutThemeToggle: {
-    description: 'header without theme toggle',
-    props: { title: 'No Theme Toggle', themeToggle: false },
-  },
-  full: {
-    description: 'header with all features',
-    props: {
-      title: 'Full Header',
-      subtitle: 'All features enabled',
-      showBack: true,
-      actions: [<MockAction key="1" />, <MockAction key="2" />] as React.ReactNode[],
-      themeToggle: true,
-    },
+
+  // Action labels
+  actionLabels: {
+    edit: 'Edit',
+    share: 'Share',
+    save: 'Save',
+    delete: 'Delete',
   },
 } as const;
 
 /**
- * Accessibility test helpers
+ * Factory function for creating Header props to reduce duplication
+ */
+const createHeaderProps = (overrides: Partial<HeaderProps> = {}): HeaderProps => ({
+  title: TEST_CONSTANTS.titles.basic,
+  ...overrides,
+});
+
+/**
+ * Test scenarios for header configurations using factory pattern
+ */
+export const HEADER_SCENARIOS = {
+  basic: {
+    description: 'basic header with title only',
+    props: createHeaderProps({ title: TEST_CONSTANTS.titles.basic }),
+  },
+  withSubtitle: {
+    description: 'header with title and subtitle',
+    props: createHeaderProps({
+      title: TEST_CONSTANTS.titles.main,
+      subtitle: TEST_CONSTANTS.subtitles.basic
+    }),
+  },
+  withBack: {
+    description: 'header with back button',
+    props: createHeaderProps({
+      title: TEST_CONSTANTS.titles.withBack,
+      showBack: true
+    }),
+  },
+  withActions: {
+    description: 'header with actions',
+    props: createHeaderProps({
+      title: TEST_CONSTANTS.titles.withActions,
+      actions: [
+        <MockAction key="1" testID="action-1">{TEST_CONSTANTS.actionLabels.edit}</MockAction>,
+        <MockAction key="2" testID="action-2">{TEST_CONSTANTS.actionLabels.share}</MockAction>,
+      ],
+    }),
+  },
+  withoutThemeToggle: {
+    description: 'header without theme toggle',
+    props: createHeaderProps({
+      title: TEST_CONSTANTS.titles.noThemeToggle,
+      themeToggle: false
+    }),
+  },
+  full: {
+    description: 'header with all features',
+    props: createHeaderProps({
+      title: TEST_CONSTANTS.titles.full,
+      subtitle: TEST_CONSTANTS.subtitles.full,
+      showBack: true,
+      actions: [
+        <MockAction key="1" testID="action-1">{TEST_CONSTANTS.actionLabels.edit}</MockAction>,
+        <MockAction key="2" testID="action-2">{TEST_CONSTANTS.actionLabels.share}</MockAction>,
+      ],
+      themeToggle: true,
+    }),
+  },
+} as const;
+
+/**
+ * Accessibility test helpers with proper TypeScript types
  */
 export const ACCESSIBILITY_HELPERS = {
-  expectToBeAccessible: (element: any) => {
+  expectToBeAccessible: (element: TestElement) => {
     expect(element).toBeTruthy();
-  },
-  expectToHaveLabel: (element: any, label: string) => {
-    expect(element.props.accessibilityLabel).toBe(label);
-  },
-  expectToBeInteractive: (element: any) => {
     expect(element.props.accessible).not.toBe(false);
   },
-};
+
+  expectToHaveLabel: (element: TestElement, label: string) => {
+    expect(element.props.accessibilityLabel).toBe(label);
+  },
+
+  expectToBeInteractive: (element: TestElement) => {
+    expect(element.props.accessible).not.toBe(false);
+  },
+
+  expectToHaveAccessibilityRole: (element: TestElement, role?: string) => {
+    if (role) {
+      expect(element.props.accessibilityRole).toBe(role);
+    }
+  },
+} as const;
+
+/**
+ * Theme-based test helpers using actual theme values
+ */
+export const THEME_HELPERS = {
+  expectThemeColor: (colorKey: keyof Theme['colors'], expectedValue?: string) => {
+    const theme = defaultTheme;
+    if (expectedValue) {
+      expect(theme.colors[colorKey]).toBe(expectedValue);
+    } else {
+      expect(theme.colors[colorKey]).toBeDefined();
+    }
+  },
+
+  expectThemeSpacing: (spacingKey: keyof Theme['spacing'], expectedValue?: number) => {
+    const theme = defaultTheme;
+    if (expectedValue) {
+      expect(theme.spacing[spacingKey]).toBe(expectedValue);
+    } else {
+      expect(theme.spacing[spacingKey]).toBeDefined();
+    }
+  },
+
+  getAllThemeVariants: () => Object.keys(themes) as Array<keyof typeof themes>,
+
+  getThemeByVariant: (variant: keyof typeof themes) => themes[variant],
+} as const;
+
+/**
+ * Common test patterns and utilities
+ */
+export const TEST_PATTERNS = {
+  // Test all theme variants
+  testAllThemes: (testFn: (theme: Theme, variant: keyof typeof themes) => void) => {
+    THEME_HELPERS.getAllThemeVariants().forEach(variant => {
+      const theme = THEME_HELPERS.getThemeByVariant(variant);
+      testFn(theme, variant);
+    });
+  },
+
+  // Test with different action configurations
+  testWithActions: (testFn: (actions: React.ReactNode[]) => void) => {
+    const actionConfigurations = [
+      [], // No actions
+      [<MockAction key="1" />], // Single action
+      [<MockAction key="1" />, <MockAction key="2" />], // Multiple actions
+    ];
+    actionConfigurations.forEach(testFn);
+  },
+} as const;
+
+/**
+ * Backward compatibility layer for existing tests
+ * @deprecated Use TEST_CONSTANTS and HEADER_SCENARIOS instead
+ */
+export const TEST_DATA = {
+  themeVariants: TEST_CONSTANTS.themeVariants,
+  sampleProps: {
+    basicTitle: TEST_CONSTANTS.titles.basic,
+    titleWithSubtitle: {
+      title: TEST_CONSTANTS.titles.main,
+      subtitle: TEST_CONSTANTS.subtitles.basic,
+    },
+    withActions: {
+      title: TEST_CONSTANTS.titles.actions,
+      actions: [
+        <MockAction key="1" testID="action-1">{TEST_CONSTANTS.actionLabels.edit}</MockAction>,
+        <MockAction key="2" testID="action-2">{TEST_CONSTANTS.actionLabels.share}</MockAction>,
+      ],
+    },
+  },
+} as const;

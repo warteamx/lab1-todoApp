@@ -3,11 +3,16 @@ import { fireEvent, screen } from '@testing-library/react-native';
 import { Header } from '../Header';
 import {
   renderWithTheme,
+  renderWithThemeVariant,
   MockAction,
   mockRouter,
-  TEST_DATA,
+  TEST_DATA, // Backward compatibility
+  TEST_CONSTANTS,
   HEADER_SCENARIOS,
-  ACCESSIBILITY_HELPERS
+  ACCESSIBILITY_HELPERS,
+  THEME_HELPERS,
+  TEST_PATTERNS,
+  createTestThemeContext
 } from './Header.test.utils';
 
 // Mock expo-router
