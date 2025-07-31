@@ -1,5 +1,5 @@
 // Themed styled components - export all themed components
-export * from './Text';
+export * from './Text/Text';
 export * from './View';
 export * from './Button/Button';
 export * from './Input/Input';

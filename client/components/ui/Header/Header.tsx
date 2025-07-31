@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '../View';
-import { Text } from '../Text';
+import { Text } from '../Text/Text';
 import { Inline } from '../Layout/Layout';
 import { TouchableOpacity } from 'react-native';
 import { HeaderProps, variantType } from './Header.interface';

@@ -9,7 +9,7 @@ import {
   View as RNView,
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { Text } from '../Text';
+import { Text } from '../Text/Text';
 import { ThemedButtonProps } from './Button.interfaces';
 import { getButtonStyles } from './Button.helpers';
 

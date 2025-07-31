@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { Link, Redirect } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
-import { Text } from '@/components/ui/Text';
+import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 
 const index = () => {

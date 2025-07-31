@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import { View } from 'react-native';
 import { ThemeProvider } from '@/providers/themeProvider';
-import { Text } from '../../Text';
+import { Text } from '../../Text/Text';
 
 /**
  * Test utility for rendering components wrapped with ThemeProvider

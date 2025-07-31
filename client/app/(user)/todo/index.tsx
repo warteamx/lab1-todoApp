@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList } from 'react-native';
 import { Link } from 'expo-router';
 import { useTodos, useUpdateTodo } from '@/api/todo.api';
 import { View } from '@/components/ui/View';
-import { Text } from '@/components/ui/Text';
+import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 import { Card } from '@/components/ui/Card/Card';
 

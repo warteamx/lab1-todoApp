@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '../View';
-import { Text } from '../Text';
+import { Text } from '../Text/Text';
 import { SpacingKey } from '@/themes/spacing';
 import {
   ContainerProps,
