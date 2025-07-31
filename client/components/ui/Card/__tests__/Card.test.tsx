@@ -15,7 +15,6 @@ import {
   MockIcon,
   MockAction,
   TestContent,
-  TEST_DATA,
   SAMPLE_CONTENT
 } from './Card.test.utils';
 

@@ -109,24 +109,24 @@ export const ACCESSIBILITY_HELPERS = {
 /**
  * Style testing helpers
  */
-export const STYLE_HELPERS = {
-  expectToHaveStyle: (element: any, expectedStyle: object) => {
-    expect(element.props.style).toEqual(
-      expect.objectContaining(expectedStyle)
-    );
-  },
-  expectToHaveBackgroundColor: (element: any, color: string) => {
-    expect(element.props.style).toEqual(
-      expect.objectContaining({ backgroundColor: color })
-    );
-  },
-  expectToHaveBorder: (element: any, width: number, color?: string) => {
-    const borderExpectation = { borderWidth: width };
-    if (color) {
-      Object.assign(borderExpectation, { borderColor: color });
-    }
-    expect(element.props.style).toEqual(
-      expect.objectContaining(borderExpectation)
-    );
-  },
-};
+// export const STYLE_HELPERS = {
+//   expectToHaveStyle: (element: any, expectedStyle: object) => {
+//     expect(element.props.style).toEqual(
+//       expect.objectContaining(expectedStyle)
+//     );
+//   },
+//   expectToHaveBackgroundColor: (element: any, color: string) => {
+//     expect(element.props.style).toEqual(
+//       expect.objectContaining({ backgroundColor: color })
+//     );
+//   },
+//   expectToHaveBorder: (element: any, width: number, color?: string) => {
+//     const borderExpectation = { borderWidth: width };
+//     if (color) {
+//       Object.assign(borderExpectation, { borderColor: color });
+//     }
+//     expect(element.props.style).toEqual(
+//       expect.objectContaining(borderExpectation)
+//     );
+//   },
+// };
