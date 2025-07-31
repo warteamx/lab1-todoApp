@@ -3,7 +3,7 @@
 import React from 'react';
 import {
   ScrollView,
-  ScrollViewProps,
+  StyleProp,
   Platform,
   Dimensions,
 } from 'react-native';
@@ -11,6 +11,17 @@ import { useTheme } from '@/providers/themeProvider';
 import { View } from '../View';
 import { Text } from '../Text';
 import { SpacingKey } from '@/themes/spacing';
+import {
+  ContainerProps,
+  ScreenSize,
+  ScreenProps,
+  SectionProps,
+  StackProps,
+  InlineProps,
+  GridProps,
+  SpacerProps,
+  CenterProps,
+} from './Layout.interface'
 
 // Get screen dimensions
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -20,7 +31,7 @@ const isTablet = screenWidth >= 768;
 const isDesktop = screenWidth >= 1024;
 const isMobile = screenWidth < 768;
 
-export type ScreenSize = 'mobile' | 'tablet' | 'desktop';
+
 
 // Hook to get current screen size
 export const useScreenSize = (): ScreenSize => {
@@ -29,16 +40,6 @@ export const useScreenSize = (): ScreenSize => {
   return 'mobile';
 };
 
-// Main container component
-interface ContainerProps {
-  children: React.ReactNode;
-  size?: ScreenSize;
-  maxWidth?: number;
-  padding?: SpacingKey;
-  backgroundColor?: string;
-  safeArea?: boolean;
-  style?: any;
-}
 
 export const Container: React.FC<ContainerProps> = ({
   children,
@@ -92,14 +93,6 @@ export const Container: React.FC<ContainerProps> = ({
 };
 
 // Screen wrapper component with scroll
-interface ScreenProps extends ScrollViewProps {
-  children: React.ReactNode;
-  padding?: SpacingKey;
-  backgroundColor?: string;
-  safeArea?: boolean;
-  scrollable?: boolean;
-}
-
 export const Screen: React.FC<ScreenProps> = ({
   children,
   padding,
@@ -156,14 +149,6 @@ export const Screen: React.FC<ScreenProps> = ({
 };
 
 // Section component for content grouping
-interface SectionProps {
-  children: React.ReactNode;
-  title?: string;
-  subtitle?: string;
-  spacing?: SpacingKey;
-  style?: any;
-}
-
 export const Section: React.FC<SectionProps> = ({
   children,
   title,
@@ -202,13 +187,6 @@ export const Section: React.FC<SectionProps> = ({
 };
 
 // Stack component for vertical spacing
-interface StackProps {
-  children: React.ReactNode;
-  spacing?: SpacingKey;
-  align?: 'flex-start' | 'flex-end' | 'center' | 'stretch';
-  style?: any;
-}
-
 export const Stack: React.FC<StackProps> = ({
   children,
   spacing = 'md',
@@ -238,20 +216,6 @@ export const Stack: React.FC<StackProps> = ({
 };
 
 // Inline component for horizontal spacing
-interface InlineProps {
-  children: React.ReactNode;
-  spacing?: SpacingKey;
-  align?: 'flex-start' | 'flex-end' | 'center' | 'baseline';
-  justify?:
-  | 'flex-start'
-  | 'flex-end'
-  | 'center'
-  | 'space-between'
-  | 'space-around';
-  wrap?: boolean;
-  style?: any;
-}
-
 export const Inline: React.FC<InlineProps> = ({
   children,
   spacing = 'md',
@@ -292,13 +256,6 @@ export const Inline: React.FC<InlineProps> = ({
 };
 
 // Grid component for responsive layouts
-interface GridProps {
-  children: React.ReactNode;
-  columns?: number;
-  spacing?: SpacingKey;
-  style?: any;
-}
-
 export const Grid: React.FC<GridProps> = ({
   children,
   columns = 2,
@@ -359,11 +316,6 @@ export const Grid: React.FC<GridProps> = ({
 };
 
 // Spacer component for flexible spacing
-interface SpacerProps {
-  size?: SpacingKey | number;
-  flex?: number;
-}
-
 export const Spacer: React.FC<SpacerProps> = ({ size, flex }) => {
   const { theme } = useTheme();
 
@@ -378,12 +330,6 @@ export const Spacer: React.FC<SpacerProps> = ({ size, flex }) => {
 };
 
 // Center component for centering content
-interface CenterProps {
-  children: React.ReactNode;
-  minHeight?: number | string;
-  style?: any;
-}
-
 export const Center: React.FC<CenterProps> = ({
   children,
   minHeight,

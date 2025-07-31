@@ -10,11 +10,17 @@ import {
 } from '../Input';
 import {
   renderWithTheme,
+  renderWithThemeVariant,
   MockIcon,
-  TEST_DATA,
+  TEST_CONSTANTS,
+  TEST_EVENTS,
+  TEST_DATA, // Backward compatibility
   INPUT_SCENARIOS,
   ACCESSIBILITY_HELPERS,
-  INPUT_STATE_HELPERS
+  INPUT_STATE_HELPERS,
+  THEME_HELPERS,
+  TEST_PATTERNS,
+  createTestThemeContext
 } from './Input.test.utils';
 
 describe('<TextInput />', () => {
