@@ -57,20 +57,6 @@ export const TEST_DATA = {
   headerJustifyOptions: ['flex-start', 'flex-end', 'center', 'space-between'] as const,
 };
 
-/**
- * Common test scenarios for card interactions
- */
-export const INTERACTION_SCENARIOS = {
-  enabled: {
-    shouldCallOnPress: true,
-    description: 'enabled card',
-  },
-  disabled: {
-    shouldCallOnPress: false,
-    description: 'disabled card',
-    props: { disabled: true },
-  },
-} as const;
 
 /**
  * Sample content for card testing
@@ -88,45 +74,3 @@ export const SAMPLE_CONTENT = {
   },
 } as const;
 
-/**
- * Accessibility test helpers
- */
-export const ACCESSIBILITY_HELPERS = {
-  expectToBeAccessible: (element: any) => {
-    expect(element.props.accessible).toBe(true);
-  },
-  expectToBeDisabled: (element: any) => {
-    expect(element.props.accessibilityState?.disabled).toBe(true);
-  },
-  expectToHaveLabel: (element: any, label: string) => {
-    expect(element.props.accessibilityLabel).toBe(label);
-  },
-  expectToHaveRole: (element: any, role: string) => {
-    expect(element.props.accessibilityRole).toBe(role);
-  },
-};
-
-/**
- * Style testing helpers
- */
-// export const STYLE_HELPERS = {
-//   expectToHaveStyle: (element: any, expectedStyle: object) => {
-//     expect(element.props.style).toEqual(
-//       expect.objectContaining(expectedStyle)
-//     );
-//   },
-//   expectToHaveBackgroundColor: (element: any, color: string) => {
-//     expect(element.props.style).toEqual(
-//       expect.objectContaining({ backgroundColor: color })
-//     );
-//   },
-//   expectToHaveBorder: (element: any, width: number, color?: string) => {
-//     const borderExpectation = { borderWidth: width };
-//     if (color) {
-//       Object.assign(borderExpectation, { borderColor: color });
-//     }
-//     expect(element.props.style).toEqual(
-//       expect.objectContaining(borderExpectation)
-//     );
-//   },
-// };
