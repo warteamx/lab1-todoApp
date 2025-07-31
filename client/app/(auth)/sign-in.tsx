@@ -4,7 +4,7 @@ import { Link, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
 import { View } from '@/components/ui/View';
 import { Text } from '@/components/ui/Text';
-import { TextInput } from '@/components/ui/Input';
+import { TextInput } from '@/components/ui/Input/Input';
 import { Button } from '@/components/ui/Button/Button';
 
 const SignInScreen = () => {
