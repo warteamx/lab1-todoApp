@@ -45,7 +45,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="ui-demo"
         options={{
-          title: 'UI Demo',
+          title: 'Demo',
           headerShown: false,
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="paint-brush" color={color} />
@@ -65,9 +65,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: 'Profile 🧑',
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="user-circle-o" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />
     </Tabs>
