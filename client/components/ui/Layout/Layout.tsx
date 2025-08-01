@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from '../View';
+import { View } from '../View/View';
 import { Text } from '../Text/Text';
 import { SpacingKey } from '@/themes/spacing';
 import {

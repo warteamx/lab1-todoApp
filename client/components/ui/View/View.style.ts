@@ -1,94 +1,7 @@
-// Themed View component with layout utilities and responsive spacing
-
-import React from 'react';
-import {
-  View as RNView,
-  ViewProps as RNViewProps,
-  StyleSheet,
-  ViewStyle,
-} from 'react-native';
-import { useTheme } from '@/providers/themeProvider';
-import { SpacingKey, BorderRadiusKey } from '@/themes/spacing';
-import { ShadowLevel } from '@/themes/shadows';
+import { StyleSheet, ViewStyle } from 'react-native';
 import { Theme } from '@/themes/themes';
-
-interface ThemedViewProps extends Omit<RNViewProps, 'style'> {
-  // Background color
-  backgroundColor?: keyof Theme['colors'];
-
-  // Spacing props
-  padding?: SpacingKey | number;
-  paddingHorizontal?: SpacingKey | number;
-  paddingVertical?: SpacingKey | number;
-  paddingTop?: SpacingKey | number;
-  paddingBottom?: SpacingKey | number;
-  paddingLeft?: SpacingKey | number;
-  paddingRight?: SpacingKey | number;
-
-  margin?: SpacingKey | number;
-  marginHorizontal?: SpacingKey | number;
-  marginVertical?: SpacingKey | number;
-  marginTop?: SpacingKey | number;
-  marginBottom?: SpacingKey | number;
-  marginLeft?: SpacingKey | number;
-  marginRight?: SpacingKey | number;
-
-  // Border radius
-  borderRadius?: BorderRadiusKey | number;
-  borderTopLeftRadius?: BorderRadiusKey | number;
-  borderTopRightRadius?: BorderRadiusKey | number;
-  borderBottomLeftRadius?: BorderRadiusKey | number;
-  borderBottomRightRadius?: BorderRadiusKey | number;
-
-  // Shadow
-  shadow?: ShadowLevel;
-
-  // Border
-  borderWidth?: number;
-  borderColor?: keyof Theme['colors'];
-  borderTopWidth?: number;
-  borderBottomWidth?: number;
-  borderLeftWidth?: number;
-  borderRightWidth?: number;
-
-  // Layout
-  flex?: number;
-  flexDirection?: 'row' | 'column' | 'row-reverse' | 'column-reverse';
-  justifyContent?:
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'space-between'
-    | 'space-around'
-    | 'space-evenly';
-  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'stretch' | 'baseline';
-  alignSelf?:
-    | 'auto'
-    | 'flex-start'
-    | 'flex-end'
-    | 'center'
-    | 'stretch'
-    | 'baseline';
-
-  // Width and height
-  width?: number | string;
-  height?: number | string;
-  minWidth?: number | string;
-  minHeight?: number | string;
-  maxWidth?: number | string;
-  maxHeight?: number | string;
-
-  // Position
-  position?: 'absolute' | 'relative';
-  top?: number | string;
-  bottom?: number | string;
-  left?: number | string;
-  right?: number | string;
-  zIndex?: number;
-
-  // Custom style
-  style?: RNViewProps['style'];
-}
+import { SpacingKey, BorderRadiusKey } from '@/themes/spacing';
+import { ThemedViewProps } from './View.interface';
 
 // Helper function to get spacing value
 function getSpacingValue(theme: Theme, value: SpacingKey | number): number {
@@ -109,74 +22,58 @@ function getBorderRadiusValue(
   return theme.borderRadius[value];
 }
 
-export const View: React.FC<ThemedViewProps> = ({
-  backgroundColor,
+export const createThemedStyle = (
+  theme: Theme,
+  props: ThemedViewProps
+) => {
+  const {
+    backgroundColor,
+    padding,
+    paddingHorizontal,
+    paddingVertical,
+    paddingTop,
+    paddingBottom,
+    paddingLeft,
+    paddingRight,
+    margin,
+    marginHorizontal,
+    marginVertical,
+    marginTop,
+    marginBottom,
+    marginLeft,
+    marginRight,
+    borderRadius,
+    borderTopLeftRadius,
+    borderTopRightRadius,
+    borderBottomLeftRadius,
+    borderBottomRightRadius,
+    shadow,
+    borderWidth,
+    borderColor,
+    borderTopWidth,
+    borderBottomWidth,
+    borderLeftWidth,
+    borderRightWidth,
+    flex,
+    flexDirection,
+    justifyContent,
+    alignItems,
+    alignSelf,
+    width,
+    height,
+    minWidth,
+    minHeight,
+    maxWidth,
+    maxHeight,
+    position,
+    top,
+    bottom,
+    left,
+    right,
+    zIndex,
+  } = props;
 
-  // Spacing
-  padding,
-  paddingHorizontal,
-  paddingVertical,
-  paddingTop,
-  paddingBottom,
-  paddingLeft,
-  paddingRight,
-
-  margin,
-  marginHorizontal,
-  marginVertical,
-  marginTop,
-  marginBottom,
-  marginLeft,
-  marginRight,
-
-  // Border radius
-  borderRadius,
-  borderTopLeftRadius,
-  borderTopRightRadius,
-  borderBottomLeftRadius,
-  borderBottomRightRadius,
-
-  // Shadow
-  shadow,
-
-  // Border
-  borderWidth,
-  borderColor,
-  borderTopWidth,
-  borderBottomWidth,
-  borderLeftWidth,
-  borderRightWidth,
-
-  // Layout
-  flex,
-  flexDirection,
-  justifyContent,
-  alignItems,
-  alignSelf,
-
-  // Size
-  width,
-  height,
-  minWidth,
-  minHeight,
-  maxWidth,
-  maxHeight,
-
-  // Position
-  position,
-  top,
-  bottom,
-  left,
-  right,
-  zIndex,
-
-  style,
-  children,
-  ...props
-}) => {
-  const { theme } = useTheme();
-
-  const themedStyle = StyleSheet.create({
+  return StyleSheet.create({
     view: {
       // Background
       ...(backgroundColor && {
@@ -289,27 +186,4 @@ export const View: React.FC<ThemedViewProps> = ({
       ...(zIndex !== undefined && { zIndex }),
     } as ViewStyle,
   });
-
-  return (
-    <RNView style={[themedStyle.view, style]} {...props}>
-      {children}
-    </RNView>
-  );
 };
-
-// Convenient preset components for common layouts
-export const SafeView: React.FC<ThemedViewProps> = props => (
-  <View flex={1} backgroundColor="background" {...props} />
-);
-
-export const CenterView: React.FC<ThemedViewProps> = props => (
-  <View flex={1} justifyContent="center" alignItems="center" {...props} />
-);
-
-export const RowView: React.FC<ThemedViewProps> = props => (
-  <View flexDirection="row" alignItems="center" {...props} />
-);
-
-export const ColumnView: React.FC<ThemedViewProps> = props => (
-  <View flexDirection="column" {...props} />
-);

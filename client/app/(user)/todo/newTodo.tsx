@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, Switch } from 'react-native';
 import { useCreateTodo } from '@/api/todo.api';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from '@/components/ui/View';
+import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 import { TextInput } from '@/components/ui/Input/Input';

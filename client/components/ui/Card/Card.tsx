@@ -3,7 +3,7 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from '../View';
+import { View } from '../View/View';
 import { Text } from '../Text/Text';
 import { ThemedCardProps, CardHeaderProps, CardContentProps, CardFooterProps } from './Card.interface';
 import { getCardColors } from './Card.helpers';

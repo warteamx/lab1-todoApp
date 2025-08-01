@@ -7,7 +7,7 @@ import {
   TextInputFocusEventData,
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
-import { View } from '../View';
+import { View } from '../View/View';
 import { Text } from '../Text/Text';
 import { ThemedInputProps } from './Input.interface';
 import { createInputStyles } from './Input.styles';

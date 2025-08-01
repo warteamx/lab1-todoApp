@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Alert } from 'react-native';
 import { Link, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
-import { View } from '@/components/ui/View';
+import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
 import { TextInput } from '@/components/ui/Input/Input';
 import { Button } from '@/components/ui/Button/Button';
