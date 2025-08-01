@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { Link, Redirect } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
+import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 
@@ -10,7 +11,7 @@ const index = () => {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View flex={1} justifyContent="center" alignItems="center">
         <ActivityIndicator size="large" />
       </View>
     );
@@ -21,8 +22,8 @@ const index = () => {
   }
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
-      <View style={{ marginBottom: 32 }}>
+    <View flex={1} justifyContent="center" padding="lg">
+      <View marginBottom="xl">
         <Text variant="headlineMedium" color="textPrimary" align="center">
           Welcome to Your To-Do App
         </Text>

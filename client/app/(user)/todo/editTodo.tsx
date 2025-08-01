@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Switch,
-  ActivityIndicator,
-  Alert,
-} from 'react-native';
+import { ActivityIndicator, Alert, Switch } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTodos, useUpdateTodo, useDeleteTodo } from '@/api/todo.api';
+import { useTheme } from '@/providers/themeProvider';
+import { View } from '@/components/ui/View/View';
+import { Text } from '@/components/ui/Text/Text';
+import { TextInput } from '@/components/ui/Input/Input';
+import { Button } from '@/components/ui/Button/Button';
 
 export default function EditTodoTab() {
   const params = useLocalSearchParams();
   const router = useRouter();
+  const { theme } = useTheme();
   const { id: rawId } = params || {};
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
   const { data: todos } = useTodos();
@@ -23,7 +21,15 @@ export default function EditTodoTab() {
   const updateTodo = useUpdateTodo();
   const deleteTodo = useDeleteTodo();
 
-  if (!todo) return <Text>Todo not found</Text>;
+  if (!todo) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center" padding="lg">
+        <Text variant="bodyMedium" color="textPrimary">
+          Todo not found
+        </Text>
+      </View>
+    );
+  }
 
   const handleUpdate = () => {
     updateTodo.mutate(
@@ -43,44 +49,68 @@ export default function EditTodoTab() {
   };
 
   return (
-    <View style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontWeight: 'bold', fontSize: 18, marginBottom: 10 }}>
+    <View flex={1} padding="lg" backgroundColor="background">
+      <Text
+        variant="headlineMedium"
+        color="textPrimary"
+        style={{ marginBottom: 24 }}
+      >
         Edit Todo
       </Text>
-      <TextInput
-        value={task}
-        onChangeText={setTask}
-        placeholder="Edit task"
-        style={{
-          borderWidth: 1,
-          borderColor: '#ccc',
-          padding: 8,
-          marginBottom: 10,
-        }}
-      />
-      <View
-        style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}
-      >
-        <Switch value={isCompleted} onValueChange={setIsCompleted} />
-        <Text style={{ marginLeft: 8 }}>
-          {isCompleted ? 'Completed' : 'Pending'}
-        </Text>
+
+      <View style={{ gap: 20 }}>
+        <TextInput
+          label="Task"
+          value={task}
+          onChangeText={setTask}
+          placeholder="Edit task"
+          variant="outline"
+          size="medium"
+        />
+
+        <View flexDirection="row" alignItems="center" style={{ gap: 12 }}>
+          <Switch
+            value={isCompleted}
+            onValueChange={setIsCompleted}
+            trackColor={{
+              false: theme.colors.neutral300,
+              true: theme.colors.interactive,
+            }}
+            thumbColor={
+              isCompleted ? theme.colors.surface : theme.colors.neutral100
+            }
+          />
+          <Text variant="bodyMedium" color="textPrimary">
+            {isCompleted ? 'Completed' : 'Pending'}
+          </Text>
+        </View>
+
+        <Button
+          title="Save Changes"
+          variant="primary"
+          size="large"
+          fullWidth
+          onPress={handleUpdate}
+          disabled={updateTodo.isPending}
+          loading={updateTodo.isPending}
+        />
+
+        <Button
+          title="Delete Todo"
+          variant="secondary"
+          size="large"
+          fullWidth
+          onPress={handleDelete}
+          disabled={deleteTodo.isPending}
+          loading={deleteTodo.isPending}
+        />
+
+        {(updateTodo.isPending || deleteTodo.isPending) && (
+          <View alignItems="center" marginTop="md">
+            <ActivityIndicator size="large" />
+          </View>
+        )}
       </View>
-      <Button
-        title="Save Changes"
-        onPress={handleUpdate}
-        disabled={updateTodo.isPending}
-      />
-      <View style={{ height: 10 }} />
-      <Button
-        title="Delete Todo"
-        color="red"
-        onPress={handleDelete}
-        disabled={deleteTodo.isPending}
-      />
-      {(updateTodo.isPending || deleteTodo.isPending) && (
-        <ActivityIndicator size="large" color="#888" />
-      )}
     </View>
   );
 }
