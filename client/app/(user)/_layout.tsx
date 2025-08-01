@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Redirect, Tabs } from 'expo-router';
+import { Redirect, Tabs } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
 
@@ -37,7 +37,7 @@ export default function TabLayout() {
           title: 'Todo',
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="cutlery" color={color} />
+            <TabBarIcon name="check-square" color={color} />
           ),
         }}
       />
@@ -58,7 +58,7 @@ export default function TabLayout() {
         options={{
           title: 'VR',
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="space-shuttle" color={color} />,
         }}
       />
 
@@ -66,7 +66,8 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
+          headerShown: false,
+          tabBarIcon: ({ color }) => <TabBarIcon name="user-circle-o" color={color} />,
         }}
       />
     </Tabs>

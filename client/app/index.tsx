@@ -49,7 +49,7 @@ const index = () => {
 
         <Link href={'/(user)/todo/newTodo'} asChild>
           <Button
-            title="➕ Add New Task"
+            title="➕Add New Task"
             variant="secondary"
             size="large"
             fullWidth
