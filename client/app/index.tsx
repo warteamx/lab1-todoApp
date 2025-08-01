@@ -24,7 +24,7 @@ const index = () => {
     <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
       <View style={{ marginBottom: 32 }}>
         <Text variant="headlineMedium" color="textPrimary" align="center">
-          Welcome to Your Todo App
+          Welcome to Your To-Do App
         </Text>
         <Text
           variant="bodyLarge"
@@ -32,7 +32,7 @@ const index = () => {
           align="center"
           style={{ marginTop: 8 }}
         >
-          Manage your tasks efficiently with a beautiful interface
+          Manage your tasks efficiently
         </Text>
       </View>
 

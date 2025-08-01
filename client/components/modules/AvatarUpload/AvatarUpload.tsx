@@ -1,7 +1,5 @@
 import React, { useRef } from 'react';
 import {
-  View,
-  Text,
   Image,
   TouchableOpacity,
   Alert,
@@ -10,8 +8,9 @@ import {
 } from 'react-native';
 import { useUploadAvatar } from '@/api/profile.api';
 import { WEB_FILE_CONSTRAINTS } from '@/constants/api';
+import { View, Text } from '@/components/ui';
+import { useTheme } from '@/providers/themeProvider';
 import { AvatarUploadProps } from './AvatarUpload.interface';
-import { styles } from './AvatarUpload.styles';
 import {
   requestPermissions,
   validateWebFile,
@@ -29,6 +28,7 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
 }) => {
   const uploadAvatarMutation = useUploadAvatar();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { theme } = useTheme();
 
   const handleWebFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const target = event.target;
@@ -45,8 +45,6 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
   };
 
   const pickImage = async () => {
-    console.log('Picking image...');
-
     if (Platform.OS === 'web') {
       // Check if File API is supported
       if (!checkWebFileApiSupport()) {
@@ -71,8 +69,12 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
     );
   };
 
+  const avatarSize = 120;
+  const editBadgeSize = 30;
+  const isLoading = uploadAvatarMutation.isPending;
+
   return (
-    <View style={styles.container}>
+    <View alignItems="center" marginVertical="lg">
       {Platform.OS === 'web' && (
         <input
           ref={fileInputRef as any}
@@ -83,25 +85,114 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
         />
       )}
       <TouchableOpacity
-        style={styles.avatarContainer}
+        style={{
+          position: 'relative',
+          width: avatarSize,
+          height: avatarSize,
+          borderRadius: avatarSize / 2,
+          marginBottom: theme.spacing.sm,
+          ...theme.shadows.sm,
+          opacity: isLoading ? 0.7 : 1,
+        }}
         onPress={pickImage}
-        disabled={uploadAvatarMutation.isPending}
+        disabled={isLoading}
+        accessible={true}
+        accessibilityLabel="Change avatar"
+        accessibilityHint={Platform.OS === 'web'
+          ? 'Click to upload a new avatar image'
+          : 'Tap to take a photo or select from library'
+        }
+        accessibilityRole="button"
+        accessibilityState={{ disabled: isLoading }}
       >
-        <Image source={getAvatarSource(currentAvatarUrl)} style={styles.avatar} />
-        {uploadAvatarMutation.isPending && (
-          <View style={styles.loadingOverlay}>
-            <ActivityIndicator size="large" color="#007AFF" />
+        <Image
+          source={getAvatarSource(currentAvatarUrl)}
+          style={{
+            width: avatarSize,
+            height: avatarSize,
+            borderRadius: avatarSize / 2,
+            backgroundColor: theme.colors.neutral100,
+          }}
+          accessible={true}
+          accessibilityLabel="Current avatar"
+        />
+        {isLoading && (
+          <View
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(0, 0, 0, 0.6)',
+              borderRadius: avatarSize / 2,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator size="large" color={theme.colors.primary500} />
+            <Text
+              variant="labelSmall"
+              color="textOnPrimary"
+              style={{
+                marginTop: theme.spacing.xs,
+                color: '#ffffff',
+              }}
+            >
+              Uploading...
+            </Text>
           </View>
         )}
-        <View style={styles.editBadge}>
-          <Text style={styles.editBadgeText}>✏️</Text>
+        <View
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            right: 0,
+            width: editBadgeSize,
+            height: editBadgeSize,
+            borderRadius: editBadgeSize / 2,
+            backgroundColor: theme.colors.primary500,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderWidth: 2,
+            borderColor: theme.colors.surface,
+            ...theme.shadows.sm,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 12,
+              color: theme.colors.textOnPrimary,
+            }}
+          >
+            ✏️
+          </Text>
         </View>
       </TouchableOpacity>
-      <Text style={styles.hint}>
+      <Text
+        variant="bodyMedium"
+        color="textSecondary"
+        style={{
+          marginTop: theme.spacing.xs,
+          textAlign: 'center',
+        }}
+      >
         {Platform.OS === 'web'
           ? 'Click to upload avatar'
           : 'Tap to change avatar'}
       </Text>
+      {isLoading && (
+        <Text
+          variant="labelSmall"
+          color="textTertiary"
+          style={{
+            marginTop: theme.spacing.xs / 2,
+            textAlign: 'center',
+          }}
+        >
+          Please wait while your image is being processed...
+        </Text>
+      )}
     </View>
   );
 };
