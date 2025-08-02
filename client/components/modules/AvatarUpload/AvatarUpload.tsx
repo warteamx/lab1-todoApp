@@ -130,7 +130,7 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
               alignItems: 'center',
             }}
           >
-            <ActivityIndicator size="large" color={theme.colors.primary500} />
+            <ActivityIndicator size="large" color={theme.colors.primary500} testID="loading-indicator" />
             <Text
               variant="labelSmall"
               color="textOnPrimary"
