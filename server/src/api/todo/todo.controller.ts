@@ -2,7 +2,6 @@ import { Response, NextFunction } from 'express';
 import { Request } from '@/common/types/express';
 import { todoService } from '../../domain/todo/services/todo.service';
 import { CreateTodoDto, UpdateTodoDto } from '../../domain/todo/dto/todo.dto';
-import { UnauthorizedException } from '../../common/exceptions';
 import { asyncHandler } from '../../common/utils/asyncHandler';
 
 export const getTodos = asyncHandler(async (
