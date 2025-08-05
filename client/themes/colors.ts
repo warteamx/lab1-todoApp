@@ -12,7 +12,7 @@ export interface ColorPalette {
   primary700: string;
   primary800: string;
   primary900: string;
-  
+
   // Secondary colors
   secondary50: string;
   secondary100: string;
@@ -24,7 +24,7 @@ export interface ColorPalette {
   secondary700: string;
   secondary800: string;
   secondary900: string;
-  
+
   // Neutral colors
   neutral50: string;
   neutral100: string;
@@ -36,19 +36,19 @@ export interface ColorPalette {
   neutral700: string;
   neutral800: string;
   neutral900: string;
-  
+
   // Semantic colors
   success: string;
   warning: string;
   error: string;
   info: string;
-  
+
   // Surface colors
   background: string;
   surface: string;
   card: string;
   overlay: string;
-  
+
   // Text colors
   textPrimary: string;
   textSecondary: string;
@@ -56,12 +56,12 @@ export interface ColorPalette {
   textDisabled: string;
   textOnPrimary: string;
   textOnSecondary: string;
-  
+
   // Border colors
   border: string;
   borderSecondary: string;
   borderActive: string;
-  
+
   // Interactive colors
   interactive: string;
   interactiveHover: string;
@@ -82,7 +82,7 @@ export const modernColors: ColorPalette = {
   primary700: '#2C5282',
   primary800: '#2A4365',
   primary900: '#1A365D',
-  
+
   // Secondary (Emerald) - Fresh, calming
   secondary50: '#ECFDF5',
   secondary100: '#D1FAE5',
@@ -94,7 +94,7 @@ export const modernColors: ColorPalette = {
   secondary700: '#047857',
   secondary800: '#065F46',
   secondary900: '#064E3B',
-  
+
   // Neutral (Slate) - Professional, clean
   neutral50: '#F8FAFC',
   neutral100: '#F1F5F9',
@@ -106,19 +106,19 @@ export const modernColors: ColorPalette = {
   neutral700: '#334155',
   neutral800: '#1E293B',
   neutral900: '#0F172A',
-  
+
   // Semantic colors
   success: '#10B981',
   warning: '#F59E0B',
   error: '#EF4444',
   info: '#3B82F6',
-  
+
   // Surface colors
   background: '#FFFFFF',
   surface: '#F8FAFC',
   card: '#FFFFFF',
   overlay: 'rgba(0, 0, 0, 0.5)',
-  
+
   // Text colors
   textPrimary: '#0F172A',
   textSecondary: '#475569',
@@ -126,12 +126,12 @@ export const modernColors: ColorPalette = {
   textDisabled: '#94A3B8',
   textOnPrimary: '#FFFFFF',
   textOnSecondary: '#FFFFFF',
-  
+
   // Border colors
   border: '#E2E8F0',
   borderSecondary: '#CBD5E1',
   borderActive: '#3182CE',
-  
+
   // Interactive colors
   interactive: '#3182CE',
   interactiveHover: '#2C5282',
@@ -152,7 +152,7 @@ export const darkColors: ColorPalette = {
   primary700: '#90CDF4',
   primary800: '#BEE3F8',
   primary900: '#EBF8FF',
-  
+
   // Secondary (Emerald)
   secondary50: '#064E3B',
   secondary100: '#065F46',
@@ -164,7 +164,7 @@ export const darkColors: ColorPalette = {
   secondary700: '#A7F3D0',
   secondary800: '#D1FAE5',
   secondary900: '#ECFDF5',
-  
+
   // Neutral (Dark slate)
   neutral50: '#0F172A',
   neutral100: '#1E293B',
@@ -176,19 +176,19 @@ export const darkColors: ColorPalette = {
   neutral700: '#E2E8F0',
   neutral800: '#F1F5F9',
   neutral900: '#F8FAFC',
-  
+
   // Semantic colors (darker variants)
   success: '#34D399',
   warning: '#FBBF24',
   error: '#F87171',
   info: '#60A5FA',
-  
+
   // Surface colors
   background: '#0F172A',
   surface: '#1E293B',
   card: '#334155',
   overlay: 'rgba(0, 0, 0, 0.8)',
-  
+
   // Text colors
   textPrimary: '#F8FAFC',
   textSecondary: '#CBD5E1',
@@ -196,12 +196,12 @@ export const darkColors: ColorPalette = {
   textDisabled: '#64748B',
   textOnPrimary: '#0F172A',
   textOnSecondary: '#0F172A',
-  
+
   // Border colors
   border: '#334155',
   borderSecondary: '#475569',
   borderActive: '#4299E1',
-  
+
   // Interactive colors
   interactive: '#4299E1',
   interactiveHover: '#63B3ED',
@@ -222,7 +222,7 @@ export const warmColors: ColorPalette = {
   primary700: '#C2410C',
   primary800: '#9A3412',
   primary900: '#7C2D12',
-  
+
   // Secondary (Rose) - Warm accent
   secondary50: '#FFF1F2',
   secondary100: '#FFE4E6',
@@ -234,7 +234,7 @@ export const warmColors: ColorPalette = {
   secondary700: '#BE123C',
   secondary800: '#9F1239',
   secondary900: '#881337',
-  
+
   // Neutral (Warm gray)
   neutral50: '#FAFAF9',
   neutral100: '#F5F5F4',
@@ -246,19 +246,19 @@ export const warmColors: ColorPalette = {
   neutral700: '#44403C',
   neutral800: '#292524',
   neutral900: '#1C1917',
-  
+
   // Semantic colors
   success: '#22C55E',
   warning: '#EAB308',
   error: '#EF4444',
   info: '#3B82F6',
-  
+
   // Surface colors
   background: '#FFFFFF',
   surface: '#FAFAF9',
   card: '#FFFFFF',
   overlay: 'rgba(0, 0, 0, 0.5)',
-  
+
   // Text colors
   textPrimary: '#1C1917',
   textSecondary: '#44403C',
@@ -266,12 +266,12 @@ export const warmColors: ColorPalette = {
   textDisabled: '#A8A29E',
   textOnPrimary: '#FFFFFF',
   textOnSecondary: '#FFFFFF',
-  
+
   // Border colors
   border: '#E7E5E4',
   borderSecondary: '#D6D3D1',
   borderActive: '#F97316',
-  
+
   // Interactive colors
   interactive: '#F97316',
   interactiveHover: '#EA580C',
@@ -292,7 +292,7 @@ export const coolColors: ColorPalette = {
   primary700: '#4338CA',
   primary800: '#3730A3',
   primary900: '#312E81',
-  
+
   // Secondary (Teal) - Cool accent
   secondary50: '#F0FDFA',
   secondary100: '#CCFBF1',
@@ -304,7 +304,7 @@ export const coolColors: ColorPalette = {
   secondary700: '#0F766E',
   secondary800: '#115E59',
   secondary900: '#134E4A',
-  
+
   // Neutral (Cool gray)
   neutral50: '#F9FAFB',
   neutral100: '#F3F4F6',
@@ -316,19 +316,19 @@ export const coolColors: ColorPalette = {
   neutral700: '#374151',
   neutral800: '#1F2937',
   neutral900: '#111827',
-  
+
   // Semantic colors
   success: '#10B981',
   warning: '#F59E0B',
   error: '#EF4444',
   info: '#3B82F6',
-  
+
   // Surface colors
   background: '#FFFFFF',
   surface: '#F9FAFB',
   card: '#FFFFFF',
   overlay: 'rgba(0, 0, 0, 0.5)',
-  
+
   // Text colors
   textPrimary: '#111827',
   textSecondary: '#4B5563',
@@ -336,12 +336,12 @@ export const coolColors: ColorPalette = {
   textDisabled: '#9CA3AF',
   textOnPrimary: '#FFFFFF',
   textOnSecondary: '#FFFFFF',
-  
+
   // Border colors
   border: '#E5E7EB',
   borderSecondary: '#D1D5DB',
   borderActive: '#6366F1',
-  
+
   // Interactive colors
   interactive: '#6366F1',
   interactiveHover: '#4F46E5',

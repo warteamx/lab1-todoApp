@@ -1,9 +1,7 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Redirect, Tabs } from 'expo-router';
-import { Pressable, useColorScheme } from 'react-native';
-
-// import Colors from '@/constants/colors';
+import { Redirect, Tabs } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
+import { useTheme } from '@/providers/themeProvider';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -13,7 +11,7 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { theme } = useTheme();
   const { session } = useAuth();
 
   if (!session) {
@@ -23,7 +21,12 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: theme.colors.interactive,
+        tabBarInactiveTintColor: theme.colors.textSecondary,
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          borderTopColor: theme.colors.neutral200,
+        },
       }}
     >
       <Tabs.Screen name="index" options={{ href: null }} />
@@ -34,33 +37,36 @@ export default function TabLayout() {
           title: 'Todo',
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="cutlery" color={color} />
+            <TabBarIcon name="check-square" color={color} />
           ),
         }}
       />
-      
+
       <Tabs.Screen
         name="ui-demo"
         options={{
-          title: 'UI Demo',
+          title: 'Demo',
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="paint-brush" color={color} />,
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="paint-brush" color={color} />
+          ),
         }}
       />
-      
+
       <Tabs.Screen
         name="vr"
         options={{
           title: 'VR',
           headerShown: false,
-          tabBarIcon: ({ color }) => <TabBarIcon name="list" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="space-shuttle" color={color} />,
         }}
       />
 
       <Tabs.Screen
         name="profile"
         options={{
-          title: 'Profile',
+          title: 'Profile 🧑',
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />

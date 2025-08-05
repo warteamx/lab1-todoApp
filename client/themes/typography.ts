@@ -16,38 +16,38 @@ export interface Typography {
     medium: TypographyScale;
     small: TypographyScale;
   };
-  
+
   // Headlines (section headings, titles)
   headline: {
     large: TypographyScale;
     medium: TypographyScale;
     small: TypographyScale;
   };
-  
+
   // Titles (card titles, dialog titles)
   title: {
     large: TypographyScale;
     medium: TypographyScale;
     small: TypographyScale;
   };
-  
+
   // Body text (paragraphs, descriptions)
   body: {
     large: TypographyScale;
     medium: TypographyScale;
     small: TypographyScale;
   };
-  
+
   // Labels (buttons, form labels, small text)
   label: {
     large: TypographyScale;
     medium: TypographyScale;
     small: TypographyScale;
   };
-  
+
   // Caption text (helper text, timestamps)
   caption: TypographyScale;
-  
+
   // Overline text (categories, badges)
   overline: TypographyScale;
 }
@@ -60,7 +60,7 @@ export const fontFamilies = {
     android: 'Roboto',
     web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
   }),
-  
+
   // Monospace font for code
   mono: Platform.select({
     ios: 'Menlo',
@@ -91,7 +91,7 @@ export const typography: Typography = {
       letterSpacing: 0,
     },
   },
-  
+
   headline: {
     large: {
       fontSize: 28,
@@ -112,7 +112,7 @@ export const typography: Typography = {
       letterSpacing: 0,
     },
   },
-  
+
   title: {
     large: {
       fontSize: 18,
@@ -133,7 +133,7 @@ export const typography: Typography = {
       letterSpacing: 0.1,
     },
   },
-  
+
   body: {
     large: {
       fontSize: 16,
@@ -154,7 +154,7 @@ export const typography: Typography = {
       letterSpacing: 0.4,
     },
   },
-  
+
   label: {
     large: {
       fontSize: 14,
@@ -175,14 +175,14 @@ export const typography: Typography = {
       letterSpacing: 0.5,
     },
   },
-  
+
   caption: {
     fontSize: 12,
     lineHeight: 16,
     fontWeight: '400',
     letterSpacing: 0.4,
   },
-  
+
   overline: {
     fontSize: 10,
     lineHeight: 16,
@@ -194,7 +194,7 @@ export const typography: Typography = {
 // Responsive typography adjustments for different screen sizes
 export const responsiveTypography = {
   mobile: typography,
-  
+
   tablet: {
     ...typography,
     display: {
@@ -208,7 +208,7 @@ export const responsiveTypography = {
       small: { ...typography.headline.small, fontSize: 24, lineHeight: 32 },
     },
   },
-  
+
   desktop: {
     ...typography,
     display: {
@@ -230,10 +230,21 @@ export const responsiveTypography = {
 };
 
 // Utility type for text styles
-export type TextVariant = 
-  | 'displayLarge' | 'displayMedium' | 'displaySmall'
-  | 'headlineLarge' | 'headlineMedium' | 'headlineSmall'
-  | 'titleLarge' | 'titleMedium' | 'titleSmall'
-  | 'bodyLarge' | 'bodyMedium' | 'bodySmall'
-  | 'labelLarge' | 'labelMedium' | 'labelSmall'
-  | 'caption' | 'overline';
+export type TextVariant =
+  | 'displayLarge'
+  | 'displayMedium'
+  | 'displaySmall'
+  | 'headlineLarge'
+  | 'headlineMedium'
+  | 'headlineSmall'
+  | 'titleLarge'
+  | 'titleMedium'
+  | 'titleSmall'
+  | 'bodyLarge'
+  | 'bodyMedium'
+  | 'bodySmall'
+  | 'labelLarge'
+  | 'labelMedium'
+  | 'labelSmall'
+  | 'caption'
+  | 'overline';

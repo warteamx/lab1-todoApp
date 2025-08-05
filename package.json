@@ -1,8 +1,13 @@
 {
-    "name": "expo-lab",
-    "version": "1.1.0",
-    "scripts": {
-        "dev:server": "npm --prefix ./server run dev",
-        "expo:dev": "npm --prefix ./client run start"
-    }
+  "name": "expo-lab",
+  "version": "1.1.0",
+  "scripts": {
+    "dev:server": "npm --prefix ./server run dev",
+    "expo:dev": "npm --prefix ./client run start",
+    "test:client": "npm --prefix ./client run test",
+    "test:server": "npm -prefix ./server run test"
+  },
+  "dependencies": {
+    "jest": "^30.0.5"
+  }
 }

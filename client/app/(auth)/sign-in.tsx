@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Alert } from 'react-native';
 import { Link, Stack } from 'expo-router';
 import { supabase } from '@/lib/supabase';
-import { View } from '@/components/ui/View';
-import { Text } from '@/components/ui/Text';
-import { TextInput } from '@/components/ui/Input';
-import { Button } from '@/components/ui/Button';
+import { View } from '@/components/ui/View/View';
+import { Text } from '@/components/ui/Text/Text';
+import { TextInput } from '@/components/ui/Input/Input';
+import { Button } from '@/components/ui/Button/Button';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -24,14 +24,29 @@ const SignInScreen = () => {
   }
 
   return (
-    <View flex={1} padding="lg" backgroundColor="background" justifyContent="center">
+    <View
+      flex={1}
+      padding="lg"
+      backgroundColor="background"
+      justifyContent="center"
+    >
       <Stack.Screen options={{ title: 'Sign in' }} />
 
       <View style={{ maxWidth: 400, alignSelf: 'center', width: '100%' }}>
-        <Text variant="displaySmall" color="textPrimary" align="center" style={{ marginBottom: 8 }}>
+        <Text
+          variant="displaySmall"
+          color="textPrimary"
+          align="center"
+          style={{ marginBottom: 8 }}
+        >
           Welcome Back
         </Text>
-        <Text variant="bodyLarge" color="textSecondary" align="center" style={{ marginBottom: 32 }}>
+        <Text
+          variant="bodyLarge"
+          color="textSecondary"
+          align="center"
+          style={{ marginBottom: 32 }}
+        >
           Sign in to your account to continue
         </Text>
 

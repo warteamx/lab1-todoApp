@@ -10,42 +10,41 @@
 import { Request } from 'express';
 
 declare global {
-    namespace Express {
-        interface Request {
-            userClaims?: UserClaims;
-            user?: {
-                id: string;
-                // ...other user properties
-            };
-            file?: Express.Multer.File;
-            files?: Express.Multer.File[];
-            session?: any;
-        }
+  namespace Express {
+    interface Request {
+      userClaims?: UserClaims;
+      user?: {
+        id: string;
+        // ...other user properties
+      };
+      file?: Express.Multer.File;
+      files?: Express.Multer.File[];
+      session?: any;
     }
+  }
 }
 
 // Supabase Auth JWT decoded user claims type
 type UserClaims = {
-    iss: string;
-    sub: string; // User ID
-    aud: string;
-    exp: number;
-    iat: number;
+  iss: string;
+  sub: string; // User ID
+  aud: string;
+  exp: number;
+  iat: number;
+  email: string;
+  phone: string;
+  app_metadata: { provider: string; providers: string[] };
+  user_metadata: {
     email: string;
-    phone: string;
-    app_metadata: { provider: string; providers: string[] };
-    user_metadata: {
-        email: string;
-        email_verified: boolean;
-        phone_verified: boolean;
-        sub: string;
-    },
-    role: string;
-    aal: string;
-    amr: [[Object]],
-    session_id: string;
-    is_anonymous: boolean;
-}
+    email_verified: boolean;
+    phone_verified: boolean;
+    sub: string;
+  };
+  role: string;
+  aal: string;
+  amr: [[object]];
+  session_id: string;
+  is_anonymous: boolean;
+};
 
 export { Request, UserClaims };
-

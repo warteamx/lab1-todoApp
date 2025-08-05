@@ -1,12 +1,11 @@
-
 import React, { useState } from 'react';
 import { ActivityIndicator, Switch } from 'react-native';
 import { useCreateTodo } from '@/api/todo.api';
 import { useTheme } from '@/providers/themeProvider';
-import { ThemedView as View } from '@/components/ui/View';
-import { Text } from '@/components/ui/Text';
-import { Button } from '@/components/ui/Button';
-import { TextInput } from '@/components/ui/Input';
+import { View } from '@/components/ui/View/View';
+import { Text } from '@/components/ui/Text/Text';
+import { Button } from '@/components/ui/Button/Button';
+import { TextInput } from '@/components/ui/Input/Input';
 
 export default function NewTodoTab() {
   const [task, setTask] = useState('');
@@ -16,20 +15,27 @@ export default function NewTodoTab() {
 
   const handleAddTodo = () => {
     if (!task.trim()) return;
-    mutate({ task, is_complete: isCompleted }, {
-      onSuccess: () => {
-        setTask('');
-        setIsCompleted(false);
-      },
-    });
+    mutate(
+      { task, is_complete: isCompleted },
+      {
+        onSuccess: () => {
+          setTask('');
+          setIsCompleted(false);
+        },
+      }
+    );
   };
 
   return (
     <View flex={1} padding="lg" backgroundColor="background">
-      <Text variant="headlineMedium" color="textPrimary" style={{ marginBottom: 24 }}>
+      <Text
+        variant="headlineMedium"
+        color="textPrimary"
+        style={{ marginBottom: 24 }}
+      >
         Add New Todo
       </Text>
-      
+
       <View style={{ gap: 20 }}>
         <TextInput
           label="Task"
@@ -44,23 +50,25 @@ export default function NewTodoTab() {
           <Switch
             value={isCompleted}
             onValueChange={setIsCompleted}
-            trackColor={{ 
-              false: theme.colors.neutral300, 
-              true: theme.colors.interactive 
+            trackColor={{
+              false: theme.colors.neutral300,
+              true: theme.colors.interactive,
             }}
-            thumbColor={isCompleted ? theme.colors.surface : theme.colors.neutral100}
+            thumbColor={
+              isCompleted ? theme.colors.surface : theme.colors.neutral100
+            }
           />
           <Text variant="bodyMedium" color="textPrimary">
             {isCompleted ? 'Mark as completed' : 'Mark as pending'}
           </Text>
         </View>
 
-        <Button 
-          title="Add Todo" 
+        <Button
+          title="Add Todo"
           variant="primary"
           size="large"
           fullWidth
-          onPress={handleAddTodo} 
+          onPress={handleAddTodo}
           disabled={isPending || !task.trim()}
           loading={isPending}
         />

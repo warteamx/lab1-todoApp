@@ -22,7 +22,7 @@ export const shadows = {
     shadowRadius: 0,
     elevation: 0,
   },
-  
+
   xs: Platform.select({
     ios: {
       shadowColor: '#000',
@@ -40,7 +40,7 @@ export const shadows = {
       shadowRadius: 1,
     },
   }) as ShadowStyle,
-  
+
   sm: Platform.select({
     ios: {
       shadowColor: '#000',
@@ -58,7 +58,7 @@ export const shadows = {
       shadowRadius: 2,
     },
   }) as ShadowStyle,
-  
+
   md: Platform.select({
     ios: {
       shadowColor: '#000',
@@ -76,7 +76,7 @@ export const shadows = {
       shadowRadius: 4,
     },
   }) as ShadowStyle,
-  
+
   lg: Platform.select({
     ios: {
       shadowColor: '#000',
@@ -94,7 +94,7 @@ export const shadows = {
       shadowRadius: 8,
     },
   }) as ShadowStyle,
-  
+
   xl: Platform.select({
     ios: {
       shadowColor: '#000',
@@ -112,7 +112,7 @@ export const shadows = {
       shadowRadius: 16,
     },
   }) as ShadowStyle,
-  
+
   '2xl': Platform.select({
     ios: {
       shadowColor: '#000',
@@ -138,25 +138,25 @@ export const componentShadows = {
   card: shadows.sm,
   cardHover: shadows.md,
   cardPressed: shadows.xs,
-  
+
   // Button shadows
   button: shadows.xs,
   buttonHover: shadows.sm,
   buttonPressed: shadows.none,
-  
+
   // Modal/overlay shadows
   modal: shadows.xl,
   dropdown: shadows.lg,
   tooltip: shadows.md,
-  
+
   // Navigation shadows
   header: shadows.sm,
   bottomTab: shadows.lg,
-  
+
   // Input shadows
   input: shadows.none,
   inputFocused: shadows.sm,
-  
+
   // Floating action button
   fab: shadows.lg,
   fabPressed: shadows.md,
