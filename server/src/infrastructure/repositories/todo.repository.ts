@@ -75,7 +75,7 @@ export async function updateTodo(
 
 export async function deleteTodo(id: number, user_id: string): Promise<void> {
   try {
-    console.log(`Delete todo with id: ${id}, user_id: ${user_id}`);
+    logger.debug(`Delete todo with id: ${id}, user_id: ${user_id}`);
     const res = await sql`
       DELETE FROM todos
       WHERE id = ${id}
