@@ -55,7 +55,7 @@ export async function uploadProfileAvatar(
 
     const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path)
       .data.publicUrl;
-    console.log('Avatar uploaded:', avatarUrl);
+    logger.info('Avatar uploaded:', avatarUrl);
 
     await sql`
       UPDATE
