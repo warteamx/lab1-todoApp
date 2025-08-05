@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import { Profile } from '../../domain/profile/entities/profile.entity';
 import { UpdateProfileDto } from '../../domain/profile/dto/updateProfile.dto';
+import { errorMiddleware } from '../../common/middlewares/error.middleware';
 
 /**
  * Creates a minimal mock UserClaims object for testing
@@ -49,6 +50,9 @@ export function createTestApp(
 
   // Apply routes
   routes(app);
+
+  // Add error middleware at the end
+  app.use(errorMiddleware);
 
   return app;
 }

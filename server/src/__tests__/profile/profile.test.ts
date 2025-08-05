@@ -52,6 +52,7 @@ describe('Profile API Integration Tests', () => {
 
       // Assert
       expect(response.status).toBe(500);
+      expect(response.body.error.message).toContain('Profile not found');
       expect(profileService.getProfile).toHaveBeenCalledWith(mockUserId);
     });
 
@@ -64,7 +65,8 @@ describe('Profile API Integration Tests', () => {
 
       // Assert
       expect(response.status).toBe(403);
-      expect(response.body.error).toBe('Forbidden');
+      expect(response.body.error.message).toBe('Forbidden');
+      expect(response.body.error.code).toBe('FORBIDDEN');
     });
   });
 
@@ -132,6 +134,7 @@ describe('Profile API Integration Tests', () => {
 
       // Assert
       expect(response.status).toBe(500);
+      expect(response.body.error.message).toContain('Update failed');
       expect(profileService.updateProfile).toHaveBeenCalledWith(
         mockUserId,
         updateData
