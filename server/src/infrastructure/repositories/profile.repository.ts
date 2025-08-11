@@ -1,9 +1,9 @@
 import sql from '../database/postgres';
 import { supabase } from '../storage/supabase.storage';
-import { UpdateProfileDto } from '@/domain/profile/dto/updateProfile.dto';
-import { Profile } from '@/domain/profile/entities/profile.entity';
-import { ValidationException, NotFoundException, StorageException, DatabaseException } from '@/common/exceptions';
-import { logger } from '@/common/utils/logger';
+import { UpdateProfileDto } from '../../domain/profile/dto/updateProfile.dto';
+import { Profile } from '../../domain/profile/entities/profile.entity';
+import { ValidationException, NotFoundException, StorageException, DatabaseException } from '../../common/exceptions';
+import logger from '../../common/utils/logger';
 
 
 export async function updateProfile(
