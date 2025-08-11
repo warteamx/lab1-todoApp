@@ -2,7 +2,7 @@ import { RowList } from 'postgres';
 import sql from '../database/postgres';
 import { Todo } from '../../domain/todo/entities/todo.entity';
 import { DatabaseException, NotFoundException } from '../../common/exceptions';
-// import { logger } from '../../common/utils/logger';
+import { logger } from '@/common/utils/logger';
 
 export async function getTodos(user_id: string): Promise<Todo[]> {
   try {
@@ -76,7 +76,7 @@ export async function updateTodo(
 
 export async function deleteTodo(id: number, user_id: string): Promise<void> {
   try {
-    // logger.debug(`Delete todo with id: ${id}, user_id: ${user_id}`);
+    logger.debug(`Delete todo with id: ${id}, user_id: ${user_id}`);
     const res = await sql`
       DELETE FROM todos
       WHERE id = ${id}
