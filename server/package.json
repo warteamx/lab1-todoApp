@@ -14,7 +14,14 @@
     "lint:fix": "eslint src/**/*.ts --fix",
     "format": "prettier --write src/**/*.ts",
     "logs:view": "tail -f logs/combined.log | pino-pretty",
-    "logs:errors": "tail -f logs/error.log | pino-pretty"
+    "logs:errors": "tail -f logs/error.log | pino-pretty",
+    "docker:dev": "./docker.sh dev",
+    "docker:prod": "./docker.sh prod",
+    "docker:build": "./docker.sh build",
+    "docker:stop": "./docker.sh stop",
+    "docker:logs": "./docker.sh logs-f",
+    "docker:test": "./docker.sh test",
+    "docker:clean": "./docker.sh clean"
   },
   "dependencies": {
     "@supabase/supabase-js": "2.52.0",
