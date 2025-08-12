@@ -8,11 +8,11 @@ GitHub Actions CI/CD pipelines:
 
 Act as a senior DevOps engineer. Generate two GitHub Actions workflows for a monorepo with:
 
-/web      # Expo app (web target)
+/client      # Expo app (web target)
 /server   # Express + TypeScript
 
 Goals
-	1.	Web (Expo → GitHub Pages)
+	1.	Client (Expo Web → GitHub Pages)
 
 	•	Steps: lint → test → build web → deploy to GitHub Pages.
 	•	Use Node 20.
@@ -52,33 +52,14 @@ For EC2:
 
 Deliverables
 	1.	.github/workflows/web-pages.yml — CI/CD for Expo web:
-	•	on: push (paths web/**), workflow_dispatch
-	•	Jobs:
-	•	lint (uses Node 20, install, run npm run lint in web)
-	•	test (run npm test -- --ci)
-	•	build (run npm run build:web, archive web/dist)
-	•	deploy (uses actions/upload-pages-artifact + actions/deploy-pages)
-	•	permissions and concurrency set correctly.
 	2.	.github/workflows/server-ec2.yml — CI/CD for Express server:
-	•	on: push (paths server/**), workflow_dispatch
-	•	Jobs:
-	•	lint
-	•	test
-	•	build (produce server/dist; upload artifact)
-	•	deploy:
-	•	Add SSH key
-	•	Create remote deploy dir
-	•	Run npm ci --omit=dev remotely
-	•	Start/reload node dist/index.js as a fallback
-	•	Health check:
-	•	concurrency set to prevent parallel deploys to production.
 
 Acceptance Criteria
 	•	Workflows are valid YAML and self-contained.
 	•	Use official GitHub actions where possible.
 	•	Include comments explaining key steps.
-	•	create a .md file CDCI_CLIENT.md to Show how to enable Pages inside the workflow (pages and id-token permissions, actions/deploy-pages).
-  •	create a .md file CDCI_SERVER.md to Show how to enable Pages inside the workflow (pages and id-token permissions, actions/deploy-pages). 	Include notes on setting up PM2 on EC2 (one-time), ufw/security group port, and node installation (if needed).
+	•	create a .md file CDCI_CLIENT.md to Show how to enable Pages inside the workflow (pages and id-token permissions, environment secrets, actions/deploy-pages).
+  •	create a .md file CDCI_SERVER.md to Show how to enable	EC2, Include instructions on setting EC2 (one-time), environment variables, security, and node installation, and add a domain name.
 	•	Robust error handling: fail if health check fails.
 	•	Include if: github.ref == 'refs/heads/main' guard for deploy jobs.
 
