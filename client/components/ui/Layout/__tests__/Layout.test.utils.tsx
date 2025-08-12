@@ -66,7 +66,7 @@ export const MockChild: React.FC<{ testID?: string; children?: React.ReactNode }
   children = 'Test Content',
 }) => (
   <View testID={testID}>
-    <Text>{children}</Text>
+    <Text>{children}</Text>ƒ
   </View>
 );
 
@@ -79,11 +79,9 @@ export const MockChildren: React.FC<{ count?: number; prefix?: string }> = ({
 }) => (
   <>
     {Array.from({ length: count }, (_, index) => (
-      <MockChild
-        key={index}
-        testID={`mock-child-${index}`}
-        children={`${prefix} ${index + 1}`}
-      />
+      <MockChild key={index} testID={`mock-child-${index}`}>
+        {`${prefix} ${index + 1}`}
+      </MockChild>
     ))}
   </>
 );

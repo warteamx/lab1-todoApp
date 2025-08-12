@@ -10,6 +10,10 @@ import {
   ProfileFormTestProps,
 } from './ProfileForm.test.utils';
 
+// Import the mocked modules with proper typing
+import { useUpdateProfile } from '@/api/profile.api';
+import { handleApiError } from '@/lib/api-utils';
+
 // Mock dependencies
 jest.mock('@/api/profile.api', () => ({
   useUpdateProfile: jest.fn(),
@@ -25,9 +29,8 @@ jest.mock('react-native/Libraries/Alert/Alert', () => ({
   alert: mockAlert,
 }));
 
-// Import the mocked modules with proper typing
-const { useUpdateProfile } = require('@/api/profile.api');
-const { handleApiError } = require('@/lib/api-utils');
+// Cast the mocked hook for type-safe jest method chaining
+const mockedUseUpdateProfile = useUpdateProfile as unknown as jest.MockedFunction<typeof useUpdateProfile>;
 
 describe('ProfileForm', () => {
   beforeEach(() => {
@@ -38,7 +41,7 @@ describe('ProfileForm', () => {
   describe('Rendering', () => {
     it('renders all form fields with default values', () => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -51,7 +54,7 @@ describe('ProfileForm', () => {
 
     it('renders with initial data when provided', () => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       const props: ProfileFormTestProps = {
         initialData: MOCK_PROFILES.validProfile,
@@ -71,7 +74,7 @@ describe('ProfileForm', () => {
 
     it('shows required field indicator for username', () => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -82,7 +85,7 @@ describe('ProfileForm', () => {
   describe('Form Validation', () => {
     it('shows validation error for empty username on submit', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -99,7 +102,7 @@ describe('ProfileForm', () => {
 
     it('shows validation error for username less than 3 characters', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -118,7 +121,7 @@ describe('ProfileForm', () => {
 
     it('shows validation error for invalid username characters', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -137,7 +140,7 @@ describe('ProfileForm', () => {
 
     it('shows validation error for invalid website URL', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -158,7 +161,7 @@ describe('ProfileForm', () => {
 
     it('accepts valid website URLs', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -178,7 +181,7 @@ describe('ProfileForm', () => {
 
     it('clears field errors when user starts typing', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -205,7 +208,7 @@ describe('ProfileForm', () => {
     it('submits form with valid data successfully', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       const onSuccessMock = jest.fn();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       const props: ProfileFormTestProps = {
         onSuccess: onSuccessMock,
@@ -233,7 +236,7 @@ describe('ProfileForm', () => {
       const mockMutation = createMockUpdateProfileMutation();
       const testError = new Error('Network error');
       mockMutation.mutateAsync.mockRejectedValue(testError);
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -256,7 +259,7 @@ describe('ProfileForm', () => {
 
     it('does not submit when mutation is pending', async() => {
       const mockMutation = createMockUpdateProfileMutation({ isPending: true });
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -272,7 +275,7 @@ describe('ProfileForm', () => {
 
     it('does not submit when form has validation errors', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -296,7 +299,7 @@ describe('ProfileForm', () => {
   describe('Loading States', () => {
     it('disables form inputs when mutation is pending', () => {
       const mockMutation = createMockUpdateProfileMutation({ isPending: true });
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -311,7 +314,7 @@ describe('ProfileForm', () => {
 
     it('shows loading state on submit button when mutation is pending', () => {
       const mockMutation = createMockUpdateProfileMutation({ isPending: true });
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -324,7 +327,7 @@ describe('ProfileForm', () => {
   describe('Accessibility', () => {
     it('has proper accessibility labels for form fields', () => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -336,7 +339,7 @@ describe('ProfileForm', () => {
 
     it('associates error messages with form fields', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -353,7 +356,7 @@ describe('ProfileForm', () => {
   describe('Edge Cases', () => {
     it('handles undefined onSuccess callback gracefully', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -372,7 +375,7 @@ describe('ProfileForm', () => {
 
     it('handles empty strings in optional fields', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 
@@ -396,7 +399,7 @@ describe('ProfileForm', () => {
 
     it('trims whitespace from username input', async() => {
       const mockMutation = createMockUpdateProfileMutation();
-      useUpdateProfile.mockReturnValue(mockMutation);
+      mockedUseUpdateProfile.mockReturnValue(mockMutation as any);
 
       renderWithProviders(<ProfileForm />);
 

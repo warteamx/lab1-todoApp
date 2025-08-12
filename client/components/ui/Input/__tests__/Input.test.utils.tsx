@@ -376,7 +376,7 @@ export const THEME_HELPERS = {
  */
 export const TEST_PATTERNS = {
   // Test all variants of a component
-  testAllVariants: <T extends { variant?: string }>(
+  testAllVariants: (
     testFn: (variant: string) => void,
     variants = TEST_CONSTANTS.variants
   ) => {
@@ -384,7 +384,7 @@ export const TEST_PATTERNS = {
   },
 
   // Test all sizes of a component
-  testAllSizes: <T extends { size?: string }>(
+  testAllSizes: (
     testFn: (size: string) => void,
     sizes = TEST_CONSTANTS.sizes
   ) => {

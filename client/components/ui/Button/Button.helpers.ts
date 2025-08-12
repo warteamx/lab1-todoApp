@@ -1,6 +1,5 @@
 import { Theme } from '@/themes/themes';
 import { ButtonVariant, ButtonSize } from './Button.interfaces';
-import { StyleSheet } from 'react-native';
 
 /**
  * Generates styles for a button based on the provided theme, variant, size, and state.

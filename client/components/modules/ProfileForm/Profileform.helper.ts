@@ -1,8 +1,5 @@
-import {
-  useFormValidation,
-  type ValidationRules,
-} from '@/hooks/useFormValidation';
-import { useUpdateProfile, type UpdateProfileDto } from '@/api/profile.api';
+import type { ValidationRules } from '@/hooks/useFormValidation';
+import type { UpdateProfileDto } from '@/api/profile.api';
 import { VALIDATION_MESSAGES } from '@/constants/api';
 
 

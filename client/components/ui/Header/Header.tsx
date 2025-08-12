@@ -1,7 +1,7 @@
 // Header component for navigation and branding
 
 import React from 'react';
-import { Platform , TouchableOpacity } from 'react-native';
+import { Platform, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '../View/View';
@@ -16,7 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   actions = [],
   themeToggle = true,
 }) => {
-  const { theme, toggleDarkMode, isDark, setThemeVariant, themeVariant } =
+  const { toggleDarkMode, isDark, setThemeVariant, themeVariant } =
     useTheme();
   const router = useRouter();
 

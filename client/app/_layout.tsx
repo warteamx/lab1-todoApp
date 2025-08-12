@@ -7,8 +7,8 @@ import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 
 function SessionAndThemeInfo() {
-  const { session, loading, profile } = useAuth();
-  const { theme, toggleDarkMode, themeVariant } = useTheme();
+  const { session, loading } = useAuth();
+  const { toggleDarkMode, themeVariant } = useTheme();
   return (
     <>
       <Stack />

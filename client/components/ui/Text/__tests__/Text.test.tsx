@@ -1,6 +1,5 @@
 import React from 'react';
 import { screen } from '@testing-library/react-native';
-import { ThemeProvider } from '@/providers/themeProvider';
 import {
   Text,
   DisplayText,
@@ -11,12 +10,8 @@ import {
   CaptionText,
   OverlineText,
 } from '../Text';
-import {
-  renderWithTheme,
-  TEST_DATA,
-  TEXT_HELPERS,
-  TEXT_SCENARIOS,
-} from './Text.test.utils';
+import { renderWithTheme, TEST_DATA } from './Text.test.utils';
+import { ThemeProvider } from '@/providers/themeProvider';
 
 describe('<Text />', () => {
   describe('Rendering', () => {
@@ -28,7 +23,7 @@ describe('<Text />', () => {
 
     it('renders with different text content types', () => {
       Object.entries(TEST_DATA.sampleTexts).forEach(([key, text]) => {
-        const { rerender } = renderWithTheme(<Text testID={`text-${key}`}>{text}</Text>);
+        renderWithTheme(<Text testID={`text-${key}`}>{text}</Text>);
         expect(screen.getByTestId(`text-${key}`)).toBeTruthy();
       });
     });
