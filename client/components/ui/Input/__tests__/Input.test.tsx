@@ -6,7 +6,7 @@ import {
   FilledInput,
   UnderlineInput,
   PasswordInput,
-  SearchInput
+  SearchInput,
 } from '../Input';
 import {
   renderWithTheme,

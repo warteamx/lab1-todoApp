@@ -21,12 +21,12 @@ export const TEST_DATA = {
     'titleLarge', 'titleMedium', 'titleSmall',
     'bodyLarge', 'bodyMedium', 'bodySmall',
     'labelLarge', 'labelMedium', 'labelSmall',
-    'caption', 'overline'
+    'caption', 'overline',
   ] as TextVariant[],
 
   colors: [
     'textPrimary', 'textSecondary', 'textTertiary',
-    'primary500', 'secondary500', 'success', 'warning', 'error'
+    'primary500', 'secondary500', 'success', 'warning', 'error',
   ] as const,
 
   alignments: ['left', 'center', 'right', 'justify'] as const,
@@ -41,7 +41,7 @@ export const TEST_DATA = {
     emoji: 'Hello 👋 World 🌍',
     numbers: '123 456 789',
     special: 'Special chars: @#$%^&*()',
-  }
+  },
 };
 
 /**
@@ -75,37 +75,37 @@ export const TEXT_HELPERS = {
 export const TEXT_SCENARIOS = {
   basicRendering: {
     description: 'Basic text rendering with default props',
-    props: { children: TEST_DATA.sampleTexts.short }
+    props: { children: TEST_DATA.sampleTexts.short },
   },
 
   withVariant: {
     description: 'Text with specific typography variant',
-    props: { variant: 'headlineLarge' as TextVariant, children: TEST_DATA.sampleTexts.medium }
+    props: { variant: 'headlineLarge' as TextVariant, children: TEST_DATA.sampleTexts.medium },
   },
 
   withColor: {
     description: 'Text with custom color',
-    props: { color: 'primary500' as const, children: TEST_DATA.sampleTexts.medium }
+    props: { color: 'primary500' as const, children: TEST_DATA.sampleTexts.medium },
   },
 
   withAlignment: {
     description: 'Text with custom alignment',
-    props: { align: 'center' as const, children: TEST_DATA.sampleTexts.medium }
+    props: { align: 'center' as const, children: TEST_DATA.sampleTexts.medium },
   },
 
   withCustomStyle: {
     description: 'Text with custom style override',
     props: {
       style: { textDecorationLine: 'underline' },
-      children: TEST_DATA.sampleTexts.medium
-    }
+      children: TEST_DATA.sampleTexts.medium,
+    },
   },
 
   withAccessibility: {
     description: 'Text with accessibility props',
     props: {
       accessibilityLabel: 'Custom accessibility label',
-      children: TEST_DATA.sampleTexts.medium
-    }
-  }
+      children: TEST_DATA.sampleTexts.medium,
+    },
+  },
 };

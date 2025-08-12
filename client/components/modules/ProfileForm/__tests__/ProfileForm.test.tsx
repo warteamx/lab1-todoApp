@@ -7,7 +7,7 @@ import {
   MOCK_PROFILES,
   VALIDATION_SCENARIOS,
   FORM_INTERACTION_HELPERS,
-  ProfileFormTestProps
+  ProfileFormTestProps,
 } from './ProfileForm.test.utils';
 
 // Mock dependencies
@@ -80,7 +80,7 @@ describe('ProfileForm', () => {
   });
 
   describe('Form Validation', () => {
-    it('shows validation error for empty username on submit', async () => {
+    it('shows validation error for empty username on submit', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -97,7 +97,7 @@ describe('ProfileForm', () => {
       expect(mockMutation.mutateAsync).not.toHaveBeenCalled();
     });
 
-    it('shows validation error for username less than 3 characters', async () => {
+    it('shows validation error for username less than 3 characters', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -116,7 +116,7 @@ describe('ProfileForm', () => {
       expect(mockMutation.mutateAsync).not.toHaveBeenCalled();
     });
 
-    it('shows validation error for invalid username characters', async () => {
+    it('shows validation error for invalid username characters', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -135,7 +135,7 @@ describe('ProfileForm', () => {
       expect(mockMutation.mutateAsync).not.toHaveBeenCalled();
     });
 
-    it('shows validation error for invalid website URL', async () => {
+    it('shows validation error for invalid website URL', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -156,13 +156,13 @@ describe('ProfileForm', () => {
       expect(mockMutation.mutateAsync).not.toHaveBeenCalled();
     });
 
-    it('accepts valid website URLs', async () => {
+    it('accepts valid website URLs', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
       renderWithProviders(<ProfileForm />);
 
-      VALIDATION_SCENARIOS.validWebsites.forEach(async (validWebsite: string) => {
+      VALIDATION_SCENARIOS.validWebsites.forEach(async(validWebsite: string) => {
         const websiteInput = screen.getByPlaceholderText('https://your-website.com');
         fireEvent.changeText(websiteInput, validWebsite);
 
@@ -176,7 +176,7 @@ describe('ProfileForm', () => {
       });
     });
 
-    it('clears field errors when user starts typing', async () => {
+    it('clears field errors when user starts typing', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -202,7 +202,7 @@ describe('ProfileForm', () => {
   });
 
   describe('Form Submission', () => {
-    it('submits form with valid data successfully', async () => {
+    it('submits form with valid data successfully', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       const onSuccessMock = jest.fn();
       useUpdateProfile.mockReturnValue(mockMutation);
@@ -229,7 +229,7 @@ describe('ProfileForm', () => {
       expect(mockMutation.mutateAsync).toHaveBeenCalledTimes(1);
     });
 
-    it('handles submission error gracefully', async () => {
+    it('handles submission error gracefully', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       const testError = new Error('Network error');
       mockMutation.mutateAsync.mockRejectedValue(testError);
@@ -254,7 +254,7 @@ describe('ProfileForm', () => {
       expect(mockAlert).not.toHaveBeenCalledWith('Success', expect.any(String));
     });
 
-    it('does not submit when mutation is pending', async () => {
+    it('does not submit when mutation is pending', async() => {
       const mockMutation = createMockUpdateProfileMutation({ isPending: true });
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -270,7 +270,7 @@ describe('ProfileForm', () => {
       expect(mockMutation.mutateAsync).not.toHaveBeenCalled();
     });
 
-    it('does not submit when form has validation errors', async () => {
+    it('does not submit when form has validation errors', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -334,7 +334,7 @@ describe('ProfileForm', () => {
       expect(screen.getByText('Website')).toBeTruthy();
     });
 
-    it('associates error messages with form fields', async () => {
+    it('associates error messages with form fields', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -351,7 +351,7 @@ describe('ProfileForm', () => {
   });
 
   describe('Edge Cases', () => {
-    it('handles undefined onSuccess callback gracefully', async () => {
+    it('handles undefined onSuccess callback gracefully', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -370,7 +370,7 @@ describe('ProfileForm', () => {
       expect(() => mockMutation.mutateAsync.mock.results[0].value).not.toThrow();
     });
 
-    it('handles empty strings in optional fields', async () => {
+    it('handles empty strings in optional fields', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 
@@ -394,7 +394,7 @@ describe('ProfileForm', () => {
       });
     });
 
-    it('trims whitespace from username input', async () => {
+    it('trims whitespace from username input', async() => {
       const mockMutation = createMockUpdateProfileMutation();
       useUpdateProfile.mockReturnValue(mockMutation);
 

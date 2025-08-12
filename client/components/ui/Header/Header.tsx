@@ -1,13 +1,12 @@
 // Header component for navigation and branding
 
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform , TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '../View/View';
 import { Text } from '../Text/Text';
 import { Inline } from '../Layout/Layout';
-import { TouchableOpacity } from 'react-native';
 import { HeaderProps, variantType } from './Header.interface';
 
 export const Header: React.FC<HeaderProps> = ({
@@ -26,7 +25,7 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   const handleThemeVariantToggle = () => {
-    const variants: Array<variantType> = [
+    const variants: variantType[] = [
       'modern',
       'dark',
       'warm',

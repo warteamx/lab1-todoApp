@@ -12,7 +12,7 @@ import {
   ACCESSIBILITY_HELPERS,
   THEME_HELPERS,
   TEST_PATTERNS,
-  createTestThemeContext
+  createTestThemeContext,
 } from './Header.test.utils';
 
 // Mock expo-router

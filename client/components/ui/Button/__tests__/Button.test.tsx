@@ -7,7 +7,7 @@ import {
   renderWithTheme,
   MockIcon,
   TEST_DATA,
-  ACCESSIBILITY_HELPERS
+  ACCESSIBILITY_HELPERS,
 } from './Button.skip.utils';
 
 describe('<Button />', () => {

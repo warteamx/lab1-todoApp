@@ -194,7 +194,7 @@ export const INPUT_SCENARIOS = {
     description: 'input with label',
     props: createInputProps({
       label: TEST_CONSTANTS.labels.email,
-      placeholder: TEST_CONSTANTS.placeholders.email
+      placeholder: TEST_CONSTANTS.placeholders.email,
     }),
   },
   outlined: {
@@ -202,7 +202,7 @@ export const INPUT_SCENARIOS = {
     props: createInputProps({
       variant: 'outline',
       label: 'Outlined',
-      placeholder: 'Outlined input'
+      placeholder: 'Outlined input',
     }),
   },
   filled: {
@@ -210,7 +210,7 @@ export const INPUT_SCENARIOS = {
     props: createInputProps({
       variant: 'filled',
       label: 'Filled',
-      placeholder: 'Filled input'
+      placeholder: 'Filled input',
     }),
   },
   withError: {
@@ -366,7 +366,7 @@ export const THEME_HELPERS = {
     }
   },
 
-  getAllThemeVariants: () => Object.keys(themes) as Array<keyof typeof themes>,
+  getAllThemeVariants: () => Object.keys(themes) as (keyof typeof themes)[],
 
   getThemeByVariant: (variant: keyof typeof themes) => themes[variant],
 } as const;

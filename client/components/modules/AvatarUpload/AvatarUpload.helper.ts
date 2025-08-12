@@ -8,7 +8,7 @@ import {
 } from '@/constants/api';
 import { handleApiError } from '@/lib/api-utils';
 
-export const requestPermissions = async (): Promise<boolean> => {
+export const requestPermissions = async(): Promise<boolean> => {
   if (Platform.OS === 'web') {
     // No permissions needed for web
     return true;
@@ -44,7 +44,7 @@ export const validateWebFile = (file: File): boolean => {
   return true;
 };
 
-export const uploadWebImage = async (
+export const uploadWebImage = async(
   file: File,
   uploadAvatarMutation: any,
   onSuccess?: (newAvatarUrl: string) => void
@@ -67,7 +67,7 @@ export const checkWebFileApiSupport = (): boolean => {
   );
 };
 
-export const openCamera = async (
+export const openCamera = async(
   uploadAvatarMutation: any,
   onSuccess?: (newAvatarUrl: string) => void
 ): Promise<void> => {
@@ -92,7 +92,7 @@ export const openCamera = async (
   }
 };
 
-export const openImagePicker = async (
+export const openImagePicker = async(
   uploadAvatarMutation: any,
   onSuccess?: (newAvatarUrl: string) => void
 ): Promise<void> => {
@@ -108,7 +108,7 @@ export const openImagePicker = async (
   }
 };
 
-export const uploadImage = async (
+export const uploadImage = async(
   asset: ImagePicker.ImagePickerAsset,
   uploadAvatarMutation: any,
   onSuccess?: (newAvatarUrl: string) => void
@@ -139,7 +139,7 @@ export const showImagePickerAlert = (
 ): void => {
   Alert.alert(
     'Select Avatar',
-    "Choose how you'd like to select your avatar",
+    'Choose how you\'d like to select your avatar',
     [
       {
         text: 'Camera',

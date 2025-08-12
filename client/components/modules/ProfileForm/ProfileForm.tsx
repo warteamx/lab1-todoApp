@@ -10,7 +10,7 @@ import { LabelText } from '@/components/ui/Text/Text';
 import { TextInput } from '@/components/ui/Input/Input';
 import { PrimaryButton } from '@/components/ui/Button/Button';
 import { type ProfileFormProps } from './ProfileForm.interface';
-import { validationRules } from './Profileform.helper'
+import { validationRules } from './Profileform.helper';
 import { VALIDATION_MESSAGES } from '@/constants/api';
 
 
@@ -23,7 +23,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({
   const { formData, errors, updateField, validateAll, hasErrors } =
     useFormValidation(initialData, validationRules);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async() => {
     try {
       if (!validateAll()) {
         return;

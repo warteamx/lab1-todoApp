@@ -8,14 +8,14 @@ import {
   ElevatedCard,
   OutlinedCard,
   FilledCard,
-  ListCard
+  ListCard,
 } from '../Card';
 import {
   renderWithTheme,
   MockIcon,
   MockAction,
   TestContent,
-  SAMPLE_CONTENT
+  SAMPLE_CONTENT,
 } from './Card.test.utils';
 
 describe('<Card />', () => {

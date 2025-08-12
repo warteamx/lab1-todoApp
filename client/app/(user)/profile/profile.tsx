@@ -21,7 +21,7 @@ const ProfileScreen = () => {
 
   console.log('Current Profile:', currentProfile);
 
-  const onRefresh = async () => {
+  const onRefresh = async() => {
     setRefreshing(true);
     try {
       await Promise.all([refetch(), refreshProfile()]);
@@ -30,12 +30,12 @@ const ProfileScreen = () => {
     }
   };
 
-  const handleProfileUpdate = async () => {
+  const handleProfileUpdate = async() => {
     setIsEditing(false);
     await onRefresh();
   };
 
-  const handleAvatarUpdate = async (newAvatarUrl: string) => {
+  const handleAvatarUpdate = async(newAvatarUrl: string) => {
     await onRefresh();
   };
 
@@ -161,7 +161,7 @@ const ProfileScreen = () => {
             variant="secondary"
             size="large"
             fullWidth
-            onPress={async () => await supabase.auth.signOut()}
+            onPress={async() => await supabase.auth.signOut()}
           />
         </View>
       </View>

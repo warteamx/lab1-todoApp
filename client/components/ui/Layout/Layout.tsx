@@ -20,7 +20,7 @@ import {
   GridProps,
   SpacerProps,
   CenterProps,
-} from './Layout.interface'
+} from './Layout.interface';
 
 // Get screen dimensions
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');

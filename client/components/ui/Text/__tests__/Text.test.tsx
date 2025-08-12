@@ -9,13 +9,13 @@ import {
   BodyText,
   LabelText,
   CaptionText,
-  OverlineText
+  OverlineText,
 } from '../Text';
 import {
   renderWithTheme,
   TEST_DATA,
   TEXT_HELPERS,
-  TEXT_SCENARIOS
+  TEXT_SCENARIOS,
 } from './Text.test.utils';
 
 describe('<Text />', () => {
@@ -112,7 +112,7 @@ describe('<Text />', () => {
     it('merges custom style with theme styles', () => {
       const customStyle = {
         textDecorationLine: 'underline' as const,
-        fontStyle: 'italic' as const
+        fontStyle: 'italic' as const,
       };
       renderWithTheme(
         <Text
