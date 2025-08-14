@@ -12,16 +12,25 @@ const profileOpenapiDoc = yaml.parse(fs.readFileSync(profileOpenapiPath, 'utf8')
 
 // Merge the OpenAPI specifications
 const mergedOpenapiDoc = {
-  ...todoOpenapiDoc,
+  openapi: '3.1.0',
   info: {
     title: 'Expo Lab API',
     version: '1.1.0',
     description: 'Complete API for the Expo Lab application including todos, profiles, and health checks',
   },
+  servers: [
+    {
+      url: 'http://localhost:3000',
+      description: 'Local server'
+    }
+  ],
   tags: [
     ...(todoOpenapiDoc.tags || []),
     ...(healthOpenapiDoc.tags || []),
     ...(profileOpenapiDoc.tags || []),
+  ],
+  security: [
+    { Authorization: [] }
   ],
   paths: {
     ...todoOpenapiDoc.paths,
@@ -30,13 +39,19 @@ const mergedOpenapiDoc = {
   },
   components: {
     schemas: {
-      ...todoOpenapiDoc.components?.schemas,
       ...healthOpenapiDoc.components?.schemas,
+      ...todoOpenapiDoc.components?.schemas,
       ...profileOpenapiDoc.components?.schemas,
     },
     securitySchemes: {
-      ...todoOpenapiDoc.components?.securitySchemes,
+      Authorization: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'JWT token for authentication'
+      },
       ...healthOpenapiDoc.components?.securitySchemes,
+      ...todoOpenapiDoc.components?.securitySchemes,
       ...profileOpenapiDoc.components?.securitySchemes,
     },
   },

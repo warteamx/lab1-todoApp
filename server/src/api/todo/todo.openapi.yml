@@ -13,13 +13,15 @@ tags:
       url: https://github.com/martinrebo/expo-lab
       description: Github repository. Find more info here
 security:
-  - Authorization: ["jwt"]
+  - Authorization: []
 paths:
   /api/todo:
     get:
       tags:
         - Todo
       summary: Get all todos
+      security:
+        - Authorization: []
       responses:
         "200":
           description: List of todos
@@ -34,6 +36,8 @@ paths:
       tags:
         - Todo
       summary: Create a new todo
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
@@ -52,6 +56,8 @@ paths:
       tags:
         - Todo
       summary: Update an existing todo
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
@@ -69,6 +75,8 @@ paths:
       tags:
         - Todo
       summary: Delete an existing todo
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
@@ -119,3 +127,10 @@ components:
       properties:
         id:
           type: string
+
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication

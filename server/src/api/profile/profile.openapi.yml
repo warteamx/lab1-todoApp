@@ -13,7 +13,7 @@ tags:
       url: https://github.com/martinrebo/expo-lab
       description: Github repository. Find more info here
 security:
-  - Authorization: ["jwt"]
+  - Authorization: []
 paths:
   /api/profile/{userId}:
     get:
@@ -21,6 +21,8 @@ paths:
         - Profile
       summary: Get profile by user ID
       description: Retrieve a user's profile information. Users can only access their own profile.
+      security:
+        - Authorization: []
       parameters:
         - in: path
           name: userId
@@ -60,6 +62,8 @@ paths:
         - Profile
       summary: Update profile
       description: Update the authenticated user's profile information (username, full name, etc.)
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
@@ -98,6 +102,8 @@ paths:
         - Profile
       summary: Upload avatar
       description: Upload a new avatar image for the authenticated user's profile
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
