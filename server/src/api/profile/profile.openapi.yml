@@ -1,0 +1,225 @@
+openapi: 3.1.0
+info:
+  title: Profile API
+  version: 1.0.0
+  description: API for managing user profiles
+servers:
+  - url: http://localhost:3000
+    description: Local server
+tags:
+  - name: Profile
+    description: Operations related to user profiles
+    externalDocs:
+      url: https://github.com/martinrebo/expo-lab
+      description: Github repository. Find more info here
+security:
+  - Authorization: ["jwt"]
+paths:
+  /api/profile/{userId}:
+    get:
+      tags:
+        - Profile
+      summary: Get profile by user ID
+      description: Retrieve a user's profile information. Users can only access their own profile.
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user whose profile to retrieve
+      responses:
+        "200":
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        "401":
+          description: Unauthorized - Invalid or missing authentication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden - User can only access their own profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Profile not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/profile/profile:
+    put:
+      tags:
+        - Profile
+      summary: Update profile
+      description: Update the authenticated user's profile information (username, full name, etc.)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateProfileDto"
+      responses:
+        "200":
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Profile"
+        "400":
+          description: Bad request - Invalid input data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized - Invalid or missing authentication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/profile/avatar:
+    post:
+      tags:
+        - Profile
+      summary: Upload avatar
+      description: Upload a new avatar image for the authenticated user's profile
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The avatar image file to upload
+              required:
+                - file
+      responses:
+        "200":
+          description: Avatar uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  avatar_url:
+                    type: string
+                    format: uri
+                    description: URL of the uploaded avatar image
+                    example: "https://example.com/avatars/user123.jpg"
+        "400":
+          description: Bad request - No file uploaded or invalid file
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized - Invalid or missing authentication
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error - Invalid file format or size
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Profile:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user profile
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        username:
+          type: string
+          description: User's chosen username
+          example: "johndoe"
+        full_name:
+          type: string
+          description: User's full name
+          example: "John Doe"
+        avatar_url:
+          type: string
+          format: uri
+          description: URL of the user's avatar image
+          example: "https://example.com/avatars/user123.jpg"
+        website:
+          type: string
+          format: uri
+          description: User's personal website URL
+          example: "https://johndoe.com"
+
+    UpdateProfileDto:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the user profile
+          example: "123e4567-e89b-12d3-a456-426614174000"
+        username:
+          type: string
+          description: User's chosen username
+          example: "johndoe"
+          minLength: 3
+          maxLength: 30
+        full_name:
+          type: string
+          description: User's full name
+          example: "John Doe"
+          maxLength: 100
+        avatar_url:
+          type: string
+          format: uri
+          description: URL of the user's avatar image
+          example: "https://example.com/avatars/user123.jpg"
+        website:
+          type: string
+          format: uri
+          description: User's personal website URL
+          example: "https://johndoe.com"
+
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Error message describing what went wrong
+          example: "Unauthorized access"
+        code:
+          type: string
+          description: Error code for programmatic handling
+          example: "UNAUTHORIZED"
+        timestamp:
+          type: string
+          format: date-time
+          description: ISO 8601 timestamp when the error occurred
+          example: "2025-08-14T10:30:00Z"
+
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication

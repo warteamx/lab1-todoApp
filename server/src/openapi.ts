@@ -4,9 +4,11 @@ import yaml from 'yaml';
 
 const todoOpenapiPath = path.join(__dirname, './api/todo/todo.openapi.yml');
 const healthOpenapiPath = path.join(__dirname, './api/health/health.openapi.yml');
+const profileOpenapiPath = path.join(__dirname, './api/profile/profile.openapi.yml');
 
 const todoOpenapiDoc = yaml.parse(fs.readFileSync(todoOpenapiPath, 'utf8'));
 const healthOpenapiDoc = yaml.parse(fs.readFileSync(healthOpenapiPath, 'utf8'));
+const profileOpenapiDoc = yaml.parse(fs.readFileSync(profileOpenapiPath, 'utf8'));
 
 // Merge the OpenAPI specifications
 const mergedOpenapiDoc = {
@@ -14,20 +16,28 @@ const mergedOpenapiDoc = {
   info: {
     title: 'Expo Lab API',
     version: '1.1.0',
-    description: 'Complete API for the Expo Lab application including todos and health checks',
+    description: 'Complete API for the Expo Lab application including todos, profiles, and health checks',
   },
   tags: [
     ...(todoOpenapiDoc.tags || []),
     ...(healthOpenapiDoc.tags || []),
+    ...(profileOpenapiDoc.tags || []),
   ],
   paths: {
     ...todoOpenapiDoc.paths,
     ...healthOpenapiDoc.paths,
+    ...profileOpenapiDoc.paths,
   },
   components: {
     schemas: {
       ...todoOpenapiDoc.components?.schemas,
       ...healthOpenapiDoc.components?.schemas,
+      ...profileOpenapiDoc.components?.schemas,
+    },
+    securitySchemes: {
+      ...todoOpenapiDoc.components?.securitySchemes,
+      ...healthOpenapiDoc.components?.securitySchemes,
+      ...profileOpenapiDoc.components?.securitySchemes,
     },
   },
 };
