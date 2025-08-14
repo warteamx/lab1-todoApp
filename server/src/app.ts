@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import openapiDoc from './openapi';
 import todoRouter from './api/todo/todo.routes';
 import profileRouter from './api/profile/profile.routes';
+import healthRouter from './api/health/health.routes';
 import multer from 'multer';
 import helmet from 'helmet';
 import { errorMiddleware } from './common/middlewares/error.middleware';
@@ -59,6 +60,11 @@ app.use(
 app.use(json());
 app.use(loggerMiddleware);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc));
+
+// Health endpoint - no authentication required
+app.use('/api/health', healthRouter);
+
+// Authentication middleware for protected routes
 app.use(authMiddleware);
 
 // Multer setup for avatar upload

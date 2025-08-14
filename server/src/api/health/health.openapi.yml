@@ -1,0 +1,54 @@
+openapi: 3.1.0
+info:
+  title: Health API
+  version: 1.0.0
+  description: API for health checks
+servers:
+  - url: http://localhost:3000
+    description: Local server
+tags:
+  - name: Health
+    description: Health check operations
+    externalDocs:
+      url: https://github.com/martinrebo/expo-lab
+      description: Github repository. Find more info here
+paths:
+  /api/health:
+    get:
+      summary: Health check endpoint
+      description: Returns the health status of the API server
+      tags:
+        - Health
+      security: [] # No authentication required for health check
+      responses:
+        "200":
+          description: Server is healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthResponse"
+
+components:
+  schemas:
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy]
+          description: Health status of the server
+        timestamp:
+          type: string
+          format: date-time
+          description: Current server timestamp
+        uptime:
+          type: number
+          description: Server uptime in seconds
+        version:
+          type: string
+          description: API version
+      required:
+        - status
+        - timestamp
+        - uptime
+        - version

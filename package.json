@@ -6,6 +6,7 @@
     "client:dev": "npm --prefix ./client run start",
     "test:client": "npm --prefix ./client run test",
     "test:server": "npm -prefix ./server run test",
-    "docker:dev": "npm --prefix ./server run docker:dev"
+    "docker:dev": "npm --prefix ./server run docker:dev",
+    "server:logs:view": "npm --prefix ./server run logs:view"
   }
 }

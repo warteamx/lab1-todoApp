@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "NODE_ENV=development npx dotenvx run -- ts-node-dev -r tsconfig-paths/register src/server.ts",
     "build": "tsc",
-    "build:prod:bundle": "rm -rf dist && tsc && tar -czf ../server-artifact.tgz dist package.json package-lock.json || true",
     "start": "node dist/server.js",
     "test": "npx vitest run",
     "test:watch": "npx vitest",
