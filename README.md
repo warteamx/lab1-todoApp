@@ -35,6 +35,10 @@ npm run server:dev
 
 ### Server Documentation
 - 🚀 [Server Setup](./server/docs/SERVER_START.md) - Server installation and startup
+- 🏗️ [Architecture Guide](./server/docs/ARCHITECTURE.md) - Domain-Driven Design, clean architecture, and design patterns
+- 📁 [DDD Folder Structure](./server/docs/DDD_FOLDER_STRUCTURE.md) - Detailed folder organization and domain structure
+- 🧪 [Testing Guide](./server/docs/TESTING.md) - Testing strategies, tools, and best practices
+- 📖 [Server README](./server/docs/README.md) - Complete server documentation overview
 - 🔒 [Security Guide](./server/docs/SECURITY.md) - Security best practices
 - ⚠️ [Error Handling](./server/docs/ERROR_HANDLING.md) - Error handling patterns
 
