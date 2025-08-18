@@ -165,7 +165,7 @@ Once the server is running, access:
 
 - **Swagger UI**: `http://localhost:3000/api-docs`
 - **OpenAPI Spec**: Available through the Swagger interface
-- **Health Check**: `http://localhost:3000/api-docs` (used for health monitoring)
+- **Health Check**: `http://localhost:3000/health` (used for health monitoring)
 
 ## 📝 Logging
 

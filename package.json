@@ -1,6 +1,8 @@
 {
   "name": "expo-lab",
   "version": "1.1.0",
+  "description": "Server and Client Development Scripts",
+  "main": "README.md",
   "scripts": {
     "server:dev": "npm --prefix ./server run dev",
     "client:dev": "npm --prefix ./client run start",
