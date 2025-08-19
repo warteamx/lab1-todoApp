@@ -52,7 +52,15 @@ app.use(
 
 app.use(
   cors({
-    origin: '*', // Allow all origins for development, adjust as needed
+// CORS configuration: restrict origins in production
+const allowedOrigins =
+  process.env.NODE_ENV === 'production'
+    ? (process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [])
+    : '*';
+
+app.use(
+  cors({
+    origin: allowedOrigins,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   })
