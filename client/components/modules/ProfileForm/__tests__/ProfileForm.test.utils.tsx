@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
-import { fireEvent, screen } from '@testing-library/react-native';
+import { render , fireEvent, screen } from '@testing-library/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ThemeProvider } from '@/providers/themeProvider';
 import { type UpdateProfileDto } from '@/api/profile.api';

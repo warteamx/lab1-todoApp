@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
 import { TextVariant } from '@/themes/typography';
-import { getTypographyStyle } from './Text.helpers'
+import { getTypographyStyle } from './Text.helpers';
 import { ThemedTextProps } from './Text.interface';
 
 

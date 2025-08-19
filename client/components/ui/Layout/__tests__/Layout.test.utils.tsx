@@ -63,10 +63,10 @@ export const mockThemeContext = createTestThemeContext('modern');
  */
 export const MockChild: React.FC<{ testID?: string; children?: React.ReactNode }> = ({
   testID = 'mock-child',
-  children = 'Test Content'
+  children = 'Test Content',
 }) => (
   <View testID={testID}>
-    <Text>{children}</Text>
+    <Text>{children}</Text>ƒ
   </View>
 );
 
@@ -75,15 +75,13 @@ export const MockChild: React.FC<{ testID?: string; children?: React.ReactNode }
  */
 export const MockChildren: React.FC<{ count?: number; prefix?: string }> = ({
   count = 3,
-  prefix = 'Child'
+  prefix = 'Child',
 }) => (
   <>
     {Array.from({ length: count }, (_, index) => (
-      <MockChild
-        key={index}
-        testID={`mock-child-${index}`}
-        children={`${prefix} ${index + 1}`}
-      />
+      <MockChild key={index} testID={`mock-child-${index}`}>
+        {`${prefix} ${index + 1}`}
+      </MockChild>
     ))}
   </>
 );
@@ -140,7 +138,7 @@ export const TEST_DATA = {
     withTitle: { title: TEST_CONSTANTS.content.title },
     withTitleAndSubtitle: {
       title: TEST_CONSTANTS.content.title,
-      subtitle: TEST_CONSTANTS.content.subtitle
+      subtitle: TEST_CONSTANTS.content.subtitle,
     },
     withSpacing: { spacing: '3xl' as const },
   } as Record<string, Partial<SectionProps>>,

@@ -1,25 +1,4 @@
-# Profile Management Features
-
-This document outlines the new profile ma#### 3. **Error Handling**
-- Centralized error handling utilities
-- User-friendly error messages
-- Proper API error responses
-- Loading states for all async operations
-
-#### 4. **Cross-Platform Compatibility**
-- **Native platforms (iOS/Android)**: 
-  - Camera capture or photo library selection
-  - Image cropping with square aspect ratio
-  - Permission handling for camera and media library access
-- **Web platform**:
-  - HTML file input with custom styling
-  - File type and size validation
-  - Support for modern browsers with File API
-  - Graceful degradation for unsupported browsers
-
-#### 5. **TanStack Query Integration**agement features implemented in the Expo client application.
-
-## Features Overview
+## PROFILE Features Overview
 
 ### 1. Profile Information Updates
 - **Username**: Required field with validation (min 3 characters, alphanumeric + underscore only)
@@ -43,6 +22,7 @@ This document outlines the new profile ma#### 3. **Error Handling**
 ## Architecture & Best Practices
 
 ### Components Structure
+
 ```
 client/
 ├── api/

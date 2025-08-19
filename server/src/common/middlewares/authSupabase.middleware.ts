@@ -2,7 +2,6 @@
 import { Response, NextFunction } from 'express';
 import { Request, UserClaims } from '@/common/types/express';
 import { createClient } from '@supabase/supabase-js';
-import { logger } from '../utils/logger';
 import { UnauthorizedException } from '../exceptions';
 import { asyncHandler } from '../utils/asyncHandler';
 const SUPABASE_URL =

@@ -1,5 +1,4 @@
-import { StyleSheet, Platform } from 'react-native';
-import { TextStyle as RNTextStyle } from 'react-native';
+import { StyleSheet, Platform , TextStyle as RNTextStyle } from 'react-native';
 import { Theme } from '@/themes/themes';
 import { InputVariant, InputSize } from './Input.interface';
 import { sizeConfig, getInputColors } from './Input.helpers';

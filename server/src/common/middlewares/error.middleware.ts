@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { BaseException } from '../exceptions/baseException';
 import { HttpException } from '../exceptions/httpException';
-import { logger } from '../utils/logger';
+import logger from '../utils/logger';
 
 interface ErrorResponse {
   error: {

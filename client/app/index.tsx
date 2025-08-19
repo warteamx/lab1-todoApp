@@ -6,7 +6,7 @@ import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 
-const index = () => {
+const Index = () => {
   const { session, loading } = useAuth();
 
   if (loading) {
@@ -60,4 +60,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

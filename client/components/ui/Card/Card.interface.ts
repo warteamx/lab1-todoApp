@@ -1,4 +1,4 @@
-import { TouchableOpacityProps } from 'react-native'
+import { TouchableOpacityProps } from 'react-native';
 import { SpacingKey, BorderRadiusKey } from '@/themes/spacing';
 import { ShadowLevel } from '@/themes/shadows';
 import { Theme } from '@/themes/themes';

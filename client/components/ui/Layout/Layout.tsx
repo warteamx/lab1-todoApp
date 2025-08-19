@@ -1,11 +1,7 @@
 // Layout components for responsive design and consistent spacing
 
 import React from 'react';
-import {
-  ScrollView,
-  Platform,
-  Dimensions,
-} from 'react-native';
+import { ScrollView, Platform, Dimensions } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '../View/View';
 import { Text } from '../Text/Text';
@@ -20,20 +16,20 @@ import {
   GridProps,
   SpacerProps,
   CenterProps,
-} from './Layout.interface'
+} from './Layout.interface';
 
 // Get screen dimensions
-const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+const { width: screenWidth } = Dimensions.get('window');
 
 // Responsive breakpoints
 const isTablet = screenWidth >= 768;
 const isDesktop = screenWidth >= 1024;
-const isMobile = screenWidth < 768;
 
 
 
 // Hook to get current screen size
 export const useScreenSize = (): ScreenSize => {
+  // Determine screen size on first render; avoid conditional hook calls elsewhere
   if (isDesktop) return 'desktop';
   if (isTablet) return 'tablet';
   return 'mobile';
@@ -50,7 +46,8 @@ export const Container: React.FC<ContainerProps> = ({
   style,
 }) => {
   const { theme } = useTheme();
-  const screenSize = size || useScreenSize();
+  const computedScreenSize = useScreenSize();
+  const screenSize = size || computedScreenSize;
 
   // Get responsive padding
   const containerPadding =

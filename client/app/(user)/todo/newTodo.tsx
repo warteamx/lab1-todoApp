@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ActivityIndicator, Switch } from 'react-native';
+import { Switch } from 'react-native';
 import { useCreateTodo } from '@/api/todo.api';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '@/components/ui/View/View';

@@ -44,7 +44,7 @@ export const AvatarUpload: React.FC<AvatarUploadProps> = ({
     target.value = '';
   };
 
-  const pickImage = async () => {
+  const pickImage = async() => {
     if (Platform.OS === 'web') {
       // Check if File API is supported
       if (!checkWebFileApiSupport()) {

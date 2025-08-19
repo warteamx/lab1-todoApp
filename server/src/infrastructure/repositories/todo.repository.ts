@@ -2,6 +2,7 @@ import { RowList } from 'postgres';
 import sql from '../database/postgres';
 import { Todo } from '../../domain/todo/entities/todo.entity';
 import { DatabaseException, NotFoundException } from '../../common/exceptions';
+import logger from '../../common/utils/logger';
 
 export async function getTodos(user_id: string): Promise<Todo[]> {
   try {

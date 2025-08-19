@@ -13,62 +13,78 @@ tags:
       url: https://github.com/martinrebo/expo-lab
       description: Github repository. Find more info here
 security:
-  - Authorization: [ 'jwt']
+  - Authorization: []
 paths:
   /api/todo:
     get:
+      tags:
+        - Todo
       summary: Get all todos
+      security:
+        - Authorization: []
       responses:
-        '200':
+        "200":
           description: List of todos
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Todo'
+                  $ref: "#/components/schemas/Todo"
 
     post:
+      tags:
+        - Todo
       summary: Create a new todo
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateTodoDto'
+              $ref: "#/components/schemas/CreateTodoDto"
       responses:
-        '201':
+        "201":
           description: Created todo
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Todo'
+                $ref: "#/components/schemas/Todo"
 
     put:
+      tags:
+        - Todo
       summary: Update an existing todo
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateTodoDto'
+              $ref: "#/components/schemas/UpdateTodoDto"
       responses:
-        '200':
+        "200":
           description: Updated todo
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Todo'
+                $ref: "#/components/schemas/Todo"
     delete:
+      tags:
+        - Todo
       summary: Delete an existing todo
+      security:
+        - Authorization: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/DeleteTodoDto'
+              $ref: "#/components/schemas/DeleteTodoDto"
       responses:
-        '204':
+        "204":
           description: No Content
 ## Components vs Schemas
 components:
@@ -111,3 +127,10 @@ components:
       properties:
         id:
           type: string
+
+  securitySchemes:
+    Authorization:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT token for authentication

@@ -1,8 +1,10 @@
+import sql from '../database/postgres';
+import { supabase } from '../storage/supabase.storage';
 import { UpdateProfileDto } from '../../domain/profile/dto/updateProfile.dto';
 import { Profile } from '../../domain/profile/entities/profile.entity';
 import { ValidationException, NotFoundException, StorageException, DatabaseException } from '../../common/exceptions';
-import sql from '../database/postgres';
-import { supabase } from '../storage/supabase.storage';
+import logger from '../../common/utils/logger';
+
 
 export async function updateProfile(
   userId: string,
@@ -55,7 +57,7 @@ export async function uploadProfileAvatar(
 
     const avatarUrl = supabase.storage.from('avatars').getPublicUrl(data.path)
       .data.publicUrl;
-    logger.info('Avatar uploaded:', avatarUrl);
+    logger.info(`Avatar uploaded: ${avatarUrl}`);
 
     await sql`
       UPDATE

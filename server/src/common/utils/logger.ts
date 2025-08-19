@@ -1,5 +1,5 @@
-import winston from 'winston';
-import path from 'path';
+import * as winston from 'winston';
+import * as path from 'path';
 
 // Define log levels
 const levels = {
@@ -106,24 +106,24 @@ export const maskSensitiveData = (data: unknown): unknown => {
 // Logger methods with different levels
 export const logger = {
   error: (message: string, meta?: Record<string, unknown>) => {
-    const logData = meta ? { message, ...maskSensitiveData(meta) } : message;
+    const logData = meta ? { message, ...maskSensitiveData(meta) as Record<string, unknown> } : message;
     Logger.error(logData);
   },
   warn: (message: string, meta?: Record<string, unknown>) => {
-    const logData = meta ? { message, ...maskSensitiveData(meta) } : message;
+    const logData = meta ? { message, ...maskSensitiveData(meta) as Record<string, unknown> } : message;
     Logger.warn(logData);
   },
   info: (message: string, meta?: Record<string, unknown>) => {
     const isDev = process.env.NODE_ENV === 'development';
     const logData = meta
-      ? { message, ...(isDev ? meta : maskSensitiveData(meta)) }
+      ? { message, ...(isDev ? meta : maskSensitiveData(meta) as Record<string, unknown>) }
       : message;
     Logger.info(logData);
   },
   http: (message: string, meta?: Record<string, unknown>) => {
     const isDev = process.env.NODE_ENV === 'development';
     const logData = meta
-      ? { message, ...(isDev ? meta : maskSensitiveData(meta)) }
+      ? { message, ...(isDev ? meta : maskSensitiveData(meta) as Record<string, unknown>) }
       : message;
     Logger.http(logData);
   },

@@ -139,14 +139,14 @@ export const HEADER_SCENARIOS = {
     description: 'header with title and subtitle',
     props: createHeaderProps({
       title: TEST_CONSTANTS.titles.main,
-      subtitle: TEST_CONSTANTS.subtitles.basic
+      subtitle: TEST_CONSTANTS.subtitles.basic,
     }),
   },
   withBack: {
     description: 'header with back button',
     props: createHeaderProps({
       title: TEST_CONSTANTS.titles.withBack,
-      showBack: true
+      showBack: true,
     }),
   },
   withActions: {
@@ -163,7 +163,7 @@ export const HEADER_SCENARIOS = {
     description: 'header without theme toggle',
     props: createHeaderProps({
       title: TEST_CONSTANTS.titles.noThemeToggle,
-      themeToggle: false
+      themeToggle: false,
     }),
   },
   full: {
@@ -227,7 +227,7 @@ export const THEME_HELPERS = {
     }
   },
 
-  getAllThemeVariants: () => Object.keys(themes) as Array<keyof typeof themes>,
+  getAllThemeVariants: () => Object.keys(themes) as (keyof typeof themes)[],
 
   getThemeByVariant: (variant: keyof typeof themes) => themes[variant],
 } as const;

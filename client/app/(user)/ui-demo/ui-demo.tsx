@@ -12,10 +12,10 @@ import { Stack, Inline, Section } from '@/components/ui/Layout/Layout';
 import { Header } from '@/components/ui/Header/Header';
 
 export default function ThemeDemoScreen() {
-  const { theme, setThemeVariant, themeVariant } = useTheme();
+  const { setThemeVariant, themeVariant } = useTheme();
   const [inputValue, setInputValue] = useState('');
 
-  const themeVariants: Array<'modern' | 'dark' | 'warm' | 'cool'> = [
+  const themeVariants: ('modern' | 'dark' | 'warm' | 'cool')[] = [
     'modern',
     'dark',
     'warm',

@@ -82,7 +82,7 @@ const SignInScreen = () => {
 
           <View style={{ alignItems: 'center', marginTop: 16 }}>
             <Text variant="bodyMedium" color="textSecondary">
-              Don't have an account?{' '}
+              Don’t have an account?{' '}
             </Text>
             <Link href="/sign-up">
               <Text variant="bodyMedium" color="interactive">

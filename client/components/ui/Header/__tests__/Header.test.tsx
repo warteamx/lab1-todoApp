@@ -1,19 +1,7 @@
 import React from 'react';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { Header } from '../Header';
-import {
-  renderWithTheme,
-  renderWithThemeVariant,
-  MockAction,
-  mockRouter,
-  TEST_DATA, // Backward compatibility
-  TEST_CONSTANTS,
-  HEADER_SCENARIOS,
-  ACCESSIBILITY_HELPERS,
-  THEME_HELPERS,
-  TEST_PATTERNS,
-  createTestThemeContext
-} from './Header.test.utils';
+import { renderWithTheme, MockAction, mockRouter, TEST_DATA, HEADER_SCENARIOS, ACCESSIBILITY_HELPERS } from './Header.test.utils';
 
 // Mock expo-router
 jest.mock('expo-router', () => ({

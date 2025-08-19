@@ -6,7 +6,7 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 const MockAvatarUpload = ({
   currentAvatarUrl,
   onSuccess,
-  isLoading = false
+  isLoading = false,
 }: {
   currentAvatarUrl?: string;
   onSuccess?: (url: string) => void;
@@ -135,7 +135,7 @@ describe('AvatarUpload Component Testing Approach', () => {
 
       // Component is accessible
       expect(screen.getByLabelText('Current avatar')).toHaveAccessibilityValue({
-        text: undefined
+        text: undefined,
       });
     });
 
