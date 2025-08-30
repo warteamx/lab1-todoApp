@@ -55,8 +55,8 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy built application
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
-# Copy startup script from build stage
-COPY --from=build /app/startup.sh ./
+# Copy startup script directly from source (not from build stage)
+COPY startup.sh ./
 RUN chmod +x startup.sh
 # Create logs directory
 RUN mkdir -p /app/logs && chown -R serveruser:nodejs /app/logs
