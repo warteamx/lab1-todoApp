@@ -102,16 +102,16 @@ jobs:
           
           # Get container logs via SSH if health check fails
           ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-            echo "📋 Container status:"
-            sudo docker ps -a --filter name=lab1-todoapp-server
-            
-            echo "📋 Container logs (last 50 lines):"
-            sudo docker logs --tail 50 lab1-todoapp-server
-            
-            echo "📋 System resources:"
-            free -h
-            df -h
-          EOF
+        echo "📋 Container status:"
+        sudo docker ps -a --filter name=lab1-todoapp-server
+        
+        echo "📋 Container logs (last 50 lines):"
+        sudo docker logs --tail 50 lab1-todoapp-server
+        
+        echo "📋 System resources:"
+        free -h
+        df -h
+        EOF
           
           exit 1
         fi
