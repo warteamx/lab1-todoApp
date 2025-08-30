@@ -50,8 +50,6 @@ app.use(
   })
 );
 
-app.use(
-  cors({
 // CORS configuration: restrict origins in production
 const allowedOrigins =
   process.env.NODE_ENV === 'production'
