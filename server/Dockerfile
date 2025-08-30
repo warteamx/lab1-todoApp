@@ -55,9 +55,9 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy built application
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
-# Copy startup script directly from source (not from build stage)
-COPY startup.sh ./
-RUN chmod +x startup.sh
+# Copy startup script with explicit path
+COPY ./startup.sh /app/startup.sh
+RUN chmod +x /app/startup.sh
 # Create logs directory
 RUN mkdir -p /app/logs
 # Change ownership to non-root user (including startup.sh)
@@ -70,4 +70,4 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD node -e "require('http').get('http://localhost:3000/ping', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 # Start the application with dumb-init for proper signal handling
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["./startup.sh"]
+CMD ["/app/startup.sh"]
