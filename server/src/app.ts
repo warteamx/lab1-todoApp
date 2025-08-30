@@ -67,6 +67,11 @@ app.use(json());
 app.use(loggerMiddleware);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc));
 
+// Simple connectivity test endpoint
+app.get('/ping', (req, res) => {
+  res.status(200).json({ message: 'pong', timestamp: new Date().toISOString() });
+});
+
 // Health endpoint - no authentication required
 app.use('/api/health', healthRouter);
 
