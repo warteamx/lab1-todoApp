@@ -33,6 +33,8 @@ jobs:
       run: npm run build:web
       env:
         NODE_ENV: production
+        EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+        EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
