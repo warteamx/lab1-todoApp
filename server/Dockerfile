@@ -59,8 +59,8 @@ COPY --from=build /app/package*.json ./
 COPY startup.sh ./
 RUN chmod +x startup.sh
 # Create logs directory
-RUN mkdir -p /app/logs && chown -R serveruser:nodejs /app/logs
-# Change ownership to non-root user
+RUN mkdir -p /app/logs
+# Change ownership to non-root user (including startup.sh)
 RUN chown -R serveruser:nodejs /app
 USER serveruser
 # Expose port
