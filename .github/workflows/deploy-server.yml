@@ -87,6 +87,31 @@ jobs:
     - name: Health check
       run: |
         sleep 30
-        curl -f http://${{ secrets.EC2_HOST }}/api/health || exit 1
-        echo "🚀 Server deployed successfully!"
-        echo "API URL: http://${{ secrets.EC2_HOST }}/api"
+        echo "🔍 Checking Docker container status..."
+        
+        # Try health check
+        if curl -f http://${{ secrets.EC2_HOST }}/api/health; then
+          echo "🚀 Server deployed successfully!"
+          echo "API URL: http://${{ secrets.EC2_HOST }}/api"
+        else
+          echo "❌ Health check failed. Attempting to get container logs for debugging..."
+          
+          # Setup SSH key for debugging (reuse from deploy step)
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > /tmp/ec2_key
+          chmod 600 /tmp/ec2_key
+          
+          # Get container logs via SSH if health check fails
+          ssh -o StrictHostKeyChecking=no -i /tmp/ec2_key ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            echo "📋 Container status:"
+            sudo docker ps -a --filter name=lab1-todoapp-server
+            
+            echo "📋 Container logs (last 50 lines):"
+            sudo docker logs --tail 50 lab1-todoapp-server
+            
+            echo "📋 System resources:"
+            free -h
+            df -h
+          EOF
+          
+          exit 1
+        fi
