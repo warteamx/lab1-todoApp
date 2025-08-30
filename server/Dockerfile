@@ -55,19 +55,16 @@ COPY --from=deps /app/node_modules ./node_modules
 # Copy built application
 COPY --from=build /app/dist ./dist
 COPY --from=build /app/package*.json ./
-# Copy startup script with explicit path
-COPY ./startup.sh /app/startup.sh
-RUN chmod +x /app/startup.sh
 # Create logs directory
 RUN mkdir -p /app/logs
-# Change ownership to non-root user (including startup.sh)
+# Change ownership to non-root user
 RUN chown -R serveruser:nodejs /app
 USER serveruser
 # Expose port
 EXPOSE 3000
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:3000/ping', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+# Health check - use the proper health endpoint with longer timeout
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/api/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) }).on('error', () => process.exit(1))"
 # Start the application with dumb-init for proper signal handling
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["/app/startup.sh"]
+CMD ["node", "dist/server.js"]
