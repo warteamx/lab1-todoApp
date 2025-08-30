@@ -4,6 +4,11 @@ Hello World!
 
 A full-stack application built with Expo and Express.
 
+## Deployment
+Client (Web App): http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com
+Server (API): http://56.228.14.41/api
+Health Check: http://56.228.14.41/api/health
+
 ## Project Structure
 
 - **Client**: Expo SDK 53 React Native App (iOS, Android, Web)

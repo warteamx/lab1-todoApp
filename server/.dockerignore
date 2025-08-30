@@ -31,7 +31,6 @@ build/
 README.md
 .eslintrc*
 .prettierrc*
-tsconfig.json
 vitest.config.ts
 
 # OS generated files

@@ -1,6 +1,6 @@
 {
   "name": "expo-lab",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Server and Client Development Scripts",
   "main": "README.md",
   "scripts": {

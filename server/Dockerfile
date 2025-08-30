@@ -1,6 +1,6 @@
 # Use official Node.js runtime as the base image
 # Using LTS version for stability and security
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 
 # Set working directory
 WORKDIR /app
@@ -16,8 +16,8 @@ RUN adduser -S serveruser -u 1001
 FROM base AS deps
 # Copy package files
 COPY package*.json ./
-# Install dependencies
-RUN npm ci --only=production && npm cache clean --force
+# Clean install production dependencies only
+RUN npm ci --omit=dev && npm cache clean --force
 
 # Development stage
 FROM base AS dev
