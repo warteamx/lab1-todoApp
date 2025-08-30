@@ -1,0 +1,60 @@
+name: Deploy Client to S3
+
+on:
+  push:
+    branches: [ main, 22-deploy-to-aws ]
+    paths:
+      - 'client/**'
+      - '.github/workflows/deploy-client.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-client:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: client/package-lock.json
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build for web
+      run: npm run build:web
+      env:
+        NODE_ENV: production
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Sync to S3
+      run: |
+        aws s3 sync web/dist/ s3://${{ secrets.S3_BUCKET }} --delete
+
+    - name: Invalidate CloudFront (if exists)
+      run: |
+        if [ -n "${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}" ]; then
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
+        fi
+      continue-on-error: true
+
+    - name: Output website URL
+      run: |
+        echo "🚀 Client deployed successfully!"
+        echo "Website URL: http://${{ secrets.S3_BUCKET }}.s3-website.eu-north-1.amazonaws.com"

@@ -1,0 +1,92 @@
+name: Deploy Server to EC2
+
+on:
+  push:
+    branches: [ main, 22-deploy-to-aws ]
+    paths:
+      - 'server/**'
+      - '.github/workflows/deploy-server.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy-server:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: Build and save Docker image
+      working-directory: ./server
+      run: |
+        docker build -t lab1-todoapp-server:latest --target production .
+        docker save lab1-todoapp-server:latest | gzip > lab1-todoapp-server.tar.gz
+
+    - name: Upload Docker image to EC2
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_PRIVATE_KEY }}
+        source: "server/lab1-todoapp-server.tar.gz"
+        target: "/home/ubuntu/"
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.1.0
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_PRIVATE_KEY }}
+        script: |
+          # Update system
+          sudo apt-get update
+
+          # Install Docker if not already installed
+          if ! command -v docker &> /dev/null; then
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker $USER
+          fi
+
+          # Install AWS CLI if not already installed
+          if ! command -v aws &> /dev/null; then
+            sudo apt-get install -y awscli
+          fi
+
+          # Load Docker image
+          cd /home/ubuntu
+          sudo docker load < server/lab1-todoapp-server.tar.gz
+
+          # Stop and remove existing container
+          sudo docker stop lab1-todoapp-server || true
+          sudo docker rm lab1-todoapp-server || true
+
+          # Run new container
+          sudo docker run -d \
+            --name lab1-todoapp-server \
+            --restart unless-stopped \
+            -p 80:3000 \
+            -e NODE_ENV=production \
+            -e PORT=3000 \
+            -e SUPABASE_DB_URL="${{ secrets.SUPABASE_DB_URL }}" \
+            -e SUPABASE_KEY="${{ secrets.SUPABASE_KEY }}" \
+            -e SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
+            lab1-todoapp-server:latest
+
+          # Clean up old images
+          sudo docker image prune -f
+
+    - name: Health check
+      run: |
+        sleep 30
+        curl -f http://${{ secrets.EC2_HOST }}/api/health || exit 1
+        echo "🚀 Server deployed successfully!"
+        echo "API URL: http://${{ secrets.EC2_HOST }}/api"
