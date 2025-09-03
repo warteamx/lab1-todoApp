@@ -40,6 +40,12 @@ export default function RootLayout() {
             headerShown: false,
           }}
         />
+        <Stack.Screen
+          name="docs"
+          options={{
+            headerShown: false,
+          }}
+        />
       </Stack>
     </AppProviders>
   );

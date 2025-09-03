@@ -165,6 +165,52 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
             </View>
           </View>
 
+          {/* Documentation Section */}
+          <View style={{ marginBottom: 24 }}>
+            <Text
+              variant="titleSmall"
+              color="textPrimary"
+              style={{ marginBottom: 12 }}
+            >
+              Help & Resources
+            </Text>
+
+            <View
+              style={{
+                padding: 16,
+                backgroundColor: theme.colors.background,
+                borderRadius: 12,
+                borderWidth: 1,
+                borderColor: theme.colors.border,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => {
+                  router.push('/docs');
+                  onClose();
+                }}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  paddingVertical: 8,
+                }}
+              >
+                <Text style={{ fontSize: 20, marginRight: 12 }}>📚</Text>
+                <View style={{ flex: 1 }}>
+                  <Text variant="bodyMedium" color="textPrimary">
+                    Documentation
+                  </Text>
+                  <Text variant="labelSmall" color="textSecondary">
+                    App guides, architecture, and feature docs
+                  </Text>
+                </View>
+                <Text style={{ color: theme.colors.interactive, fontSize: 16 }}>
+                  →
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
           {/* Theme Section */}
           <View style={{ marginBottom: 24 }}>
             <Inline spacing="sm" align="center" style={{ marginBottom: 12 }}>
