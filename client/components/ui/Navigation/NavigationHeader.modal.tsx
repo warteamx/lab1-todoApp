@@ -10,38 +10,7 @@ import { View } from '../View/View';
 import { Text } from '../Text/Text';
 import { Button } from '../Button/Button';
 import { Inline } from '../Layout/Layout';
-
-// Theme data for better UX
-const THEME_OPTIONS = [
-  {
-    variant: 'modern' as ThemeVariant,
-    name: 'Modern',
-    icon: '🌟',
-    description: 'Clean & Professional',
-    isDark: false
-  },
-  {
-    variant: 'dark' as ThemeVariant,
-    name: 'Dark',
-    icon: '🌙',
-    description: 'Easy on Eyes',
-    isDark: true
-  },
-  {
-    variant: 'warm' as ThemeVariant,
-    name: 'Warm',
-    icon: '🌅',
-    description: 'Cozy & Energetic',
-    isDark: false
-  },
-  {
-    variant: 'cool' as ThemeVariant,
-    name: 'Cool',
-    icon: '❄️',
-    description: 'Calm & Sophisticated',
-    isDark: false
-  },
-];
+import { THEME_OPTIONS } from './NavigationHeader.helper';
 
 interface NavigationHeaderModalProps {
   visible: boolean;
@@ -70,12 +39,6 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
     } catch (error) {
       console.error('Sign out error:', error);
     }
-  };
-
-  // Quick dark mode toggle
-  const handleQuickDarkToggle = () => {
-    const newVariant = theme.isDark ? 'modern' : 'dark';
-    setThemeVariant(newVariant);
   };
 
   return (
@@ -154,13 +117,23 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
                       </Text>
                     )}
                   </Inline>
-                  <Button
-                    title="Sign Out"
-                    variant="secondary"
-                    size="small"
-                    onPress={handleSignOut}
-                    style={{ alignSelf: 'flex-start' }}
-                  />
+                  <Inline spacing="sm" style={{ marginBottom: 8 }}>
+                    <Button
+                      title="Edit Profile"
+                      variant="primary"
+                      size="small"
+                      onPress={() => {
+                        router.push('/profile/profile');
+                        onClose();
+                      }}
+                    />
+                    <Button
+                      title="Sign Out"
+                      variant="secondary"
+                      size="small"
+                      onPress={handleSignOut}
+                    />
+                  </Inline>
                 </View>
               ) : (
                 <View>
@@ -198,11 +171,6 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
               <Text variant="titleSmall" color="textPrimary">
                 Theme
               </Text>
-              <TouchableOpacity onPress={handleQuickDarkToggle}>
-                <Text variant="labelMedium" color="interactive">
-                  {theme.isDark ? '☀️' : '🌙'}
-                </Text>
-              </TouchableOpacity>
             </Inline>
 
             <View style={{ gap: 8 }}>
