@@ -2,6 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Redirect, Tabs } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
+import { NavigationHeader } from '@/components/ui/Navigation/NavigationHeader';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -27,6 +28,12 @@ export default function TabLayout() {
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.neutral200,
         },
+        header: () => (
+          <NavigationHeader
+            title="Dashboard"
+            subtitle="Manage your tasks"
+          />
+        ),
       }}
     >
       <Tabs.Screen name="index" options={{ href: null }} />
@@ -35,7 +42,13 @@ export default function TabLayout() {
         name="todo"
         options={{
           title: 'Todo',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="Todo List"
+              subtitle="Manage your tasks"
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="check-square" color={color} />
           ),
@@ -46,7 +59,13 @@ export default function TabLayout() {
         name="ui-demo"
         options={{
           title: 'Demo',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="UI Demo"
+              subtitle="Component showcase"
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="paint-brush" color={color} />
           ),
@@ -57,7 +76,13 @@ export default function TabLayout() {
         name="vr"
         options={{
           title: 'VR',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="VR Experience"
+              subtitle="Virtual reality demo"
+            />
+          ),
           tabBarIcon: ({ color }) => <TabBarIcon name="space-shuttle" color={color} />,
         }}
       />
@@ -66,7 +91,13 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile 🧑',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="Profile"
+              subtitle="Manage your account"
+            />
+          ),
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />

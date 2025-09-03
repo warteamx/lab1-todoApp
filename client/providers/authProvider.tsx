@@ -22,13 +22,15 @@ type AuthData = {
   profile: Profile;
   loading: boolean;
   refreshProfile: () => Promise<void>;
+  signOut: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthData>({
   session: null,
   loading: true,
   profile: null,
-  refreshProfile: async () => {},
+  refreshProfile: async () => { },
+  signOut: async () => { },
 });
 
 export default function AuthProvider({ children }: PropsWithChildren) {
@@ -44,6 +46,20 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         .eq('id', session.user.id)
         .single();
       setProfile(data || null);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      setLoading(true);
+      await supabase.auth.signOut();
+      setSession(null);
+      setProfile(null);
+    } catch (error) {
+      console.error('Sign out error:', error);
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -81,6 +97,7 @@ export default function AuthProvider({ children }: PropsWithChildren) {
         loading,
         profile,
         refreshProfile,
+        signOut,
       }}
     >
       {children}
