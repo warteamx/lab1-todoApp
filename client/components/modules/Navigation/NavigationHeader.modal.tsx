@@ -6,10 +6,10 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
 import { ThemeVariant } from '@/themes/themes';
-import { View } from '../View/View';
-import { Text } from '../Text/Text';
-import { Button } from '../Button/Button';
-import { Inline } from '../Layout/Layout';
+import { View } from '../../ui/View/View';
+import { Text } from '../../ui/Text/Text';
+import { Button } from '../../ui/Button/Button';
+import { Inline } from '../../ui/Layout/Layout';
 import { THEME_OPTIONS } from './NavigationHeader.helper';
 
 interface NavigationHeaderModalProps {

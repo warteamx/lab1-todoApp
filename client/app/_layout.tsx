@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import { AppProviders } from '@/providers';
-import { NavigationHeader } from '@/components/ui/Navigation/NavigationHeader';
+import { NavigationHeader } from '@/components/modules/Navigation/NavigationHeader';
 
 export default function RootLayout() {
   return (

@@ -6,8 +6,8 @@ import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
 import { useProfile } from '@/api/profile.api';
 import { DEFAULT_AVATAR_URL } from '@/constants/api';
-import { Text } from '../Text/Text';
-import { View } from '../View/View';
+import { Text } from '../../ui/Text/Text';
+import { View } from '../../ui/View/View';
 
 interface ProfileAvatarProps {
   size?: number;

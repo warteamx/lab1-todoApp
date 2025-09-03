@@ -2,7 +2,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Redirect, Tabs, useSegments } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
-import { NavigationHeader } from '@/components/ui/Navigation/NavigationHeader';
+import { NavigationHeader } from '@/components/modules/Navigation/NavigationHeader';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];

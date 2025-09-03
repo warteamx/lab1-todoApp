@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import { Platform, TouchableOpacity } from 'react-native';
 import { useRouter, usePathname } from 'expo-router';
-import { View } from '../View/View';
-import { Text } from '../Text/Text';
-import { Inline } from '../Layout/Layout';
+import { View } from '../../ui/View/View';
+import { Text } from '../../ui/Text/Text';
+import { Inline } from '../../ui/Layout/Layout';
 import { NavigationHeaderProps } from './NavigationHeader.interface';
 import { NavigationHeaderModal } from './NavigationHeader.modal';
 import { ProfileAvatar } from './ProfileAvatar';
