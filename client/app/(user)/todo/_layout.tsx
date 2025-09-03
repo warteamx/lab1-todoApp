@@ -18,28 +18,12 @@ export default function TodoStack() {
         name="newTodo"
         options={{
           title: 'Add New Todo',
-          headerShown: true,
-          header: () => (
-            <NavigationHeader
-              title="Add New Todo"
-              subtitle="Create a new task"
-              showBack={true}
-            />
-          ),
         }}
       />
       <Stack.Screen
         name="[id]"
         options={{
           title: 'Edit Todo',
-          headerShown: true,
-          header: () => (
-            <NavigationHeader
-              title="Edit Todo"
-              subtitle="Update your task"
-              showBack={true}
-            />
-          ),
         }}
       />
     </Stack>

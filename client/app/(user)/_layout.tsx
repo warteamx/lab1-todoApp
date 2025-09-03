@@ -1,5 +1,5 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Redirect, Tabs } from 'expo-router';
+import { Redirect, Tabs, useSegments } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
 import { NavigationHeader } from '@/components/ui/Navigation/NavigationHeader';
@@ -14,10 +14,57 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const { theme } = useTheme();
   const { session } = useAuth();
+  const segments = useSegments();
 
   if (!session) {
     return <Redirect href={'/'} />;
   }
+
+  // Determine header content based on current route
+  const getHeaderProps = () => {
+    const currentRoute = segments[segments.length - 1];
+    const routeString = String(currentRoute);
+
+    if (routeString === 'newTodo') {
+      return {
+        title: 'Add New Todo',
+        subtitle: 'Create a new task',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'todo')) {
+      return {
+        title: 'Todo List',
+        subtitle: 'Manage your tasks',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'ui-demo')) {
+      return {
+        title: 'UI Demo',
+        subtitle: 'Component showcase',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'vr')) {
+      return {
+        title: 'VR Experience',
+        subtitle: 'Virtual reality demo',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'profile')) {
+      return {
+        title: 'Profile',
+        subtitle: 'Manage your account',
+      };
+    }
+
+    return {
+      title: 'Dashboard',
+      subtitle: 'Manage your tasks',
+    };
+  };
 
   return (
     <Tabs
@@ -28,12 +75,15 @@ export default function TabLayout() {
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.neutral200,
         },
-        header: () => (
-          <NavigationHeader
-            title="Dashboard"
-            subtitle="Manage your tasks"
-          />
-        ),
+        header: () => {
+          const headerProps = getHeaderProps();
+          return (
+            <NavigationHeader
+              title={headerProps.title}
+              subtitle={headerProps.subtitle}
+            />
+          );
+        },
       }}
     >
       <Tabs.Screen name="index" options={{ href: null }} />

@@ -24,8 +24,6 @@ export default function ThemeDemoScreen() {
 
   return (
     <View flex={1} backgroundColor="background">
-      <Header title="UI Demo" subtitle="Showcase of themed components" />
-
       <ScrollView style={{ flex: 1 }}>
         <View padding="lg">
           <Stack spacing="xl">
