@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## 1.0.0 (2025-09-04)
+
+### ⚠ BREAKING CHANGES
+
+* This replaces the existing multi-workflow CI/CD system with a simpler,
+more reliable single-workflow approach that ensures quality gates are respected.
+
+* 🚀 ci: refactor CI/CD with simplified unified pipeline ([e93d3b8](https://github.com/warteamx/lab1-todoApp/commit/e93d3b88cee9b2aa8da537e0144864971ecd12ac))
+
 ## [1.1.1] - 2025-09-04
 
 ### ✨ Features
@@ -44,4 +54,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add Input ui tests ([784155b9](../../commit/784155b94cd20609888e6896044bf03a3c1eb6b4))
 - Add header tests ([2868f2ff](../../commit/2868f2fffb577779ab8975b3b2625f9b6c57a1bf))
 - Add Card Tests ([3fe39e74](../../commit/3fe39e748e988d5c168195c653de56fe631cc1d4))
-
