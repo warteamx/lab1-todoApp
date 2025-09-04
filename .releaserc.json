@@ -152,7 +152,8 @@
           "server/CHANGELOG.md",
           "client/constants/version.ts"
         ],
-        "message": "🔖 chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        "message": "🔖 chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "gitSkipHooks": true
       }
     ],
     "@semantic-release/github"

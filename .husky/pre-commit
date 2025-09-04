@@ -3,10 +3,16 @@
 
 echo "🔍 Running pre-commit checks..."
 
+# Skip formatting and linting for release commits
+if git log -1 --pretty=format:"%s" | grep -q "chore(release):"; then
+  echo "⏭️ Skipping pre-commit checks for release commit"
+  exit 0
+fi
+
 # Format staged files
 npm run format:staged
 
-# Lint staged files
+# Lint staged files  
 npm run lint:staged
 
 # Run tests
