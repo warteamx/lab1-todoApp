@@ -1,0 +1,251 @@
+name: 🚀 CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # Test & Lint both client and server
+  test-and-lint:
+    name: 🧪 Test & Lint
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        package: [client, server]
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '${{ matrix.package }}/package-lock.json'
+
+      - name: 📥 Install Dependencies
+        run: |
+          cd ${{ matrix.package }}
+          rm -rf node_modules package-lock.json
+          npm install
+
+      - name: 🔍 Lint
+        run: |
+          cd ${{ matrix.package }}
+          npm run lint
+
+      - name: 🧪 Test
+        run: |
+          cd ${{ matrix.package }}
+          npm run test:ci || npm run test:coverage || npm run test
+
+      - name: 📊 Upload Coverage
+        uses: codecov/codecov-action@v3
+        if: matrix.package == 'server'
+        with:
+          files: ./server/coverage/lcov.info
+          flags: ${{ matrix.package }}
+          name: ${{ matrix.package }}-coverage
+          fail_ci_if_error: false
+
+  # Build applications (only on main branch)
+  build:
+    name: 🏗️ Build
+    runs-on: ubuntu-latest
+    needs: test-and-lint
+    if: github.ref == 'refs/heads/main'
+    strategy:
+      matrix:
+        package: [client, server]
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '${{ matrix.package }}/package-lock.json'
+
+      - name: 📥 Install Dependencies
+        run: |
+          cd ${{ matrix.package }}
+          rm -rf node_modules package-lock.json
+          npm install
+
+      - name: 🔨 Build Version Info
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          NODE_ENV: production
+        run: |
+          cd ${{ matrix.package }}
+          npm run build:version
+
+      - name: 🏗️ Build Client
+        if: matrix.package == 'client'
+        env:
+          NODE_ENV: production
+          EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+          EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
+        run: |
+          cd client
+          npm run build:web
+
+      - name: 🏗️ Build Server
+        if: matrix.package == 'server'
+        run: |
+          cd server
+          npm run build
+
+      - name: 📤 Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.package }}-build
+          path: |
+            ${{ matrix.package }}/dist
+            ${{ matrix.package }}/web/dist
+            ${{ matrix.package }}/package.json
+            ${{ matrix.package }}/package-lock.json
+          retention-days: 30
+
+  # Release with semantic versioning (only on main)
+  release:
+    name: 🔖 Release
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    outputs:
+      new-release-published: ${{ steps.semantic.outputs.new-release-published }}
+      new-release-version: ${{ steps.semantic.outputs.new-release-version }}
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📥 Install Dependencies
+        run: npm ci
+
+      - name: 🔧 Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 🔖 Semantic Release
+        id: semantic
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release
+
+  # Deploy to AWS (only if new release)
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    needs: release
+    if: needs.release.outputs.new-release-published == 'true'
+    environment: production
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+
+      - name: 📥 Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: ./artifacts
+
+      - name: 🔧 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # Deploy Client to S3
+      - name: 🌐 Deploy Client to S3
+        run: |
+          if [ -d "./artifacts/client-build/web/dist" ]; then
+            aws s3 sync ./artifacts/client-build/web/dist/ s3://${{ secrets.S3_BUCKET }} --delete
+            echo "✅ Client deployed to S3"
+          else
+            echo "❌ Client build not found"
+          fi
+
+      # Deploy Server to EC2
+      - name: 📦 Build Server Docker Image
+        run: |
+          cd server
+          rm -rf node_modules package-lock.json
+          npm install
+          docker build -t lab1-todoapp-server:${{ needs.release.outputs.new-release-version }} --target production .
+          docker save lab1-todoapp-server:${{ needs.release.outputs.new-release-version }} | gzip > lab1-todoapp-server.tar.gz
+
+      - name: 🚀 Deploy Server to EC2
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: "server/lab1-todoapp-server.tar.gz"
+          target: "/home/ubuntu/"
+
+      - name: 🔄 Update Server on EC2
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            # Load new image
+            cd /home/ubuntu
+            sudo docker load < server/lab1-todoapp-server.tar.gz
+
+            # Stop and remove old container
+            sudo docker stop lab1-todoapp-server || true
+            sudo docker rm lab1-todoapp-server || true
+
+            # Run new container
+            sudo docker run -d \
+              --name lab1-todoapp-server \
+              --restart unless-stopped \
+              -p 80:3000 \
+              -e NODE_ENV=production \
+              -e PORT=3000 \
+              -e SUPABASE_DB_URL="${{ secrets.SUPABASE_DB_URL }}" \
+              -e SUPABASE_KEY="${{ secrets.SUPABASE_KEY }}" \
+              -e SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
+              -e ALLOWED_ORIGINS="http://56.228.14.41,https://lab1.warteamx.com,http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com" \
+              lab1-todoapp-server:${{ needs.release.outputs.new-release-version }}
+
+            # Clean up old images
+            sudo docker image prune -f
+
+      - name: ✅ Deployment Summary
+        run: |
+          echo "🎉 Deployment completed for version ${{ needs.release.outputs.new-release-version }}"
+          echo "🌐 Client: http://${{ secrets.S3_BUCKET }}.s3-website.eu-north-1.amazonaws.com"
+          echo "🖥️ Server: http://${{ secrets.EC2_HOST }}/api"
+
+      - name: 🔍 Health Check
+        run: |
+          sleep 30
+          if curl -f http://${{ secrets.EC2_HOST }}/api/health; then
+            echo "✅ Server health check passed"
+          else
+            echo "❌ Server health check failed"
+            exit 1
+          fi
