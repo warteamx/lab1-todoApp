@@ -26,7 +26,6 @@
     "docker:clean": "./docker.sh clean"
   },
   "dependencies": {
-    "@rollup/rollup-darwin-arm64": "^4.50.0",
     "@supabase/supabase-js": "2.52.0",
     "cors": "2.8.5",
     "express": "5.1.0",
@@ -67,5 +66,8 @@
     "tsconfig-paths": "^4.2.0",
     "typescript": "5.8.3",
     "vitest": "3.2.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-darwin-arm64": "^4.50.0"
   }
 }

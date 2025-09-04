@@ -30,8 +30,7 @@ jobs:
       - name: 📥 Install Dependencies
         run: |
           cd ${{ matrix.package }}
-          rm -rf node_modules package-lock.json
-          npm install
+          npm ci --include=optional || npm ci --omit=optional || (rm -rf node_modules package-lock.json && npm install --omit=optional)
 
       - name: 🔍 Lint
         run: |
@@ -76,8 +75,7 @@ jobs:
       - name: 📥 Install Dependencies
         run: |
           cd ${{ matrix.package }}
-          rm -rf node_modules package-lock.json
-          npm install
+          npm ci --include=optional || npm ci --omit=optional || (rm -rf node_modules package-lock.json && npm install --omit=optional)
 
       - name: 🔨 Build Version Info
         env:
@@ -189,8 +187,7 @@ jobs:
       - name: 📦 Build Server Docker Image
         run: |
           cd server
-          rm -rf node_modules package-lock.json
-          npm install
+          npm ci --include=optional || npm ci --omit=optional || (rm -rf node_modules package-lock.json && npm install --omit=optional)
           docker build -t lab1-todoapp-server:${{ needs.release.outputs.new-release-version }} --target production .
           docker save lab1-todoapp-server:${{ needs.release.outputs.new-release-version }} | gzip > lab1-todoapp-server.tar.gz
 
