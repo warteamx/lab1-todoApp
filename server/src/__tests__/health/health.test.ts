@@ -42,6 +42,17 @@ describe('Health API Integration Tests', () => {
         timestamp: fixedTimestamp,
         uptime: 3600, // 1 hour
         version: '1.1.0',
+        build: {
+          number: '42',
+          date: '2025-09-04T00:00:00.000Z',
+          commit: 'abc123f',
+        },
+        environment: 'development',
+        server: {
+          nodeVersion: 'v18.20.0',
+          platform: 'linux',
+          arch: 'x64',
+        },
       };
       vi.mocked(getHealthStatus).mockReturnValue(mockHealthStatus);
 
@@ -55,6 +66,17 @@ describe('Health API Integration Tests', () => {
         timestamp: fixedTimestamp,
         uptime: 3600,
         version: '1.1.0',
+        build: {
+          number: '42',
+          date: '2025-09-04T00:00:00.000Z',
+          commit: 'abc123f',
+        },
+        environment: 'development',
+        server: {
+          nodeVersion: 'v18.20.0',
+          platform: 'linux',
+          arch: 'x64',
+        },
       });
       expect(getHealthStatus).toHaveBeenCalledOnce();
     });
@@ -66,6 +88,17 @@ describe('Health API Integration Tests', () => {
         timestamp: fixedTimestamp,
         uptime: 0, // Just started
         version: '1.1.0',
+        build: {
+          number: '42',
+          date: '2025-09-04T00:00:00.000Z',
+          commit: 'abc123f',
+        },
+        environment: 'development',
+        server: {
+          nodeVersion: 'v18.20.0',
+          platform: 'linux',
+          arch: 'x64',
+        },
       };
       vi.mocked(getHealthStatus).mockReturnValue(mockHealthStatus);
 
@@ -87,6 +120,17 @@ describe('Health API Integration Tests', () => {
         timestamp: fixedTimestamp,
         uptime: 1234,
         version: '1.0.0',
+        build: {
+          number: '42',
+          date: '2025-09-04T00:00:00.000Z',
+          commit: 'abc123f',
+        },
+        environment: 'development',
+        server: {
+          nodeVersion: 'v18.20.0',
+          platform: 'linux',
+          arch: 'x64',
+        },
       };
       vi.mocked(getHealthStatus).mockReturnValue(mockHealthStatus);
 

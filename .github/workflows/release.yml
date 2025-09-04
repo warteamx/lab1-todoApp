@@ -38,7 +38,8 @@ jobs:
       - name: 📥 Install Dependencies
         run: |
           cd ${{ matrix.package }}
-          npm ci
+          rm -rf node_modules package-lock.json
+          npm install
 
       - name: 🔍 Lint
         run: |

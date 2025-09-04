@@ -9,6 +9,7 @@
     "build:version": "node scripts/build-version.js",
     "start": "node dist/server.js",
     "test": "npx vitest run",
+    "test:ci": "npx vitest run",
     "test:watch": "npx vitest",
     "test:coverage": "npx vitest run --coverage",
     "lint": "eslint src/**/*.ts",

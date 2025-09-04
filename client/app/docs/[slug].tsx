@@ -22,7 +22,7 @@ export default function DocPage() {
   const docInfo = slug ? getDocById(slug) : null;
 
   useEffect(() => {
-    const loadDoc = async () => {
+    const loadDoc = async() => {
       if (!docInfo) {
         setError('Document not found');
         setLoading(false);

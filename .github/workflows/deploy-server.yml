@@ -26,6 +26,9 @@ jobs:
     - name: Build and save Docker image
       working-directory: ./server
       run: |
+        # Clean install dependencies to avoid rollup issues
+        rm -rf node_modules package-lock.json
+        npm install
         docker build -t lab1-todoapp-server:latest --target production .
         docker save lab1-todoapp-server:latest | gzip > lab1-todoapp-server.tar.gz
 

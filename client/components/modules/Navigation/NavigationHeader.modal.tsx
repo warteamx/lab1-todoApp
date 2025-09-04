@@ -31,7 +31,7 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
   };
 
   // Sign out handler
-  const handleSignOut = async () => {
+  const handleSignOut = async() => {
     try {
       await signOut();
       router.replace('/');

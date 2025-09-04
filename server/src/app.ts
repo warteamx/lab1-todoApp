@@ -1,8 +1,8 @@
 import express from 'express';
 import { json } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import openapiDoc from '.
-import versionRoutes from './api/system/version.routes';/openapi';
+import openapiDoc from './openapi';
+import versionRoutes from './api/system/version.routes';
 import todoRouter from './api/todo/todo.routes';
 import profileRouter from './api/profile/profile.routes';
 import healthRouter from './api/health/health.routes';
