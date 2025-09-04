@@ -48,7 +48,15 @@ jobs:
       - name: 🧪 Test
         run: |
           cd ${{ matrix.package }}
-          npm run test:ci || npm run test
+          npm run test:ci || npm run test:coverage
+
+      - name: 📊 Upload Coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./${{ matrix.package }}/coverage/lcov.info
+          flags: ${{ matrix.package }}
+          name: ${{ matrix.package }}-coverage
+          fail_ci_if_error: false
 
   release:
     name: 🔖 Semantic Release
