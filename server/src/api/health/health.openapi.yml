@@ -46,9 +46,65 @@ components:
           description: Server uptime in seconds
         version:
           type: string
-          description: API version
+          description: API version following semantic versioning
+        build:
+          type: object
+          description: Build information
+          properties:
+            number:
+              type: string
+              description: Build number from CI/CD pipeline
+            date:
+              type: string
+              format: date-time
+              description: Build date and time
+            commit:
+              type: string
+              description: Git commit hash
+          required:
+            - number
+            - date
+            - commit
+        environment:
+          type: string
+          enum: [development, staging, production]
+          description: Current deployment environment
+        server:
+          type: object
+          description: Server runtime information
+          properties:
+            nodeVersion:
+              type: string
+              description: Node.js version
+            platform:
+              type: string
+              description: Operating system platform
+            arch:
+              type: string
+              description: CPU architecture
+          required:
+            - nodeVersion
+            - platform
+            - arch
       required:
         - status
         - timestamp
         - uptime
         - version
+        - build
+        - environment
+        - server
+      example:
+        status: "healthy"
+        timestamp: "2025-09-04T12:00:00.000Z"
+        uptime: 3600
+        version: "1.1.1"
+        build:
+          number: "42"
+          date: "2025-09-04T00:00:00.000Z"
+          commit: "abc123f"
+        environment: "production"
+        server:
+          nodeVersion: "v18.20.0"
+          platform: "linux"
+          arch: "x64"

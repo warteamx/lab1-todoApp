@@ -13,6 +13,12 @@ export default function UiDemoStack() {
           title: 'UI Demo',
         }}
       />
+      <Stack.Screen
+        name="version"
+        options={{
+          title: 'Version Demo',
+        }}
+      />
     </Stack>
   );
 }
