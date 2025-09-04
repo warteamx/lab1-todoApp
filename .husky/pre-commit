@@ -9,10 +9,7 @@ if git log -1 --pretty=format:"%s" | grep -q "chore(release):"; then
   exit 0
 fi
 
-# Format staged files
-npm run format:staged
-
-# Lint staged files  
+# Lint and format staged files  
 npm run lint:staged
 
 # Run tests
