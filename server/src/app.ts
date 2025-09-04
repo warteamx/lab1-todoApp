@@ -1,7 +1,8 @@
 import express from 'express';
 import { json } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import openapiDoc from './openapi';
+import openapiDoc from '.
+import versionRoutes from './api/system/version.routes';/openapi';
 import todoRouter from './api/todo/todo.routes';
 import profileRouter from './api/profile/profile.routes';
 import healthRouter from './api/health/health.routes';
@@ -28,11 +29,13 @@ app.use(
         fontSrc: ["'self'"],
         objectSrc: ["'none'"],
         mediaSrc: ["'self'"],
-        frameSrc: ["'none'"],
+        frameSrc: ["'self'"], // Allow frames for Swagger UI
       },
     },
     // Cross-Origin Embedder Policy
     crossOriginEmbedderPolicy: false, // Disabled for Swagger UI compatibility
+    // Cross-Origin Opener Policy - Allow for Swagger UI compatibility
+    crossOriginOpenerPolicy: false,
     // HTTP Strict Transport Security
     hsts: {
       maxAge: 31536000, // 1 year
@@ -42,7 +45,7 @@ app.use(
     // Prevent MIME type sniffing
     noSniff: true,
     // X-Frame-Options
-    frameguard: { action: 'deny' },
+    frameguard: { action: 'sameorigin' }, // Allow same origin frames for Swagger UI
     // Hide X-Powered-By header
     hidePoweredBy: true,
     // Referrer Policy
@@ -53,7 +56,7 @@ app.use(
 // CORS configuration: restrict origins in production
 const allowedOrigins =
   process.env.NODE_ENV === 'production'
-    ? (process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : [])
+    ? (process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://56.228.14.41', 'https://lab1.warteamx.com'])
     : '*';
 
 app.use(
@@ -65,7 +68,18 @@ app.use(
 );
 app.use(json());
 app.use(loggerMiddleware);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc));
+app.use('/api-docs', swaggerUi.serve);
+app.get('/api-docs', swaggerUi.setup(openapiDoc, {
+  swaggerOptions: {
+    persistAuthorization: true,
+    displayRequestDuration: true,
+    docExpansion: 'list',
+    filter: true,
+    showExtensions: true,
+    showCommonExtensions: true,
+    tryItOutEnabled: true
+  }
+}));
 
 // Simple connectivity test endpoint
 app.get('/ping', (req, res) => {
@@ -83,6 +97,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.use('/api/profile/avatar', upload.single('avatar'));
 app.use('/api/profile', profileRouter);
 app.use('/api/todo', todoRouter);
+app.use('/api', versionRoutes);
 
 // Add error logging middleware before error handling
 app.use(errorLoggerMiddleware);

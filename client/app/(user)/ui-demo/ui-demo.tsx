@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
+import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
@@ -9,11 +10,11 @@ import { Button } from '@/components/ui/Button/Button';
 import { TextInput } from '@/components/ui/Input/Input';
 import { Card } from '@/components/ui/Card/Card';
 import { Stack, Inline, Section } from '@/components/ui/Layout/Layout';
-import { Header } from '@/components/ui/Header/Header';
 
 export default function ThemeDemoScreen() {
   const { setThemeVariant, themeVariant } = useTheme();
   const [inputValue, setInputValue] = useState('');
+  const router = useRouter();
 
   const themeVariants: ('modern' | 'dark' | 'warm' | 'cool')[] = [
     'modern',
@@ -24,11 +25,22 @@ export default function ThemeDemoScreen() {
 
   return (
     <View flex={1} backgroundColor="background">
-      <Header title="UI Demo" subtitle="Showcase of themed components" />
-
       <ScrollView style={{ flex: 1 }}>
         <View padding="lg">
           <Stack spacing="xl">
+            {/* Navigation */}
+            <Section
+              title="UI Components Demo"
+              subtitle="Explore components and version information"
+            >
+              <Button
+                title="📱 Version Component Demo"
+                variant="outline"
+                onPress={() => router.push('/(user)/ui-demo/version')}
+                fullWidth
+              />
+            </Section>
+
             {/* Theme Switcher */}
             <Section
               title="Themes"

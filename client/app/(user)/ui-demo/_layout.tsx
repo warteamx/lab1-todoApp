@@ -1,9 +1,24 @@
 import { Stack } from 'expo-router';
 
-export default function UIDemoStack() {
+export default function UiDemoStack() {
   return (
-    <Stack>
-      <Stack.Screen name="ui-demo" options={{ title: 'UI Demo' }} />
+    <Stack
+      screenOptions={{
+        headerShown: false, // We handle headers in the parent tabs
+      }}
+    >
+      <Stack.Screen
+        name="ui-demo"
+        options={{
+          title: 'UI Demo',
+        }}
+      />
+      <Stack.Screen
+        name="version"
+        options={{
+          title: 'Version Demo',
+        }}
+      />
     </Stack>
   );
 }

@@ -1,7 +1,8 @@
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Redirect, Tabs } from 'expo-router';
+import { Redirect, Tabs, useSegments } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
+import { NavigationHeader } from '@/components/modules/Navigation/NavigationHeader';
 
 function TabBarIcon(props: {
   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -13,10 +14,57 @@ function TabBarIcon(props: {
 export default function TabLayout() {
   const { theme } = useTheme();
   const { session } = useAuth();
+  const segments = useSegments();
 
   if (!session) {
     return <Redirect href={'/'} />;
   }
+
+  // Determine header content based on current route
+  const getHeaderProps = () => {
+    const currentRoute = segments[segments.length - 1];
+    const routeString = String(currentRoute);
+
+    if (routeString === 'newTodo') {
+      return {
+        title: 'Add New Todo',
+        subtitle: 'Create a new task',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'todo')) {
+      return {
+        title: 'Todo List',
+        subtitle: 'Manage your tasks',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'ui-demo')) {
+      return {
+        title: 'UI Demo',
+        subtitle: 'Component showcase',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'vr')) {
+      return {
+        title: 'VR Experience',
+        subtitle: 'Virtual reality demo',
+      };
+    }
+
+    if (segments.some(segment => String(segment) === 'profile')) {
+      return {
+        title: 'Profile',
+        subtitle: 'Manage your account',
+      };
+    }
+
+    return {
+      title: 'Dashboard',
+      subtitle: 'Manage your tasks',
+    };
+  };
 
   return (
     <Tabs
@@ -27,6 +75,15 @@ export default function TabLayout() {
           backgroundColor: theme.colors.surface,
           borderTopColor: theme.colors.neutral200,
         },
+        header: () => {
+          const headerProps = getHeaderProps();
+          return (
+            <NavigationHeader
+              title={headerProps.title}
+              subtitle={headerProps.subtitle}
+            />
+          );
+        },
       }}
     >
       <Tabs.Screen name="index" options={{ href: null }} />
@@ -35,7 +92,13 @@ export default function TabLayout() {
         name="todo"
         options={{
           title: 'Todo',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="Todo List"
+              subtitle="Manage your tasks"
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="check-square" color={color} />
           ),
@@ -46,7 +109,13 @@ export default function TabLayout() {
         name="ui-demo"
         options={{
           title: 'Demo',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="UI Demo"
+              subtitle="Component showcase"
+            />
+          ),
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="paint-brush" color={color} />
           ),
@@ -57,7 +126,13 @@ export default function TabLayout() {
         name="vr"
         options={{
           title: 'VR',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="VR Experience"
+              subtitle="Virtual reality demo"
+            />
+          ),
           tabBarIcon: ({ color }) => <TabBarIcon name="space-shuttle" color={color} />,
         }}
       />
@@ -66,7 +141,13 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile 🧑',
-          headerShown: false,
+          headerShown: true,
+          header: () => (
+            <NavigationHeader
+              title="Profile"
+              subtitle="Manage your account"
+            />
+          ),
           tabBarIcon: ({ color }) => <TabBarIcon name="user" color={color} />,
         }}
       />

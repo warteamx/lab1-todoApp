@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "📝 Validating commit message format..."
+
+# Check commit message follows conventional commits with gitmoji
+commit_regex="^(🎨|✨|🐛|🚑️|💄|♻️|⚡️|📝|🔥|🚚|🔧|🔖|🚧|💚|👷|📦️|🔨|🧪|✅|🏗️|💡|🎉|🔒️|🔐) (feat|fix|docs|style|refactor|perf|test|build|ci|chore|security)(\(.+\))?: .{1,50}"
+
+if ! grep -qE "$commit_regex" "$1"; then
+  echo "❌ Invalid commit message format!"
+  echo ""
+  echo "Expected format: [gitmoji] [type](scope): description"
+  echo "Example: ✨ feat(auth): add user authentication"
+  echo ""
+  echo "Types: feat, fix, docs, style, refactor, perf, test, build, ci, chore, security"
+  echo "Gitmojis: https://gitmoji.dev/"
+  exit 1
+fi
+
+echo "✅ Commit message format is valid"

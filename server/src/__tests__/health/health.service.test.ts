@@ -25,6 +25,17 @@ describe('Health Service Functions', () => {
         timestamp: '2025-08-14T10:00:00.000Z',
         uptime: expect.any(Number),
         version: expect.any(String),
+        build: {
+          number: expect.any(String),
+          date: expect.any(String),
+          commit: expect.any(String),
+        },
+        environment: expect.any(String),
+        server: {
+          nodeVersion: expect.any(String),
+          platform: expect.any(String),
+          arch: expect.any(String),
+        },
       });
     });
 
@@ -54,6 +65,32 @@ describe('Health Service Functions', () => {
       // With mocked timers, uptime might be negative due to timing differences
       // The important thing is that it's a number and the function works
       expect(Number.isFinite(result.uptime)).toBe(true);
+    });
+
+    it('should include all required additional fields', () => {
+      // Act
+      const result = getHealthStatus();
+
+      // Assert
+      // Build information
+      expect(result.build).toBeDefined();
+      expect(typeof result.build.number).toBe('string');
+      expect(typeof result.build.date).toBe('string');
+      expect(typeof result.build.commit).toBe('string');
+
+      // Environment
+      expect(typeof result.environment).toBe('string');
+
+      // Server information
+      expect(result.server).toBeDefined();
+      expect(typeof result.server.nodeVersion).toBe('string');
+      expect(typeof result.server.platform).toBe('string');
+      expect(typeof result.server.arch).toBe('string');
+
+      // Verify server info contains expected values
+      expect(result.server.nodeVersion).toMatch(/^v\d+\.\d+\.\d+/);
+      expect(['darwin', 'linux', 'win32']).toContain(result.server.platform);
+      expect(['x64', 'arm64', 'ia32']).toContain(result.server.arch);
     });
   });
 
