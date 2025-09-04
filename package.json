@@ -44,6 +44,7 @@
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.5",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
     "conventional-changelog-gitmoji": "^0.2.5",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.6",
