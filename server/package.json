@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV=development npx dotenvx run -- ts-node-dev -r tsconfig-paths/register src/server.ts",
     "build": "tsc && npx cpx \"src/**/*.yml\" dist/",
+    "build:version": "node scripts/build-version.js",
     "start": "node dist/server.js",
     "test": "npx vitest run",
     "test:watch": "npx vitest",
@@ -38,6 +39,7 @@
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "1.47.6",
+    "@semantic-release/exec": "^7.1.0",
     "@types/cors": "2.8.17",
     "@types/express": "5.0.3",
     "@types/helmet": "^0.0.48",
@@ -52,6 +54,7 @@
     "@typescript-eslint/parser": "^8.38.0",
     "@vitest/coverage-v8": "^3.2.4",
     "cpx": "^1.5.0",
+    "cross-env": "^10.0.0",
     "dotenv": "17.2.0",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",

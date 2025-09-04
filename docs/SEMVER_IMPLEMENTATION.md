@@ -1,312 +1,312 @@
-# 🏷️ Semantic Versioning (SemVer) Implementation
+# 📦 Semantic Versioning (SemVer) Implementation
 
-**Date**: September 4, 2025  
-**Branch**: `24-improve-template-docs`  
-**Implemented for**: CD/CI automation with GitHub Actions  
+This document outlines the comprehensive semantic versioning implementation for the monorepo, including both automated and manual versioning workflows.
 
 ## 🎯 Overview
 
-This document outlines the implementation of semantic versioning across the Expo Lab monorepo, including automated version management, version injection into applications, and display of version information in both client and server components.
+Our SemVer implementation includes:
+- **Automated releases** via semantic-release and GitHub Actions
+- **Manual version management** for controlled releases
+- **Version injection** during build processes
+- **Changelog generation** from git commits using gitmoji
+- **Git hooks** for commit validation and pre-commit checks
+- **Deployment scripts** with version awareness
 
-## 📦 Project Structure & Versioning
+## 🏗️ Architecture
 
-### Independent Package Versioning
-The project follows a **monorepo with independent versioning** approach:
-
+### Packages Structure
 ```
-lab1-todoApp/
-├── package.json           # v1.1.1 - Root dev tools
-├── client/package.json    # v1.1.1 - Expo React Native app
-└── server/package.json    # v1.1.1 - Express.js API server
-```
-
-Each package maintains its own semantic version based on its specific changes:
-- **Root package**: Development tooling and scripts
-- **Client package**: Mobile/web application features and fixes
-- **Server package**: API endpoints, business logic, and infrastructure
-
-## 🔄 Semantic Versioning Rules
-
-Following [SemVer 2.0.0](https://semver.org/) specification:
-
-### Version Bump Triggers
-- **MAJOR** (`X.0.0`): Breaking changes that require user action
-  - API endpoint removals or incompatible changes
-  - Database schema breaking changes
-  - Configuration format changes
-  - Major UI/UX paradigm shifts
-
-- **MINOR** (`1.X.0`): New features that are backward compatible
-  - New API endpoints
-  - New UI components or screens
-  - New configuration options
-  - Performance improvements
-
-- **PATCH** (`1.1.X`): Bug fixes and minor improvements
-  - Bug fixes that don't change functionality
-  - Security patches
-  - Documentation updates
-  - Code refactoring without functional changes
-
-### Commit Message Mapping
-```yaml
-# Conventional Commits with Gitmoji
-✨ feat(client): add dark mode        → MINOR bump
-🐛 fix(server): fix validation bug    → PATCH bump
-💥 feat!: remove deprecated API       → MAJOR bump
-📝 docs: update README               → PATCH bump
-♻️ refactor: improve code structure   → PATCH bump
-⚡ perf: optimize database queries    → MINOR bump
-🔒 security: fix auth vulnerability   → PATCH bump
+├── package.json (v1.1.1) - Root development tools
+├── client/package.json (v1.1.1) - Expo mobile app
+└── server/package.json (v1.1.1) - Express backend
 ```
 
-## 🚀 CD/CI Integration
+### Version Synchronization
+All packages maintain synchronized versions automatically.
 
-### Automated Versioning Workflow
-1. **Commit Analysis**: Parse commit messages since last tag
-2. **Version Calculation**: Determine appropriate version bump per package
-3. **Package Updates**: Update `package.json` files with new versions
-4. **Changelog Generation**: Create formatted changelog entries
-5. **Environment Injection**: Set version variables for runtime access
-6. **Build & Deploy**: Build and deploy with version information
+## 🤖 Automated Versioning
 
-### GitHub Actions Configuration
-The project uses semantic-release with custom configuration:
+### Semantic Release Configuration
+- **File**: `.releaserc.json`
+- **Triggers**: Pushes to `main`, `develop`, `next` branches
+- **Commit Analysis**: Conventional commits with gitmoji support
+- **Outputs**: Version bumps, changelogs, git tags, GitHub releases
 
-```yaml
-# .github/workflows/release.yml (future implementation)
-name: Semantic Release
-on:
-  push:
-    branches: [main]
-jobs:
-  release:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - name: Install dependencies
-        run: npm install
-      - name: Run semantic release
-        run: npx semantic-release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+### Commit Format
+```
+[gitmoji] [type](scope): description
+
+Examples:
+✨ feat(auth): add user authentication
+🐛 fix(api): resolve connection timeout
+📝 docs(readme): update installation guide
 ```
 
-## 🔧 Environment Variables Implementation
+### Release Rules
+| Commit Type      | Version Bump | Example                      |
+| ---------------- | ------------ | ---------------------------- |
+| `feat`           | minor        | ✨ feat: add new feature      |
+| `fix`            | patch        | � fix: resolve bug           |
+| `perf`           | patch        | ⚡️ perf: improve performance  |
+| Breaking changes | major        | ✨ feat!: breaking API change |
 
-### Client Environment Variables
-Version information is injected into the client application:
+## 🛠️ Manual Versioning
 
-```typescript
-// client/constants/version.ts
-export const APP_VERSION = process.env.EXPO_PUBLIC_APP_VERSION || '1.1.1';
-export const BUILD_NUMBER = process.env.EXPO_PUBLIC_BUILD_NUMBER || '1';
-export const BUILD_DATE = process.env.EXPO_PUBLIC_BUILD_DATE || new Date().toISOString();
-```
-
-### Server Environment Variables
-Version information is available in the server application:
-
-```typescript
-// server/src/common/config/version.ts
-export const SERVER_VERSION = process.env.SERVER_VERSION || process.env.npm_package_version || '1.1.1';
-export const BUILD_NUMBER = process.env.BUILD_NUMBER || '1';
-export const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString();
-```
-
-### Environment Files
+### Manual Version Script
 ```bash
-# .env.example additions
+# Show help
+npm run version:manual -- --help
+
+# Bump versions with dry run
+npm run version:manual -- patch --dry-run
+npm run version:manual -- minor --dry-run
+npm run version:manual -- major --dry-run
+
+# Perform actual version bump
+npm run version:manual -- patch
+```
+
+### Manual Process
+1. Updates all package.json files
+2. Generates changelogs
+3. Builds version information
+4. Creates git tag
+5. Provides push instructions
+
+## 📝 Changelog Generation
+
+### Automatic Generation
+Changelogs are generated from git commits using gitmoji mapping:
+
+```bash
+# Generate for all packages
+npm run changelog:generate
+
+# Generate for specific package
+node scripts/generate-changelog.js --package=client
+```
+
+### Gitmoji Mapping
+| Gitmoji | Type     | Description               |
+| ------- | -------- | ------------------------- |
+| ✨       | feat     | New features              |
+| 🐛       | fix      | Bug fixes                 |
+| �       | docs     | Documentation             |
+| 🎨       | style    | Code structure/formatting |
+| ♻️       | refactor | Code refactoring          |
+| ⚡️       | perf     | Performance improvements  |
+
+## 🔧 Build Process
+
+### Version Injection
+Version information is injected during build:
+
+```bash
+# Build version info for all packages
+npm run build:version
+
+# Build for specific package
+npm run build:version:client
+npm run build:version:server
+```
+
+### Environment Variables
+#### Client (Expo)
+```env
 EXPO_PUBLIC_APP_VERSION=1.1.1
-EXPO_PUBLIC_BUILD_NUMBER=1
-EXPO_PUBLIC_BUILD_DATE=2025-09-04T00:00:00.000Z
-SERVER_VERSION=1.1.1
-BUILD_NUMBER=1
-BUILD_DATE=2025-09-04T00:00:00.000Z
+EXPO_PUBLIC_BUILD_NUMBER=42
+EXPO_PUBLIC_BUILD_DATE=2025-09-04T11:10:50.642Z
+EXPO_PUBLIC_COMMIT_HASH=8c03a63
+EXPO_PUBLIC_BUILD_ENV=production
 ```
 
-## 📱 Client Version Display
+#### Server (Express)
+```env
+APP_VERSION=1.1.1
+BUILD_NUMBER=42
+BUILD_DATE=2025-09-04T11:10:50.642Z
+COMMIT_HASH=8c03a63
+BUILD_ENV=production
+```
 
-### Version Component
-A dedicated component displays version information in the client:
+### Version Endpoints
+The server automatically provides version endpoints:
 
+```
+GET /api/version  - Full version information
+GET /api/health   - Health check with version
+```
+
+## 🚀 Deployment Integration
+
+### Deployment Script
+```bash
+# Show deployment options
+npm run deploy -- --help
+
+# Deploy to environments
+npm run deploy:staging
+npm run deploy:production
+
+# Deploy specific version
+npm run deploy -- production --version=1.2.0
+```
+
+### GitHub Actions Workflow
+**File**: `.github/workflows/release.yml`
+
+**Triggers**:
+- Push to main/develop/next branches
+- Manual workflow dispatch with dry-run option
+
+**Jobs**:
+1. **Test Suite** - Runs tests for client and server
+2. **Semantic Release** - Automated version bumping and tagging
+3. **Build Client** - Builds Expo app with version injection
+4. **Build Server** - Builds Express app with version injection
+5. **Deploy** - Deployment to target environment
+
+## 🔒 Git Hooks
+
+### Pre-commit Hook
+- Formats staged files with Prettier
+- Lints staged files with ESLint
+- Runs pre-commit tests
+
+### Commit Message Hook
+Validates commit messages follow the gitmoji + conventional commits format:
+```
+✨ feat(auth): add user authentication
+```
+
+## 📋 Available Scripts
+
+### Root Level
+```bash
+npm run release          # Automated semantic release
+npm run release:dry      # Dry run semantic release
+npm run version:manual   # Manual version management
+npm run changelog:generate # Generate changelogs
+npm run build:version    # Build version info (all packages)
+npm run deploy          # Deploy with version awareness
+npm run test:pre-commit # Pre-commit test suite
+```
+
+### Client Package
+```bash
+npm run build:version   # Build client version info
+npm run build:web      # Build web version with version injection
+```
+
+### Server Package
+```bash
+npm run build:version  # Build server version info and endpoints
+npm run build         # Build TypeScript to dist/
+```
+
+## 🔄 Workflow Examples
+
+### Automated Release (Recommended)
+1. Make commits with proper gitmoji + conventional format
+2. Push to main branch
+3. GitHub Actions automatically:
+   - Analyzes commits
+   - Bumps versions
+   - Generates changelogs
+   - Creates git tags
+   - Builds and deploys
+
+### Manual Release
+1. Run version bump: `npm run version:manual -- minor`
+2. Review generated changes
+3. Push with tags: `git push origin --tags`
+4. Create GitHub release manually
+
+### Emergency Hotfix
+1. Create hotfix branch from main
+2. Make fix with proper commit: `�️ fix: critical security patch`
+3. Merge to main
+4. Automated release triggers patch version
+
+## 🔧 Configuration Files
+
+| File                            | Purpose                           |
+| ------------------------------- | --------------------------------- |
+| `.releaserc.json`               | Semantic release configuration    |
+| `.github/workflows/release.yml` | GitHub Actions workflow           |
+| `.husky/pre-commit`             | Pre-commit git hook               |
+| `.husky/commit-msg`             | Commit message validation         |
+| `scripts/update-version.js`     | Version update automation         |
+| `scripts/generate-changelog.js` | Changelog generation              |
+| `scripts/manual-version.js`     | Manual version management         |
+| `scripts/deploy.js`             | Deployment with version awareness |
+
+## 🎛️ Environment Setup
+
+### Required Dependencies
+```bash
+# Root level
+npm install -D semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/exec @semantic-release/github conventional-changelog-gitmoji husky lint-staged
+
+# Client and Server
+npm install -D @semantic-release/exec cross-env
+```
+
+### GitHub Secrets
+Ensure `GITHUB_TOKEN` is available in repository secrets for automated releases.
+
+## 📊 Version Information Access
+
+### Client (React Native/Expo)
 ```typescript
-// client/components/ui/Version/Version.tsx
-import { View, Text } from 'react-native';
-import { APP_VERSION, BUILD_NUMBER, BUILD_DATE } from '../../../constants/version';
+import { VERSION_INFO, VERSION_STRING } from '@/constants/version';
 
-export const Version = () => (
-  <View style={styles.container}>
-    <Text style={styles.version}>v{APP_VERSION}</Text>
-    <Text style={styles.build}>Build {BUILD_NUMBER}</Text>
-    <Text style={styles.date}>{new Date(BUILD_DATE).toLocaleDateString()}</Text>
-  </View>
-);
+console.log(VERSION_INFO.version);      // "1.1.1"
+console.log(VERSION_STRING);            // "v1.1.1 (Build 42)"
 ```
 
-### Integration Points
-- **Settings Screen**: Display version in user settings
-- **About Screen**: Detailed version information
-- **Debug Menu**: Developer version details
-- **Footer**: Optional version display in app footer
-
-## 🖥️ Server Version Display
-
-### Health Check Enhancement
-The health check endpoint includes comprehensive version information:
-
+### Server (Express)
 ```typescript
-// server/src/domain/health/services/health.service.ts
-export interface HealthStatus {
-  status: 'healthy';
-  timestamp: string;
-  uptime: number;
-  version: string;
-  build: {
-    number: string;
-    date: string;
-    commit?: string;
-  };
-  environment: string;
-}
+import { VERSION_INFO } from './api/system/version.controller';
+
+console.log(VERSION_INFO.version);      // "1.1.1"
+// Or via HTTP: GET /api/version
 ```
 
-### API Response Example
-```json
-{
-  "status": "healthy",
-  "timestamp": "2025-09-04T12:00:00.000Z",
-  "uptime": 3600,
-  "version": "1.1.1",
-  "build": {
-    "number": "42",
-    "date": "2025-09-04T00:00:00.000Z",
-    "commit": "abc123f"
-  },
-  "environment": "production"
-}
-```
-
-## 📋 Changelog Management
-
-### Automated Changelog Generation
-Each package maintains its own changelog with standardized format:
-
-```markdown
-# Changelog
-
-## [1.2.0] - 2025-09-04
-### ✨ Added
-- New dark mode theme option
-- Version display component
-- User profile avatar upload
-
-### 🐛 Fixed
-- Navigation header alignment issue
-- Form validation error handling
-
-### ♻️ Changed
-- Improved theme system architecture
-- Updated dependency versions
-
-### 🔒 Security
-- Enhanced authentication token validation
-```
-
-### Gitmoji Integration
-The changelog includes gitmoji for better visual categorization:
-- ✨ Features
-- 🐛 Bug fixes
-- ♻️ Refactoring
-- 📝 Documentation
-- 🔒 Security
-- ⚡ Performance
-- 💥 Breaking changes
-
-## 🎨 Implementation Status
-
-### ✅ Completed Features
-- [x] Version constants and environment variables
-- [x] Client Version component implementation
-- [x] Server health check version enhancement
-- [x] Documentation structure
-- [x] Package.json version alignment
-
-### 🚧 Pending Implementation
-- [ ] GitHub Actions semantic-release workflow
-- [ ] Automated changelog generation
-- [ ] Git tag automation
-- [ ] Build number generation
-- [ ] Commit hash injection
-
-### 🔮 Future Enhancements
-- [ ] Version comparison and update notifications
-- [ ] Rollback version tracking
-- [ ] Performance metrics correlation with versions
-- [ ] A/B testing version tracking
-
-## 🛠️ Development Guidelines
-
-### For Developers
-1. **Commit Messages**: Use conventional commits with gitmoji
-2. **Breaking Changes**: Mark with `!` or `BREAKING CHANGE:` in commit body
-3. **Feature Development**: Use `feat:` prefix for new features
-4. **Bug Fixes**: Use `fix:` prefix for bug fixes
-5. **Documentation**: Use `docs:` prefix for documentation changes
-
-### For CI/CD Pipeline
-1. **Version Calculation**: Analyze commits since last tag
-2. **Environment Injection**: Set version variables during build
-3. **Changelog Update**: Generate and commit changelog changes
-4. **Tag Creation**: Create git tags for new versions
-5. **Deployment**: Deploy with version-specific assets
-
-## 📊 Monitoring & Analytics
-
-### Version Tracking
-- Track version adoption rates
-- Monitor rollback frequency
-- Analyze feature usage by version
-- Performance metrics per version
-
-### Health Monitoring
-- Version-specific error rates
-- Performance degradation detection
-- Compatibility issue identification
-- User experience metrics by version
-
-## 🔍 Troubleshooting
+## 🚨 Troubleshooting
 
 ### Common Issues
-1. **Version Mismatch**: Client and server versions out of sync
-2. **Environment Variables**: Missing or incorrect version injection
-3. **Build Issues**: Version-related build failures
-4. **Deployment**: Version-specific deployment problems
+
+1. **Semantic release not triggering**
+   - Check commit message format
+   - Verify GitHub token permissions
+   - Review branch protection rules
+
+2. **Version mismatch between packages**
+   - Run `npm run version:update <version>` to sync
+   - Check for manual edits to package.json files
+
+3. **Build failures with version injection**
+   - Verify environment variables are set
+   - Check build scripts have proper permissions
+   - Review build output for missing dependencies
 
 ### Debug Commands
 ```bash
-# Check current versions
-npm run version:check
+# Test semantic release without publishing
+npm run release:dry
 
-# Validate environment variables
-npm run env:validate
+# Test manual version bump without changes  
+npm run version:manual -- patch --dry-run
 
-# Generate version report
-npm run version:report
-
-# Reset version state
-npm run version:reset
+# Test deployment without actual deploy
+npm run deploy -- staging --skip-tests --skip-build
 ```
 
----
+## 📚 Additional Resources
 
-**Maintainers**: Development Team  
-**Last Updated**: September 4, 2025  
-**Related Documents**: 
-- [Architecture Guide](./client/docs/ARCHITECTURE.md)
-- [CI/CD Documentation](./docs/AI/prompts/semver.yaml)
-- [Project Overview](./.claude.md)
+- [Semantic Versioning Specification](https://semver.org/)
+- [Conventional Commits](https://www.conventionalcommits.org/)
+- [Gitmoji Guide](https://gitmoji.dev/)
+- [Semantic Release Documentation](https://semantic-release.gitbook.io/)
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)

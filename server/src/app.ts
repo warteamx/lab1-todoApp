@@ -1,7 +1,8 @@
 import express from 'express';
 import { json } from 'express';
 import swaggerUi from 'swagger-ui-express';
-import openapiDoc from './openapi';
+import openapiDoc from '.
+import versionRoutes from './api/system/version.routes';/openapi';
 import todoRouter from './api/todo/todo.routes';
 import profileRouter from './api/profile/profile.routes';
 import healthRouter from './api/health/health.routes';
@@ -96,6 +97,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 app.use('/api/profile/avatar', upload.single('avatar'));
 app.use('/api/profile', profileRouter);
 app.use('/api/todo', todoRouter);
+app.use('/api', versionRoutes);
 
 // Add error logging middleware before error handling
 app.use(errorLoggerMiddleware);
