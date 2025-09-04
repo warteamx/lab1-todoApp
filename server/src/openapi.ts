@@ -22,6 +22,10 @@ const mergedOpenapiDoc = {
     {
       url: 'http://localhost:3000',
       description: 'Local server'
+    },
+    {
+      url: 'http://56.228.14.41',
+      description: 'Production server'
     }
   ],
   tags: [

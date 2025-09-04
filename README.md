@@ -9,6 +9,7 @@ Client (Web App): http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com
 Client (Domain): https://lab1.warteamx.com
 Server (API): http://56.228.14.41/api
 Health Check: http://56.228.14.41/api/health
+SERVER API DOCS: http://56.228.14.41/api-docs
 
 ## Project Structure
 
