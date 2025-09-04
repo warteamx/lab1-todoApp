@@ -163,6 +163,7 @@ jobs:
           GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+          SEMANTIC_RELEASE: true
         run: npm run release
 
   # Deploy to AWS (only if new release)
@@ -213,8 +214,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: "server/lab1-todoapp-server.tar.gz"
-          target: "/home/ubuntu/"
+          source: 'server/lab1-todoapp-server.tar.gz'
+          target: '/home/ubuntu/'
 
       - name: 🔄 Update Server on EC2
         uses: appleboy/ssh-action@v1.1.0

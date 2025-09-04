@@ -3,13 +3,26 @@
 
 echo "🔍 Running pre-commit checks..."
 
-# Skip formatting and linting for release commits
-if git log -1 --pretty=format:"%s" | grep -q "chore(release):"; then
+# Skip pre-commit checks in CI environment (including semantic-release)
+if [ "$CI" = "true" ] || [ "$GITHUB_ACTIONS" = "true" ]; then
+  echo "⏭️ Skipping pre-commit checks in CI environment"
+  exit 0
+fi
+
+# Skip formatting and linting for release commits (check multiple patterns)
+commit_message=$(git log -1 --pretty=format:"%s" 2>/dev/null || echo "")
+if echo "$commit_message" | grep -qE "(chore\(release\)|🔖.*chore\(release\)|\[skip ci\])"; then
   echo "⏭️ Skipping pre-commit checks for release commit"
   exit 0
 fi
 
-# Lint and format staged files  
+# Skip if semantic-release is running
+if [ -n "$SEMANTIC_RELEASE" ] || [ -n "$SEMANTIC_RELEASE_DRY_RUN" ]; then
+  echo "⏭️ Skipping pre-commit checks for semantic-release"
+  exit 0
+fi
+
+# Lint and format staged files
 npm run lint:staged
 
 # Run tests
