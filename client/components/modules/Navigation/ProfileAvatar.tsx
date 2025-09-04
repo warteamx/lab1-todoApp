@@ -1,7 +1,7 @@
 // Simple Profile Avatar component for navigation header
 
 import React from 'react';
-import { Image, TouchableOpacity, Platform } from 'react-native';
+import { Image, TouchableOpacity } from 'react-native';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
 import { useProfile } from '@/api/profile.api';
@@ -45,7 +45,7 @@ export const ProfileAvatar: React.FC<ProfileAvatarProps> = ({
         ...theme.shadows.sm,
       }}
       accessible={true}
-      accessibilityLabel={isLoggedIn ? "Profile settings" : "Sign in"}
+      accessibilityLabel={isLoggedIn ? 'Profile settings' : 'Sign in'}
       accessibilityRole="button"
     >
       <Image

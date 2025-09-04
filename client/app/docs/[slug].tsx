@@ -1,7 +1,7 @@
 // Dynamic route for individual documentation pages
 
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Platform } from 'react-native';
+import { ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '@/components/ui/View/View';

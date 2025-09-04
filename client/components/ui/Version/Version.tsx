@@ -2,11 +2,9 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Text } from '../Text/Text';
 import { View } from '../View/View';
-import { useTheme } from '../../../providers/themeProvider';
 import {
   VERSION_INFO,
   VERSION_STRING,
-  DETAILED_VERSION_STRING
 } from '../../../constants/version';
 import { VersionProps } from './Version.types';
 
@@ -22,7 +20,6 @@ export const Version: React.FC<VersionProps> = ({
   showCommitHash = false,
   showEnvironment = false,
 }) => {
-  const { theme } = useTheme();
 
   const renderMinimal = () => (
     <Text
