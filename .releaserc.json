@@ -12,119 +12,66 @@
   ],
   "plugins": [
     [
-      "@semantic-release/commit-analyzer",
+      "semantic-release-gitmoji",
       {
-        "preset": "conventionalcommits",
-        "presetConfig": {
-          "types": [
-            {"type": "feat", "section": "Features"},
-            {"type": "fix", "section": "Bug Fixes"},
-            {"type": "perf", "section": "Performance Improvements"},
-            {"type": "revert", "section": "Reverts"},
-            {"type": "docs", "section": "Documentation"},
-            {"type": "style", "section": "Styles"},
-            {"type": "refactor", "section": "Code Refactoring"},
-            {"type": "test", "section": "Tests"},
-            {"type": "build", "section": "Build System"},
-            {"type": "ci", "section": "CI"}
-          ]
-        },
-        "releaseRules": [
-          {
-            "type": "feat",
-            "release": "minor"
-          },
-          {
-            "type": "fix",
-            "release": "patch"
-          },
-          {
-            "type": "perf",
-            "release": "patch"
-          },
-          {
-            "type": "revert",
-            "release": "patch"
-          },
-          {
-            "type": "docs",
-            "release": "patch"
-          },
-          {
-            "type": "style",
-            "release": "patch"
-          },
-          {
-            "type": "refactor",
-            "release": "patch"
-          },
-          {
-            "type": "test",
-            "release": "patch"
-          },
-          {
-            "type": "build",
-            "release": "patch"
-          },
-          {
-            "type": "ci",
-            "release": "patch"
-          },
-          {
-            "type": "chore",
-            "release": false
-          },
-          {
-            "breaking": true,
-            "release": "major"
-          },
-          {
-            "scope": "no-release",
-            "release": false
-          }
-        ],
-        "parserOpts": {
-          "headerPattern": "^(?:[🎨🐛🚑️✨🔖📝✅🔧💄♻️⚡️🔥🚚👷📦️🏗️🔨🧪💡🎉🔒️🔐📚🚀🔀] )?([\\w-]+)(?:\\(([\\w\\s-]*)\\))?: (.*)$",
-          "headerCorrespondence": ["type", "scope", "subject"],
-          "noteKeywords": [
-            "BREAKING CHANGE",
-            "BREAKING CHANGES",
-            "BREAKING"
-          ]
-        }
-      }
-    ],
-    [
-      "@semantic-release/release-notes-generator",
-      {
-        "preset": "conventionalcommits",
-        "presetConfig": {
-          "types": [
-            {"type": "feat", "section": "Features"},
-            {"type": "fix", "section": "Bug Fixes"},
-            {"type": "perf", "section": "Performance Improvements"},
-            {"type": "revert", "section": "Reverts"},
-            {"type": "docs", "section": "Documentation"},
-            {"type": "style", "section": "Styles"},
-            {"type": "refactor", "section": "Code Refactoring"},
-            {"type": "test", "section": "Tests"},
-            {"type": "build", "section": "Build System"},
-            {"type": "ci", "section": "CI"}
-          ]
-        },
-        "parserOpts": {
-          "headerPattern": "^(?:[🎨🐛🚑️✨🔖📝✅🔧💄♻️⚡️🔥🚚👷📦️🏗️🔨🧪💡🎉🔒️🔐📚🚀🔀] )?([\\w-]+)(?:\\(([\\w\\s-]*)\\))?: (.*)$",
-          "headerCorrespondence": ["type", "scope", "subject"],
-          "noteKeywords": [
-            "BREAKING CHANGE",
-            "BREAKING CHANGES",
-            "BREAKING"
-          ]
-        },
-        "writerOpts": {
-          "commitsSort": [
-            "subject",
-            "scope"
+        "releaseRules": {
+          "major": [":boom:", ":collision:"],
+          "minor": [":sparkles:"],
+          "patch": [
+            ":bug:",
+            ":ambulance:",
+            ":lock:",
+            ":arrow_up:",
+            ":arrow_down:",
+            ":pushpin:",
+            ":chart_with_upwards_trend:",
+            ":heavy_plus_sign:",
+            ":heavy_minus_sign:",
+            ":wrench:",
+            ":hammer:",
+            ":globe_with_meridians:",
+            ":pencil2:",
+            ":rewind:",
+            ":package:",
+            ":alien:",
+            ":truck:",
+            ":page_facing_up:",
+            ":boom:",
+            ":bento:",
+            ":ok_hand:",
+            ":wheelchair:",
+            ":bulb:",
+            ":beers:",
+            ":speech_balloon:",
+            ":card_file_box:",
+            ":children_crossing:",
+            ":building_construction:",
+            ":iphone:",
+            ":clown_face:",
+            ":egg:",
+            ":see_no_evil:",
+            ":camera_flash:",
+            ":alembic:",
+            ":mag:",
+            ":wheel_of_dharma:",
+            ":label:",
+            ":seedling:",
+            ":triangular_flag_on_post:",
+            ":goal_net:",
+            ":animation:",
+            ":wastebasket:",
+            ":passport_control:",
+            ":adhesive_bandage:",
+            ":monocle_face:",
+            ":coffin:",
+            ":test_tube:",
+            ":necktie:",
+            ":stethoscope:",
+            ":bricks:",
+            ":technologist:",
+            ":money_with_wings:",
+            ":thread:",
+            ":safety_vest:"
           ]
         }
       }
