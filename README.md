@@ -10,9 +10,9 @@
 
 ### 🧩 Overview: Expo + Express
 
-A full-stack application built with Expo and Express as a template to start a new project.  
+A full-stack application built with Expo and Express as a template to start a new project.
 
-The app demonstrates modern development practices with **CD/DI/**, **Domain-Driven Design (DDD)**, **Clean Architecture**, **Cloud-Native** and **Semantic Versioning (SemVer)**.
+The app demonstrates modern development practices with **CD/CI**, **Domain-Driven Design (DDD)**, **Clean Architecture**, **Cloud-Native** and **Semantic Versioning (SemVer)**.
 
 A **production-ready full-stack boilerplate** to kickstart your next project, built with:
 
@@ -23,31 +23,34 @@ A **production-ready full-stack boilerplate** to kickstart your next project, bu
 
 ---
 
- 🚀 Features
+🚀 Features
 
 ### Frontend (Expo)
+
 - Cross-platform support: **iOS**, **Android**, **Web**, **Desktop**
 - TypeScript-first React Native with **hooks**, **navigation**, and **theming**
 - API integration layer with environment-based configs
 
 ### Backend (Express)
+
 - RESTful API built with **Express 5.1** and **TypeScript**
 - Scalable architecture (supports DDD/Clean Architecture)
 - Swagger/OpenAPI support
-- PostgreSQL 
+- PostgreSQL
 - Dockerized + `.env` support for configuration
 
-
 This project implements **semantic versioning** for each package:
+
 - **Root package** (`package.json`): Development tooling and scripts
-- **Client package** (`client/package.json`): Expo React Native application  
+- **Client package** (`client/package.json`): Expo React Native application
 - **Server package** (`server/package.json`): Express.js API server
 
 Each package follows [SemVer 2.0.0](https://semver.org/) specification with automated version management via CI/CD.
 
 ## Deployment
+
 - **Client (Web App)**: http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com
-- **Client (Domain)**: https://lab1.warteamx.com  
+- **Client (Domain)**: https://lab1.warteamx.com
 - **Server (API)**: http://56.228.14.41/api
 - **Health Check**: http://56.228.14.41/api/health
 - **API Documentation**: http://56.228.14.41/api-docs
@@ -55,6 +58,7 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 ## 📊 Project Status
 
 ### 📱 Client Badges
+
 [![Client Version](https://img.shields.io/github/package-json/v/warteamx/lab1-todoApp?filename=client%2Fpackage.json&style=flat-square&logo=expo&labelColor=2f3136)](./client/package.json)
 [![Client Coverage](https://img.shields.io/codecov/c/github/warteamx/lab1-todoApp?flag=client&style=flat-square&logo=codecov&labelColor=2f3136)](https://codecov.io/gh/warteamx/lab1-todoApp)
 [![Expo SDK](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/expo?filename=client%2Fpackage.json&style=flat-square&logo=expo&labelColor=2f3136)](https://expo.dev)
@@ -64,6 +68,7 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 [![Jest](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/jest?filename=client%2Fpackage.json&style=flat-square&logo=jest&labelColor=2f3136)](https://jestjs.io)
 
 ### 🖥️ Server Badges
+
 [![Server Version](https://img.shields.io/github/package-json/v/warteamx/lab1-todoApp?filename=server%2Fpackage.json&style=flat-square&logo=node.js&labelColor=2f3136)](./server/package.json)
 [![Server Coverage](https://img.shields.io/codecov/c/github/warteamx/lab1-todoApp?flag=server&style=flat-square&logo=codecov&labelColor=2f3136)](https://codecov.io/gh/warteamx/lab1-todoApp)
 [![Express](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/express?filename=server%2Fpackage.json&style=flat-square&logo=express&labelColor=2f3136)](https://expressjs.com)
@@ -80,6 +85,7 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 ## Quick Start
 
 ### Client (Mobile/Web App)
+
 ```bash
 cd client
 npm install
@@ -87,6 +93,7 @@ npm start
 ```
 
 ### Server (API)
+
 ```bash
 cd server
 npm install
@@ -96,6 +103,7 @@ npm run dev
 ## Development Commands
 
 ### From Root Directory
+
 ```bash
 # Start both client and server
 npm run client:dev    # Starts Expo development server
@@ -106,7 +114,7 @@ npm run test:client   # Run client tests
 npm run test:server   # Run server tests
 
 # Linting
-npm run lint:client   # Lint client code  
+npm run lint:client   # Lint client code
 npm run lint:server   # Lint server code
 ```
 
@@ -115,37 +123,44 @@ npm run lint:server   # Lint server code
 This project implements automated semantic versioning with the following rules:
 
 ### Version Bump Triggers
+
 - **MAJOR** (`X.0.0`): Breaking changes (API removals, incompatible changes)
 - **MINOR** (`1.X.0`): New features (backward compatible)
 - **PATCH** (`1.1.X`): Bug fixes and patches
 
 ### Commit Convention
+
 ```bash
 ✨ feat(client): add dark mode        → MINOR bump
-🐛 fix(server): fix validation bug    → PATCH bump  
+🐛 fix(server): fix validation bug    → PATCH bump
 💥 feat!: remove deprecated API       → MAJOR bump
 📝 docs: update README               → PATCH bump
 ```
 
 ### Version Display
+
 - **Client**: Version component in settings and about screens
 - **Server**: Enhanced health check endpoint with build information
 
 ## Docs
 
 ### Version Management
+
 - 🏷️ [SemVer Implementation](./docs/SEMVER_IMPLEMENTATION.md) - Semantic versioning setup and automation
 
 ### AI Documentation
+
 - 🤖 [Claude Prompt Engineering](./.claude.md) - AI assistant configuration
 
 ### Client Documentation
+
 - 📱 [Installation Guide](./client/docs/INSTALLATION.md) - Setup and development environment
 - 🏗️ [Architecture Guide](./client/docs/ARCHITECTURE.md) - Clean Architecture, folder structure, and design patterns
 - 🧪 [Testing Guide](./client/docs/TESTING.md) - Testing strategies, tools, and best practices
 - 📖 [Client README](./client/docs/README-client.md) - Getting started with the Expo app
 
 ### Server Documentation
+
 - 🚀 [Server Setup](./server/docs/SERVER_START.md) - Server installation and startup
 - 🏗️ [Architecture Guide](./server/docs/ARCHITECTURE.md) - Domain-Driven Design, clean architecture, and design patterns
 - 📁 [DDD Folder Structure](./server/docs/DDD_FOLDER_STRUCTURE.md) - Detailed folder organization and domain structure
@@ -159,4 +174,3 @@ This project implements automated semantic versioning with the following rules:
 **Current Branch**: `24-improve-template-docs`  
 **Last Updated**: September 4, 2025  
 **License**: MIT
-

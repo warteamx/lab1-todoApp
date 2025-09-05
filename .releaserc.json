@@ -84,6 +84,8 @@
           }
         ],
         "parserOpts": {
+          "headerPattern": "^(?:[🎨🐛🚑️✨🔖📝✅🔧💄♻️⚡️🔥🚚👷📦️🏗️🔨🧪💡🎉🔒️🔐📚🚀🔀] )?([\\w-]+)(?:\\(([\\w\\s-]*)\\))?: (.*)$",
+          "headerCorrespondence": ["type", "scope", "subject"],
           "noteKeywords": [
             "BREAKING CHANGE",
             "BREAKING CHANGES",
@@ -111,6 +113,8 @@
           ]
         },
         "parserOpts": {
+          "headerPattern": "^(?:[🎨🐛🚑️✨🔖📝✅🔧💄♻️⚡️🔥🚚👷📦️🏗️🔨🧪💡🎉🔒️🔐📚🚀🔀] )?([\\w-]+)(?:\\(([\\w\\s-]*)\\))?: (.*)$",
+          "headerCorrespondence": ["type", "scope", "subject"],
           "noteKeywords": [
             "BREAKING CHANGE",
             "BREAKING CHANGES",
@@ -152,7 +156,7 @@
           "server/CHANGELOG.md",
           "client/constants/version.ts"
         ],
-        "message": "🔖 chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
+        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",
         "gitSkipHooks": true
       }
     ],
