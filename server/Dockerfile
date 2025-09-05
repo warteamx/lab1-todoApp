@@ -16,6 +16,8 @@ RUN adduser -S serveruser -u 1001
 FROM base AS deps
 # Copy package files
 COPY package*.json ./
+# Regenerate package-lock.json to avoid sync issues
+RUN rm -f package-lock.json && npm install --package-lock-only --omit=dev
 # Clean install production dependencies only
 RUN npm ci --omit=dev && npm cache clean --force
 
@@ -23,6 +25,8 @@ RUN npm ci --omit=dev && npm cache clean --force
 FROM base AS dev
 # Copy package files
 COPY package*.json ./
+# Regenerate package-lock.json to avoid sync issues
+RUN rm -f package-lock.json && npm install --package-lock-only
 # Install all dependencies (including dev dependencies)
 RUN npm ci
 # Copy source code
@@ -39,6 +43,8 @@ CMD ["npm", "run", "dev"]
 FROM base AS build
 # Copy package files
 COPY package*.json ./
+# Regenerate package-lock.json to avoid sync issues
+RUN rm -f package-lock.json && npm install --package-lock-only
 # Install all dependencies
 RUN npm ci
 # Copy source code
