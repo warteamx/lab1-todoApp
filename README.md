@@ -8,13 +8,37 @@
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67?style=flat-square&labelColor=2f3136)](https://gitmoji.dev)
 [![Semantic Release](https://img.shields.io/badge/semantic--release-enabled-brightgreen?style=flat-square&logo=semantic-release&labelColor=2f3136)](https://github.com/semantic-release/semantic-release)
 
-Hello World!
+### 🧩 Overview: Expo + Express
 
-A full-stack application built with Expo and Express demonstrating modern development practices with **Domain-Driven Design (DDD)**, **Clean Architecture**, and **Semantic Versioning (SemVer)**.
+A full-stack application built with Expo and Express as a template to start a new project.  
 
-## Current Version: v1.1.1
+The app demonstrates modern development practices with **CD/DI/**, **Domain-Driven Design (DDD)**, **Clean Architecture**, **Cloud-Native** and **Semantic Versioning (SemVer)**.
 
-This project implements **independent semantic versioning** for each package:
+A **production-ready full-stack boilerplate** to kickstart your next project, built with:
+
+- **Expo SDK 53** (React Native for mobile, web, and desktop)
+- **Express 5.1** (Node.js backend with TypeScript)
+- **Monorepo structure** using `npm` packages
+- **CI/CD integration**, **Docker-ready**, and **env-based configuration**
+
+---
+
+ 🚀 Features
+
+### Frontend (Expo)
+- Cross-platform support: **iOS**, **Android**, **Web**, **Desktop**
+- TypeScript-first React Native with **hooks**, **navigation**, and **theming**
+- API integration layer with environment-based configs
+
+### Backend (Express)
+- RESTful API built with **Express 5.1** and **TypeScript**
+- Scalable architecture (supports DDD/Clean Architecture)
+- Swagger/OpenAPI support
+- PostgreSQL 
+- Dockerized + `.env` support for configuration
+
+
+This project implements **semantic versioning** for each package:
 - **Root package** (`package.json`): Development tooling and scripts
 - **Client package** (`client/package.json`): Expo React Native application  
 - **Server package** (`server/package.json`): Express.js API server
