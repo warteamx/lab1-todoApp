@@ -36,7 +36,9 @@ jobs:
       - name: 📥 Install Dependencies
         run: |
           cd ${{ matrix.package }}
-          npm ci --include=optional || npm ci --omit=optional || (rm -rf node_modules package-lock.json && npm install --omit=optional)
+          rm -f package-lock.json
+          npm install --package-lock-only
+          npm ci
 
       - name: 🔍 Lint
         run: |
@@ -167,7 +169,7 @@ jobs:
         run: |
           npm run release > semantic-release-output.txt 2>&1
           cat semantic-release-output.txt
-          
+
           # Check if a new release was published
           if grep -q "Published release" semantic-release-output.txt; then
             echo "new-release-published=true" >> $GITHUB_OUTPUT
