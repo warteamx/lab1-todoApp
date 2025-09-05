@@ -36,8 +36,7 @@
     "deploy": "node scripts/deploy.js",
     "deploy:staging": "node scripts/deploy.js staging",
     "deploy:production": "node scripts/deploy.js production",
-    "version:manual": "node scripts/manual-version.js",
-    "prepare": "husky install"
+    "version:manual": "node scripts/manual-version.js"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
