@@ -164,7 +164,21 @@ jobs:
           GIT_COMMITTER_NAME: github-actions[bot]
           GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
           SEMANTIC_RELEASE: true
-        run: npm run release
+        run: |
+          npm run release > semantic-release-output.txt 2>&1
+          cat semantic-release-output.txt
+          
+          # Check if a new release was published
+          if grep -q "Published release" semantic-release-output.txt; then
+            echo "new-release-published=true" >> $GITHUB_OUTPUT
+            # Extract version from the output
+            VERSION=$(grep "Published release" semantic-release-output.txt | sed -n 's/.*Published release \([0-9.]*\).*/\1/p')
+            echo "new-release-version=$VERSION" >> $GITHUB_OUTPUT
+            echo "✅ New release published: $VERSION"
+          else
+            echo "new-release-published=false" >> $GITHUB_OUTPUT
+            echo "No new release published"
+          fi
 
   # Deploy to AWS (only if new release)
   deploy:
