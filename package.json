@@ -1,6 +1,6 @@
 {
   "name": "lab1todoApp",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Server and Client Development Scripts",
   "main": "README.md",
   "lint-staged": {
