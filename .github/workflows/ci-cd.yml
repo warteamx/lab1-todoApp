@@ -218,7 +218,9 @@ jobs:
       - name: 📦 Build Server Docker Image
         run: |
           cd server
-          npm ci --include=optional || npm ci --omit=optional || (rm -rf node_modules package-lock.json && npm install --omit=optional)
+          # Update package-lock.json to fix npm ci sync issues
+          rm -f package-lock.json
+          npm install --package-lock-only
           docker build -t lab1-todoapp-server:${{ needs.release.outputs.new-release-version }} --target production .
           docker save lab1-todoapp-server:${{ needs.release.outputs.new-release-version }} | gzip > lab1-todoapp-server.tar.gz
 
