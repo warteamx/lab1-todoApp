@@ -159,32 +159,38 @@ This project implements automated semantic versioning with the following rules:
 
 ### Environment & Setup
 
-- 🔧 [Environment Setup Guide](./docs/ENVIRONMENT_SETUP.md) - Environment variables configuration and management
+- 🔧 [Environment Setup Guide](./docs/development/ENVIRONMENT_SETUP.md) - Environment variables configuration and management
 
-### Version Management
+### Development
 
-- 🏷️ [SemVer Implementation](./docs/SEMVER_IMPLEMENTATION.md) - Semantic versioning setup and automation
-
-### AI Documentation
-
-- 🤖 [Claude Prompt Engineering](./.claude.md) - AI assistant configuration
+- 📦 [Semantic Versioning](./docs/development/SEMANTIC_VERSIONING.md) - Automated version management and release process
+- 🔄 [Development Workflow](./docs/WORKFLOW.md) - Complete development workflow and best practices
 
 ### Client Documentation
 
-- 📱 [Installation Guide](./client/docs/INSTALLATION.md) - Setup and development environment
-- 🏗️ [Architecture Guide](./client/docs/ARCHITECTURE.md) - Clean Architecture, folder structure, and design patterns
-- 🧪 [Testing Guide](./client/docs/TESTING.md) - Testing strategies, tools, and best practices
-- 📖 [Client README](./client/docs/README-client.md) - Getting started with the Expo app
+- 📱 [Installation Guide](./docs/client/INSTALLATION.md) - Setup and development environment
+- 🏗️ [Architecture Guide](./docs/client/ARCHITECTURE.md) - Clean Architecture, folder structure, and design patterns
+- 🧪 [Testing Guide](./docs/client/TESTING.md) - Testing strategies, tools, and best practices
+- 📖 [Client Overview](./docs/client/README-client.md) - Getting started with the Expo app
 
 ### Server Documentation
 
-- 🚀 [Server Setup](./server/docs/SERVER_START.md) - Server installation and startup
-- 🏗️ [Architecture Guide](./server/docs/ARCHITECTURE.md) - Domain-Driven Design, clean architecture, and design patterns
-- 📁 [DDD Folder Structure](./server/docs/DDD_FOLDER_STRUCTURE.md) - Detailed folder organization and domain structure
-- 🧪 [Testing Guide](./server/docs/TESTING.md) - Testing strategies, tools, and best practices
-- 📖 [Server README](./server/docs/README.md) - Complete server documentation overview
-- 🔒 [Security Guide](./server/docs/SECURITY.md) - Security best practices
-- ⚠️ [Error Handling](./server/docs/ERROR_HANDLING.md) - Error handling patterns
+- 🚀 [Server Setup](./docs/server/SERVER_START.md) - Server installation and startup
+- 🏗️ [Architecture Guide](./docs/server/ARCHITECTURE.md) - Domain-Driven Design, clean architecture, and design patterns
+- 📁 [DDD Folder Structure](./docs/server/DDD_FOLDER_STRUCTURE.md) - Detailed folder organization and domain structure
+- 🧪 [Testing Guide](./docs/server/TESTING.md) - Testing strategies, tools, and best practices
+- 📖 [Server README](./docs/server/README.md) - Complete server documentation overview
+- 🔒 [Security Guide](./docs/server/SECURITY.md) - Security best practices
+- ⚠️ [Error Handling](./docs/server/ERROR_HANDLING.md) - Error handling patterns
+
+### Deployment
+
+- 🚀 [Deployment Guide](./docs/deployment/DEPLOYMENT.md) - Production deployment instructions and best practices
+
+### AI Documentation
+
+- 🤖 [AI Context Prompt](./docs/AI_CONTEXT.md) - AI assistant configuration and comprehensive project context
+- 📋 [AI-Generated Documentation](./docs/ai-generated/) - AI-generated summaries, fixes, and development notes
 
 ---
 
