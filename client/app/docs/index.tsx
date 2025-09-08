@@ -19,7 +19,11 @@ export default function DocsIndexPage() {
     router.push(`/docs/${docId}` as any);
   };
 
-  const renderDocItem = ({ item }: { item: ReturnType<typeof getDocsList>[0] }) => (
+  const renderDocItem = ({
+    item,
+  }: {
+    item: ReturnType<typeof getDocsList>[0];
+  }) => (
     <TouchableOpacity
       onPress={() => handleDocPress(item.id)}
       style={{
@@ -43,7 +47,7 @@ export default function DocsIndexPage() {
               color="textPrimary"
               style={{ marginBottom: theme.spacing.xs }}
             >
-              {item.title}
+              {item.emoji} {item.title}
             </Text>
             <Text variant="bodySmall" color="textSecondary">
               {item.filename}
@@ -67,7 +71,7 @@ export default function DocsIndexPage() {
       <FlatList
         data={docsList}
         renderItem={renderDocItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         contentContainerStyle={{
           padding: theme.spacing.lg,
           paddingBottom: theme.spacing.xl * 2,
@@ -93,7 +97,8 @@ export default function DocsIndexPage() {
                 marginBottom: theme.spacing.lg,
               }}
             >
-              Browse through our app guides, architecture docs, and feature explanations.
+              Browse through our app guides, architecture docs, and feature
+              explanations.
             </Text>
           </View>
         }

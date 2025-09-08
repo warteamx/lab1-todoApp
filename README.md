@@ -2,7 +2,6 @@
 
 [![Release](https://img.shields.io/github/v/release/warteamx/lab1-todoApp?style=flat-square&logo=github&labelColor=2f3136)](https://github.com/warteamx/lab1-todoApp/releases)
 [![Build](https://img.shields.io/github/actions/workflow/status/warteamx/lab1-todoApp/release.yml?branch=main&style=flat-square&logo=github&labelColor=2f3136)](https://github.com/warteamx/lab1-todoApp/actions/workflows/release.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/warteamx/lab1-todoApp?style=flat-square&logo=codecov&labelColor=2f3136)](https://codecov.io/gh/warteamx/lab1-todoApp)
 [![License](https://img.shields.io/github/license/warteamx/lab1-todoApp?style=flat-square&logo=opensourceinitiative&logoColor=white&labelColor=2f3136)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node.js-20-green?style=flat-square&logo=node.js&labelColor=2f3136)](https://nodejs.org)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67?style=flat-square&labelColor=2f3136)](https://gitmoji.dev)
@@ -84,6 +83,20 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 
 ## Quick Start
 
+### Environment Setup
+
+Before running the application, set up your environment variables:
+
+```bash
+# Create environment files from templates
+./scripts/setup-environment.sh
+
+# Configure your Supabase credentials and other settings
+# Edit client/.env.local and server/.env with your actual values
+```
+
+📖 **See [Environment Setup Guide](./docs/ENVIRONMENT_SETUP.md) for detailed configuration instructions**
+
 ### Client (Mobile/Web App)
 
 ```bash
@@ -100,25 +113,9 @@ npm install
 npm run dev
 ```
 
-## Development Commands
-
-### From Root Directory
-
-```bash
-# Start both client and server
-npm run client:dev    # Starts Expo development server
-npm run server:dev    # Starts Express API server
-
-# Testing
-npm run test:client   # Run client tests
-npm run test:server   # Run server tests
-
-# Linting
-npm run lint:client   # Lint client code
-npm run lint:server   # Lint server code
-```
-
 ## Semantic Versioning
+
+Check the full [semver docs](./docs/development/SEMANTIC_VERSIONING.md)
 
 This project implements automated semantic versioning with the following rules:
 
@@ -144,33 +141,43 @@ This project implements automated semantic versioning with the following rules:
 
 ## Docs
 
-### Version Management
+### Environment & Setup
 
-- 🏷️ [SemVer Implementation](./docs/SEMVER_IMPLEMENTATION.md) - Semantic versioning setup and automation
+- 🔧 [Environment Setup Guide](./docs/development/ENVIRONMENT_SETUP.md) - Environment variables configuration and management
 
-### AI Documentation
+### Development
 
-- 🤖 [Claude Prompt Engineering](./.claude.md) - AI assistant configuration
+- 📦 [Semantic Versioning](./docs/development/SEMANTIC_VERSIONING.md) - Automated version management and release process
+- 🔄 [Development Workflow](./docs/WORKFLOW.md) - Complete development workflow and best practices
 
 ### Client Documentation
 
-- 📱 [Installation Guide](./client/docs/INSTALLATION.md) - Setup and development environment
-- 🏗️ [Architecture Guide](./client/docs/ARCHITECTURE.md) - Clean Architecture, folder structure, and design patterns
-- 🧪 [Testing Guide](./client/docs/TESTING.md) - Testing strategies, tools, and best practices
-- 📖 [Client README](./client/docs/README-client.md) - Getting started with the Expo app
+- 📱 [Installation Guide](./docs/client/INSTALLATION.md) - Setup and development environment
+- 🏗️ [Architecture Guide](./docs/client/ARCHITECTURE.md) - Clean Architecture, folder structure, and design patterns
+- 🧪 [Testing Guide](./docs/client/TESTING.md) - Testing strategies, tools, and best practices
+- 📖 [Client Overview](./docs/client/README-client.md) - Getting started with the Expo app
 
 ### Server Documentation
 
-- 🚀 [Server Setup](./server/docs/SERVER_START.md) - Server installation and startup
-- 🏗️ [Architecture Guide](./server/docs/ARCHITECTURE.md) - Domain-Driven Design, clean architecture, and design patterns
-- 📁 [DDD Folder Structure](./server/docs/DDD_FOLDER_STRUCTURE.md) - Detailed folder organization and domain structure
-- 🧪 [Testing Guide](./server/docs/TESTING.md) - Testing strategies, tools, and best practices
-- 📖 [Server README](./server/docs/README.md) - Complete server documentation overview
-- 🔒 [Security Guide](./server/docs/SECURITY.md) - Security best practices
-- ⚠️ [Error Handling](./server/docs/ERROR_HANDLING.md) - Error handling patterns
+- 🚀 [Server Setup](./docs/server/SERVER_START.md) - Server installation and startup
+- 🏗️ [Architecture Guide](./docs/server/ARCHITECTURE.md) - Domain-Driven Design, clean architecture, and design patterns
+- 📁 [DDD Folder Structure](./docs/server/DDD_FOLDER_STRUCTURE.md) - Detailed folder organization and domain structure
+- 🧪 [Testing Guide](./docs/server/TESTING.md) - Testing strategies, tools, and best practices
+- 📖 [Server README](./docs/server/README.md) - Complete server documentation overview
+- 🔒 [Security Guide](./docs/server/SECURITY.md) - Security best practices
+- ⚠️ [Error Handling](./docs/server/ERROR_HANDLING.md) - Error handling patterns
+
+### Deployment
+
+- 🚀 [Deployment Guide](./docs/deployment/DEPLOYMENT.md) - Production deployment instructions and best practices
+
+### AI Documentation
+
+- 🤖 [AI Context Prompt](./docs/AI_CONTEXT.md) - AI assistant configuration and comprehensive project context
+- 📋 [AI-Generated Documentation](./docs/ai-generated/) - AI-generated summaries, fixes, and development notes
 
 ---
 
-**Current Branch**: `24-improve-template-docs`  
-**Last Updated**: September 4, 2025  
+**Current Branch**: `main`  
+**Last Updated**: September 8, 2025  
 **License**: MIT

@@ -4,5 +4,4 @@ export const config = {
   supabaseKey: process.env.SUPABASE_KEY,
   supabaseURL:
     process.env.SUPABASE_URL || 'https://your-supabase-url.supabase.co',
-  supabaseBucket: process.env.SUPABASE_BUCKET || 'Avatar',
 };

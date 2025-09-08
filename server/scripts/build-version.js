@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Build version information for server package
  * Creates version endpoint and updates package metadata
@@ -9,10 +10,12 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 function getBuildInfo() {
-  const packageJson = require('../package.json');
+  const packageJson = require('../package.json'); // eslint-disable-line @typescript-eslint/no-require-imports
 
   try {
-    const commitHash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
+    const commitHash = execSync('git rev-parse --short HEAD', {
+      encoding: 'utf8',
+    }).trim();
     const buildDate = new Date().toISOString();
     const buildEnv = process.env.NODE_ENV || 'development';
 
@@ -23,7 +26,7 @@ function getBuildInfo() {
       commitHash,
       buildEnv,
       name: packageJson.name,
-      description: packageJson.description || 'Express API Server'
+      description: packageJson.description || 'Express API Server',
     };
   } catch (error) {
     console.warn('Warning: Could not get git info:', error.message);
@@ -34,7 +37,7 @@ function getBuildInfo() {
       commitHash: 'unknown',
       buildEnv: process.env.NODE_ENV || 'development',
       name: packageJson.name,
-      description: packageJson.description || 'Express API Server'
+      description: packageJson.description || 'Express API Server',
     };
   }
 }
@@ -120,77 +123,6 @@ export default router;
   console.log('✅ Created version routes');
 }
 
-function updateAppRoutes() {
-  const appFilePath = path.join(__dirname, '..', 'src/app.ts');
-
-  if (fs.existsSync(appFilePath)) {
-    let appContent = fs.readFileSync(appFilePath, 'utf8');
-
-    // Check if version routes are already imported
-    if (!appContent.includes('version.routes')) {
-      // Add import
-      const importMatch = appContent.match(/(import.*from.*['"]\.)/);
-      if (importMatch) {
-        const insertIndex = appContent.indexOf(importMatch[0]) + importMatch[0].length;
-        appContent = appContent.slice(0, insertIndex) +
-          "\nimport versionRoutes from './api/system/version.routes';" +
-          appContent.slice(insertIndex);
-      }
-
-      // Add route usage
-      const routeMatch = appContent.match(/app\.use\(['"][^'"]*['"][^;]*;/g);
-      if (routeMatch && routeMatch.length > 0) {
-        const lastRoute = routeMatch[routeMatch.length - 1];
-        const insertIndex = appContent.indexOf(lastRoute) + lastRoute.length;
-        appContent = appContent.slice(0, insertIndex) +
-          "\napp.use('/api', versionRoutes);" +
-          appContent.slice(insertIndex);
-      }
-
-      fs.writeFileSync(appFilePath, appContent);
-      console.log('✅ Updated app routes with version endpoints');
-    }
-  }
-}
-
-function generateEnvExample() {
-  const envExamplePath = path.join(__dirname, '..', '.env.example');
-  const buildInfo = getBuildInfo();
-
-  const envContent = `# Server Environment Variables
-
-# Version Information (injected during build)
-APP_VERSION=${buildInfo.version}
-BUILD_NUMBER=${buildInfo.buildNumber}
-BUILD_DATE=${buildInfo.buildDate}
-COMMIT_HASH=${buildInfo.commitHash}
-BUILD_ENV=${buildInfo.buildEnv}
-
-# Server Configuration
-NODE_ENV=development
-PORT=3000
-HOST=localhost
-
-# Database Configuration
-DATABASE_URL=
-SUPABASE_URL=
-SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_KEY=
-
-# Security
-JWT_SECRET=your-secret-key
-CORS_ORIGIN=http://localhost:8081
-
-# Logging
-LOG_LEVEL=info
-LOG_FILE=logs/combined.log
-ERROR_LOG_FILE=logs/error.log
-`;
-
-  fs.writeFileSync(envExamplePath, envContent);
-  console.log('✅ Generated .env.example');
-}
-
 function main() {
   console.log('🔨 Building server version information...');
 
@@ -198,8 +130,6 @@ function main() {
   console.log('📦 Build Info:', buildInfo);
 
   createVersionEndpoint(buildInfo);
-  updateAppRoutes();
-  generateEnvExample();
 
   console.log('✅ Server version build completed');
 }

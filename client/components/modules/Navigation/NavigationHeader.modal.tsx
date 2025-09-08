@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Modal, Pressable, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
 import { ThemeVariant } from '@/themes/themes';
@@ -11,6 +11,7 @@ import { Text } from '../../ui/Text/Text';
 import { Button } from '../../ui/Button/Button';
 import { Inline } from '../../ui/Layout/Layout';
 import { THEME_OPTIONS } from './NavigationHeader.helper';
+import { Version } from '@/components';
 
 interface NavigationHeaderModalProps {
   visible: boolean;
@@ -71,7 +72,7 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
             shadowRadius: 12,
             elevation: 8,
           }}
-          onPress={(e) => e.stopPropagation()}
+          onPress={e => e.stopPropagation()}
         >
           {/* Header */}
           <Text
@@ -107,7 +108,11 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
                 </Text>
               ) : session ? (
                 <View>
-                  <Inline spacing="xs" align="center" style={{ marginBottom: 12 }}>
+                  <Inline
+                    spacing="xs"
+                    align="center"
+                    style={{ marginBottom: 12 }}
+                  >
                     <Text variant="bodyMedium" color="success">
                       ✓ Logged in
                     </Text>
@@ -137,7 +142,11 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
                 </View>
               ) : (
                 <View>
-                  <Text variant="bodyMedium" color="warning" style={{ marginBottom: 12 }}>
+                  <Text
+                    variant="bodyMedium"
+                    color="warning"
+                    style={{ marginBottom: 12 }}
+                  >
                     Not logged in
                   </Text>
                   <Inline spacing="sm">
@@ -220,7 +229,7 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
             </Inline>
 
             <View style={{ gap: 8 }}>
-              {THEME_OPTIONS.map((themeOption) => (
+              {THEME_OPTIONS.map(themeOption => (
                 <TouchableOpacity
                   key={themeOption.variant}
                   onPress={() => handleThemeSelect(themeOption.variant)}
@@ -248,26 +257,50 @@ export const NavigationHeaderModal: React.FC<NavigationHeaderModalProps> = ({
                   <View style={{ flex: 1 }}>
                     <Text
                       variant="bodyMedium"
-                      color={themeOption.variant === themeVariant ? 'interactive' : 'textPrimary'}
+                      color={
+                        themeOption.variant === themeVariant
+                          ? 'interactive'
+                          : 'textPrimary'
+                      }
                     >
                       {themeOption.name}
                     </Text>
                     <Text
                       variant="labelSmall"
-                      color={themeOption.variant === themeVariant ? 'interactive' : 'textSecondary'}
+                      color={
+                        themeOption.variant === themeVariant
+                          ? 'interactive'
+                          : 'textSecondary'
+                      }
                     >
                       {themeOption.description}
                     </Text>
                   </View>
 
                   {themeOption.variant === themeVariant && (
-                    <Text style={{ color: theme.colors.interactive, fontSize: 16 }}>
+                    <Text
+                      style={{ color: theme.colors.interactive, fontSize: 16 }}
+                    >
                       ✓
                     </Text>
                   )}
                 </TouchableOpacity>
               ))}
             </View>
+          </View>
+          {/* Version Button */}
+          <View style={{ marginBottom: 24 }}>
+            <TouchableOpacity
+              onPress={() => {
+                router.push('/(user)/version');
+                onClose();
+              }}
+            >
+              <Version
+                variant="minimal"
+                textStyle={{ color: theme.colors.textPrimary }}
+              />
+            </TouchableOpacity>
           </View>
 
           {/* Close Button */}

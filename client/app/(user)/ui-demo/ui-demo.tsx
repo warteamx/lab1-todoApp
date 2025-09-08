@@ -28,19 +28,6 @@ export default function ThemeDemoScreen() {
       <ScrollView style={{ flex: 1 }}>
         <View padding="lg">
           <Stack spacing="xl">
-            {/* Navigation */}
-            <Section
-              title="UI Components Demo"
-              subtitle="Explore components and version information"
-            >
-              <Button
-                title="📱 Version Component Demo"
-                variant="outline"
-                onPress={() => router.push('/(user)/ui-demo/version')}
-                fullWidth
-              />
-            </Section>
-
             {/* Theme Switcher */}
             <Section
               title="Themes"

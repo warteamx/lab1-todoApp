@@ -7,16 +7,16 @@ import { Request, Response } from 'express';
 export const VERSION_INFO = {
   name: 'server',
   description: 'Express API Server',
-  version: '1.1.1',
+  version: '1.0.4',
   buildNumber: '1',
-  buildDate: '2025-09-04T11:10:57.282Z',
-  commitHash: '8c03a63',
+  buildDate: '2025-09-08T11:00:23.984Z',
+  commitHash: '903b7aa',
   environment: 'development',
   timestamp: Date.now(),
   uptime: process.uptime(),
   nodeVersion: process.version,
   platform: process.platform,
-  arch: process.arch
+  arch: process.arch,
 } as const;
 
 /**
@@ -27,7 +27,7 @@ export const getVersion = (req: Request, res: Response) => {
   res.json({
     ...VERSION_INFO,
     uptime: process.uptime(),
-    timestamp: Date.now()
+    timestamp: Date.now(),
   });
 };
 
@@ -42,6 +42,6 @@ export const getHealth = (req: Request, res: Response) => {
     buildNumber: VERSION_INFO.buildNumber,
     uptime: process.uptime(),
     timestamp: Date.now(),
-    environment: VERSION_INFO.environment
+    environment: VERSION_INFO.environment,
   });
 };

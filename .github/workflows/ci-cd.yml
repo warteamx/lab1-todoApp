@@ -51,12 +51,12 @@ jobs:
           npm run test:ci || npm run test:coverage || npm run test
 
       - name: 📊 Upload Coverage
-        uses: codecov/codecov-action@v3
-        if: matrix.package == 'server'
+        uses: codecov/codecov-action@v4
         with:
-          files: ./server/coverage/lcov.info
+          files: ./${{ matrix.package }}/coverage/lcov.info
           flags: ${{ matrix.package }}
           name: ${{ matrix.package }}-coverage
+          token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 
   # Build applications (only on main branch)
@@ -101,7 +101,7 @@ jobs:
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
         run: |
           cd client
-          npm run build:web
+          npm run build
 
       - name: 🏗️ Build Server
         if: matrix.package == 'server'

@@ -1,22 +1,48 @@
 {
-  "name": "app",
+  "name": "lab1-todoapp-client",
   "main": "expo-router/entry",
   "version": "1.0.4",
+  "description": "React Native client for Todo application built with Expo",
+  "author": "warteamx",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warteamx/lab1-todoApp.git",
+    "directory": "client"
+  },
+  "homepage": "https://github.com/warteamx/lab1-todoApp#readme",
+  "keywords": [
+    "react-native",
+    "expo",
+    "todo-app",
+    "mobile",
+    "typescript"
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
+    "// Development Scripts": "",
     "start": "expo start",
-    "reset-project": "node ./scripts/reset-project.js",
+    "dev": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
+    "reset-project": "node ./scripts/reset-project.js",
+    "// Build Scripts": "",
+    "build": "expo export --platform web --output-dir web/dist",
     "build:web": "expo export --platform web --output-dir web/dist",
     "build:version": "node scripts/build-version.js",
-    "lint": "expo lint",
-    "lint:fix": "expo lint --fix",
-    "format": "prettier --write **/*.{js,jsx,ts,tsx,json}",
+    "// Testing Scripts": "",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
-    "test:ci": "jest --ci --coverage"
+    "test:ci": "jest --ci --coverage",
+    "// Linting & Formatting Scripts": "",
+    "lint": "expo lint",
+    "lint:fix": "expo lint --fix",
+    "format": "prettier --write **/*.{js,jsx,ts,tsx,json}"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -28,8 +54,6 @@
     "@tanstack/eslint-plugin-query": "^5.81.2",
     "@tanstack/react-query": "^5.83.0",
     "aes-js": "^3.1.2",
-    "aws-amplify": "^6.15.0",
-    "axios": "^1.9.0",
     "expo": "~53.0.9",
     "expo-auth-session": "~6.2.0",
     "expo-blur": "~14.1.4",
@@ -49,10 +73,8 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.2",
-    "react-native-gesture-handler": "~2.24.0",
     "react-native-get-random-values": "^1.11.0",
     "react-native-markdown-display": "^7.0.2",
-    "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.10.0",
     "react-native-url-polyfill": "^2.0.0",
@@ -91,6 +113,24 @@
     ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@sentry/react-native|native-base|react-native-svg)"
+    ],
+    "collectCoverageFrom": [
+      "**/*.{js,jsx,ts,tsx}",
+      "!**/node_modules/**",
+      "!**/coverage/**",
+      "!**/*.d.ts",
+      "!**/expo-env.d.ts",
+      "!**/*.config.js",
+      "!**/scripts/**",
+      "!**/web/**",
+      "!**/assets/**",
+      "!**/__tests__/**"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov",
+      "html",
+      "json"
     ]
   }
 }

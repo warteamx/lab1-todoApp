@@ -46,10 +46,10 @@ export default function TabLayout() {
       };
     }
 
-    if (segments.some(segment => String(segment) === 'vr')) {
+    if (segments.some(segment => String(segment) === 'version')) {
       return {
-        title: 'VR Experience',
-        subtitle: 'Virtual reality demo',
+        title: 'Version Info',
+        subtitle: 'App version and demos',
       };
     }
 
@@ -123,17 +123,17 @@ export default function TabLayout() {
       />
 
       <Tabs.Screen
-        name="vr"
+        name="version"
         options={{
-          title: 'VR',
+          title: 'Version',
           headerShown: true,
           header: () => (
             <NavigationHeader
-              title="VR Experience"
-              subtitle="Virtual reality demo"
+              title="Version Info"
+              subtitle="App version and demos"
             />
           ),
-          tabBarIcon: ({ color }) => <TabBarIcon name="space-shuttle" color={color} />,
+          tabBarIcon: ({ color }) => <TabBarIcon name="info-circle" color={color} />,
         }}
       />
 
