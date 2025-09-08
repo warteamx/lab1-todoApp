@@ -1,7 +1,30 @@
 {
   "name": "lab1-todoapp",
   "version": "1.0.4",
-  "description": "Server and Client Development Scripts",
+  "description": "Full-stack Todo application with React Native client and Node.js server",
+  "author": "warteamx",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/warteamx/lab1-todoApp.git"
+  },
+  "homepage": "https://github.com/warteamx/lab1-todoApp#readme",
+  "bugs": {
+    "url": "https://github.com/warteamx/lab1-todoApp/issues"
+  },
+  "keywords": [
+    "react-native",
+    "nodejs",
+    "todo-app",
+    "supabase",
+    "fullstack",
+    "typescript",
+    "expo"
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
   "main": "README.md",
   "lint-staged": {
     "client/**/*.{js,jsx,ts,tsx,json}": [
@@ -17,21 +40,37 @@
     ]
   },
   "scripts": {
-    "server:dev": "npm --prefix ./server run dev",
-    "client:dev": "npm --prefix ./client run start",
+    "// Development Scripts": "",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm --prefix ./client run start",
+    "dev:server": "npm --prefix ./server run dev",
+    "// Testing Scripts": "",
+    "test": "npm run test:client && npm run test:server",
     "test:client": "npm --prefix ./client run test",
-    "test:server": "npm -prefix ./server run test",
+    "test:server": "npm --prefix ./server run test",
     "test:pre-commit": "npm run test:client && npm run test:server",
+    "// Linting & Formatting Scripts": "",
+    "lint": "npm run lint:client && npm run lint:server",
     "lint:client": "npm --prefix ./client run lint",
-    "lint:server": "npm -prefix ./server run lint",
-    "lint:staged": "lint-staged",
+    "lint:server": "npm --prefix ./server run lint",
+    "lint:fix": "npm run lint:fix:client && npm run lint:fix:server",
+    "lint:fix:client": "npm --prefix ./client run lint:fix",
+    "lint:fix:server": "npm --prefix ./server run lint:fix",
+    "format": "prettier --write \"**/*.{md,yml,yaml,json}\"",
     "format:staged": "lint-staged",
-    "release": "semantic-release",
-    "release:dry": "semantic-release --dry-run",
-    "version:update": "node scripts/update-version.js",
+    "lint:staged": "lint-staged",
+    "// Build Scripts": "",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "npm --prefix ./client run build",
+    "build:server": "npm --prefix ./server run build",
     "build:version": "npm run build:version:client && npm run build:version:server",
     "build:version:client": "npm --prefix ./client run build:version",
     "build:version:server": "npm --prefix ./server run build:version",
+    "// Version Management Scripts": "",
+    "version:update": "node scripts/update-version.js",
+    "// CI/CD & Release Scripts": "",
+    "release": "semantic-release",
+    "release:dry": "semantic-release --dry-run",
     "deploy": "node scripts/deploy.js",
     "deploy:staging": "node scripts/deploy.js staging",
     "deploy:production": "node scripts/deploy.js production"
@@ -41,6 +80,7 @@
     "@semantic-release/exec": "^7.1.0",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/github": "^11.0.5",
+    "concurrently": "^9.1.0",
     "conventional-changelog-conventionalcommits": "^9.1.0",
     "conventional-changelog-gitmoji": "^0.2.5",
     "eslint": "^9.32.0",

@@ -84,10 +84,10 @@ npm run test:coverage
 npm run test:ci
 
 # Run specific test file
-npm test ComponentName.test.tsx
+npm run client:test ComponentName.test.tsx
 
 # Run tests matching pattern
-npm test -- --testNamePattern="should render"
+npm run client:test -- --testNamePattern="should render"
 ```
 
 ### Coverage Commands
@@ -569,6 +569,7 @@ export const createMockApiError = (status = 400, message = 'Bad Request') => ({
    ```
 
 3. **Arrange, Act, Assert Pattern**
+
    ```tsx
    it('should update username when valid input is provided', () => {
      // Arrange
@@ -604,6 +605,7 @@ export const createMockApiError = (status = 400, message = 'Bad Request') => ({
    ```
 
 2. **Use Setup and Teardown**
+
    ```tsx
    describe('API tests', () => {
      beforeEach(() => {

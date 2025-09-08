@@ -101,7 +101,7 @@ jobs:
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
         run: |
           cd client
-          npm run build:web
+          npm run build
 
       - name: 🏗️ Build Server
         if: matrix.package == 'server'

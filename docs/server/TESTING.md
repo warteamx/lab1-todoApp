@@ -895,10 +895,10 @@ npm run test:watch
 npm run test:coverage
 
 # Run specific test file
-npm test todo.service.test.ts
+npm run test todo.service.test.ts
 
 # Run tests matching pattern
-npm test -- todo
+npm run test -- todo
 
 # Run tests with UI
 npm run test:ui
@@ -908,19 +908,19 @@ npm run test:ui
 
 ```bash
 # Run only unit tests
-npm test -- src/__tests__/unit
+npm run test -- src/__tests__/unit
 
 # Run only integration tests
-npm test -- src/__tests__/integration
+npm run test -- src/__tests__/integration
 
 # Run tests with verbose output
-npm test -- --reporter=verbose
+npm run test -- --reporter=verbose
 
 # Run tests and update snapshots
-npm test -- --update-snapshots
+npm run test -- --update-snapshots
 
 # Run tests with specific timeout
-npm test -- --testTimeout=30000
+npm run test -- --testTimeout=30000
 ```
 
 ### Docker Test Commands
@@ -933,7 +933,7 @@ npm run docker:test
 docker run --rm -v $(pwd):/app expo-server:dev npm run test:coverage
 
 # Run specific test suite in Docker
-docker run --rm -v $(pwd):/app expo-server:dev npm test todo.service.test.ts
+docker run --rm -v $(pwd):/app expo-server:dev npm run test todo.service.test.ts
 ```
 
 ## 📊 Test Coverage Targets

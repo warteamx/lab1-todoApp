@@ -160,33 +160,105 @@ ALLOWED_ORIGINS=http://localhost:8081,http://localhost:19006
 
 ## 📦 Key NPM Scripts
 
-### Root Level
+### Root Level - Orchestration Scripts
 
 ```bash
-npm run client:dev     # Start Expo development server
-npm run server:dev     # Start Express server in development
-npm run test:client    # Run client tests
-npm run test:server    # Run server tests
-npm run lint:client    # Lint client code
-npm run lint:server    # Lint server code
+# Development Scripts
+npm run dev              # Start both client and server simultaneously
+npm run dev:client       # Start Expo development server only
+npm run dev:server       # Start Express server only
+
+# Testing Scripts
+npm run test             # Run tests for both client and server
+npm run test:client      # Run client tests
+npm run test:server      # Run server tests
+npm run test:pre-commit  # Pre-commit test validation
+
+# Linting & Formatting Scripts
+npm run lint             # Lint both client and server
+npm run lint:client      # Lint client code
+npm run lint:server      # Lint server code
+npm run lint:fix         # Fix linting issues in both packages
+npm run lint:fix:client  # Fix client linting issues
+npm run lint:fix:server  # Fix server linting issues
+npm run format           # Format markdown, YAML, and JSON files
+
+# Build Scripts
+npm run build            # Build both client and server
+npm run build:client     # Build client for production
+npm run build:server     # Build server for production
+npm run build:version    # Build version info for both packages
+
+# CI/CD & Release Scripts
+npm run release          # Create semantic release
+npm run release:dry      # Dry run of semantic release
+npm run deploy           # Deploy to production
+npm run deploy:staging   # Deploy to staging
+npm run deploy:production # Deploy to production environment
 ```
 
-### Client Specific
+### Client Specific (/client)
 
 ```bash
-npm start              # Start Expo development server
-npm run build          # Build for production
-npm run test           # Run tests with coverage
-npm run lint           # Lint and format code
+# Development Scripts
+npm run client:start   # Start Expo development server
+npm run dev            # Alias for npm start
+npm run android        # Start for Android
+npm run ios            # Start for iOS
+npm run web            # Start for web
+npm run reset-project  # Reset Expo project
+
+# Build Scripts
+npm run build          # Build for web production
+npm run build:web      # Explicit web build
+npm run build:version  # Build version information
+
+# Testing Scripts
+npm run test           # Run Jest tests
+npm run test:watch     # Run tests in watch mode
+npm run test:coverage  # Run tests with coverage
+npm run test:ci        # Run tests for CI environment
+
+# Linting & Formatting Scripts
+npm run lint           # Lint TypeScript/JavaScript files
+npm run lint:fix       # Fix linting issues automatically
+npm run format         # Format code with Prettier
 ```
 
-### Server Specific
+### Server Specific (/server)
 
 ```bash
-npm run dev            # Start with hot reload
-npm run build          # Build TypeScript
+# Development Scripts
+npm run dev            # Start with hot reload (ts-node-dev)
 npm run start          # Start production server
-npm run test           # Run tests with coverage
+
+# Build Scripts
+npm run build          # Build TypeScript to JavaScript
+npm run build:version  # Build version information
+
+# Testing Scripts
+npm run test           # Run Vitest tests
+npm run test:ci        # Run tests for CI
+npm run test:watch     # Run tests in watch mode
+npm run test:coverage  # Run tests with coverage
+
+# Linting & Formatting Scripts
+npm run lint           # Lint TypeScript files
+npm run lint:fix       # Fix linting issues
+npm run format         # Format code with Prettier
+
+# Logging Scripts
+npm run logs:view      # View combined logs with pino-pretty
+npm run logs:errors    # View error logs with pino-pretty
+
+# Docker Scripts
+npm run docker:dev     # Run development Docker container
+npm run docker:prod    # Run production Docker container
+npm run docker:build   # Build Docker image
+npm run docker:stop    # Stop Docker containers
+npm run docker:logs    # View Docker logs
+npm run docker:test    # Run tests in Docker
+npm run docker:clean   # Clean up Docker resources
 ```
 
 ## 🔒 Security Considerations
@@ -278,6 +350,49 @@ rm -rf node_modules && npm install
 - [Server Architecture](./server/ARCHITECTURE.md)
 - [Testing Guidelines](./client/TESTING.md)
 - [Semantic Versioning](./development/SEMANTIC_VERSIONING.md)
+
+## 🤖 AI-Generated Documentation Guidelines
+
+### Naming Conventions for AI-Generated Summary Documents
+
+When creating AI-generated summary documents, follow these naming conventions:
+
+**Location**: `docs/ai-generated/summaries/`
+
+**Naming Format**: `[ACTION]_[COMPONENT]_[TYPE].md`
+
+**Examples**:
+
+- `PACKAGE_REFACTOR_SUMMARY.md` - Package.json refactoring documentation
+- `PACKAGE_INSTALLATION_COMPLETE.md` - Node packages reinstallation summary
+- `UI_COMPONENT_IMPLEMENTATION.md` - UI component development summary
+- `API_ENDPOINT_REFACTOR.md` - API endpoint refactoring documentation
+- `DATABASE_MIGRATION_SUMMARY.md` - Database schema changes summary
+- `SECURITY_AUDIT_REPORT.md` - Security vulnerability assessment
+- `PERFORMANCE_OPTIMIZATION_SUMMARY.md` - Performance improvement documentation
+- `TESTING_IMPLEMENTATION_GUIDE.md` - Testing strategy and implementation
+- `DEPLOYMENT_CONFIGURATION_SUMMARY.md` - Deployment setup and changes
+- `CODE_REVIEW_SUMMARY.md` - Code review findings and improvements
+
+**Naming Rules**:
+
+1. Use **UPPERCASE** with **underscores** for file names
+2. Start with the **primary action/verb** (PACKAGE, UI, API, DATABASE, etc.)
+3. Include the **component/area** being affected
+4. End with the **document type** (SUMMARY, GUIDE, REPORT, COMPLETE, etc.)
+5. Keep names descriptive but concise
+6. Use consistent terminology across related documents
+
+**Content Structure**:
+
+- Clear title with emoji
+- Executive summary
+- Detailed changes/implementations
+- Benefits and impact
+- Next steps or recommendations
+- Technical details when relevant
+
+This ensures AI-generated documentation is properly organized, easily discoverable, and follows project conventions.
 
 ---
 

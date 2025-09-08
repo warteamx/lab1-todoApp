@@ -60,26 +60,29 @@ Detailed documentation of the profile management system including avatar upload,
 ## Development Commands
 
 ```bash
-# Start development server
-npm start
+# Development Scripts
+npm run client:start   # Start Expo development server
+npm run dev            # Alias for npm start
+npm run android        # Start for Android
+npm run ios            # Start for iOS
+npm run web            # Start for web
+npm run reset-project  # Reset Expo project
 
-# Platform-specific development
-npm run ios          # iOS Simulator
-npm run android      # Android Emulator
-npm run web          # Web Browser
+# Build Scripts
+npm run build          # Build for web production
+npm run build:web      # Explicit web build
+npm run build:version  # Build version information
 
-# Code quality
-npm run lint         # Check code style
-npm run lint:fix     # Fix linting issues
-npm run format       # Format code with Prettier
+# Testing Scripts
+npm run test           # Run Jest tests
+npm run test:watch     # Run tests in watch mode
+npm run test:coverage  # Run tests with coverage
+npm run test:ci        # Run tests for CI environment
 
-# Testing
-npm test             # Run tests
-npm run test:watch   # Run tests in watch mode
-npm run test:coverage # Generate coverage report
-
-# Build
-npm run build:web    # Build for web deployment
+# Linting & Formatting Scripts
+npm run lint           # Lint TypeScript/JavaScript files
+npm run lint:fix       # Fix linting issues automatically
+npm run format         # Format code with Prettier
 ```
 
 ## Project Structure
@@ -161,7 +164,7 @@ This command moves the current implementation to **app-example** and creates a b
 1. Read the [Architecture Guide](./ARCHITECTURE.md) to understand the codebase
 2. Follow the [Testing Guide](./TESTING.md) for writing tests
 3. Run `npm run lint:fix` before committing
-4. Ensure all tests pass with `npm test`
+4. Ensure all tests pass with `npm run client:test`
 
 ## Troubleshooting
 

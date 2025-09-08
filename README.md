@@ -115,20 +115,75 @@ npm run dev
 
 ## Development Commands
 
-### From Root Directory
+### From Root Directory (Orchestration Scripts)
 
 ```bash
-# Start both client and server
-npm run client:dev    # Starts Expo development server
-npm run server:dev    # Starts Express API server
+# Development Scripts
+npm run dev              # Start both client and server simultaneously
+npm run dev:client       # Start Expo development server only
+npm run dev:server       # Start Express server only
 
-# Testing
-npm run test:client   # Run client tests
-npm run test:server   # Run server tests
+# Testing Scripts
+npm run test             # Run tests for both client and server
+npm run test:client      # Run client tests
+npm run test:server      # Run server tests
+npm run test:pre-commit  # Pre-commit test validation
 
-# Linting
-npm run lint:client   # Lint client code
-npm run lint:server   # Lint server code
+# Linting & Formatting Scripts
+npm run lint             # Lint both client and server
+npm run lint:client      # Lint client code
+npm run lint:server      # Lint server code
+npm run lint:fix         # Fix linting issues in both packages
+npm run format           # Format markdown, YAML, and JSON files
+
+# Build Scripts
+npm run build            # Build both client and server
+npm run build:client     # Build client for production
+npm run build:server     # Build server for production
+
+# CI/CD & Release Scripts
+npm run release          # Create semantic release
+npm run deploy           # Deploy to production
+npm run deploy:staging   # Deploy to staging
+```
+
+### Client Package (/client)
+
+```bash
+# Development
+npm start              # Start Expo development server
+npm run dev            # Alias for npm start
+npm run android        # Start for Android
+npm run ios            # Start for iOS
+npm run web            # Start for web
+
+# Build & Test
+npm run build          # Build for web production
+npm run test           # Run Jest tests
+npm run test:coverage  # Run tests with coverage
+npm run lint           # Lint TypeScript/JavaScript
+npm run lint:fix       # Fix linting issues
+```
+
+### Server Package (/server)
+
+```bash
+# Development
+npm run dev            # Start with hot reload
+npm run start          # Start production server
+
+# Build & Test
+npm run build          # Build TypeScript to JavaScript
+npm run test           # Run Vitest tests
+npm run test:coverage  # Run tests with coverage
+npm run lint           # Lint TypeScript files
+npm run lint:fix       # Fix linting issues
+
+# Docker & Logs
+npm run docker:dev     # Run development Docker container
+npm run docker:prod    # Run production Docker container
+npm run logs:view      # View combined logs
+npm run logs:errors    # View error logs
 ```
 
 ## Semantic Versioning

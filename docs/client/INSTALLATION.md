@@ -123,7 +123,7 @@ npx expo start --web
 For quick testing on physical devices without building:
 
 1. Install **Expo Go** from App Store (iOS) or Google Play Store (Android)
-2. Start the development server (`npm start`)
+2. Start the development server (`npm run client:start`)
 3. Scan the QR code displayed in terminal or browser
 4. The app will load in Expo Go
 

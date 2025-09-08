@@ -64,7 +64,7 @@ npm run dev
 
 ```bash
 # Run all tests
-npm test
+npm run test
 
 # Run tests with coverage
 npm run test:coverage
@@ -81,7 +81,7 @@ docker-compose up --build server
 
 # Or build and run directly
 npm run build
-npm start
+npm run start
 ```
 
 ### 4. API Documentation
@@ -279,7 +279,7 @@ npm run test:coverage
 ```bash
 # 1. Build and test
 npm run build
-npm test
+npm run test
 
 # 2. Security check
 npm audit
@@ -318,13 +318,13 @@ npm run dev
 
 ```bash
 # Run specific test file
-npm test -- todo.service.test.ts
+npm run test -- todo.service.test.ts
 
 # Check test setup
-npm test -- --reporter=verbose
+npm run test -- --reporter=verbose
 
 # Clear test cache
-rm -rf coverage/ && npm test
+rm -rf coverage/ && npm run test
 ```
 
 #### 3. Database Connection Issues
