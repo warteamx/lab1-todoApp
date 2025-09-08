@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable @typescript-eslint/no-require-imports */
 /**
  * Build version information for server package
  * Creates version endpoint and updates package metadata
@@ -9,7 +10,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 function getBuildInfo() {
-  const packageJson = require('../package.json');
+  const packageJson = require('../package.json'); // eslint-disable-line @typescript-eslint/no-require-imports
 
   try {
     const commitHash = execSync('git rev-parse --short HEAD', {
