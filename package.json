@@ -6,11 +6,11 @@
   "lint-staged": {
     "client/**/*.{js,jsx,ts,tsx,json}": [
       "prettier --write",
-      "eslint --fix"
+      "npm --prefix ./client run lint:fix"
     ],
     "server/**/*.{js,ts,json}": [
       "prettier --write",
-      "eslint --fix"
+      "npm --prefix ./server run lint:fix"
     ],
     "*.{md,yml,yaml}": [
       "prettier --write"
