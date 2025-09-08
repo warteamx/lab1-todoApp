@@ -2,7 +2,6 @@
 
 [![Release](https://img.shields.io/github/v/release/warteamx/lab1-todoApp?style=flat-square&logo=github&labelColor=2f3136)](https://github.com/warteamx/lab1-todoApp/releases)
 [![Build](https://img.shields.io/github/actions/workflow/status/warteamx/lab1-todoApp/release.yml?branch=main&style=flat-square&logo=github&labelColor=2f3136)](https://github.com/warteamx/lab1-todoApp/actions/workflows/release.yml)
-[![Codecov](https://img.shields.io/codecov/c/github/warteamx/lab1-todoApp?style=flat-square&logo=codecov&labelColor=2f3136)](https://codecov.io/gh/warteamx/lab1-todoApp)
 [![License](https://img.shields.io/github/license/warteamx/lab1-todoApp?style=flat-square&logo=opensourceinitiative&logoColor=white&labelColor=2f3136)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node.js-20-green?style=flat-square&logo=node.js&labelColor=2f3136)](https://nodejs.org)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67?style=flat-square&labelColor=2f3136)](https://gitmoji.dev)
