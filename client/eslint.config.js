@@ -1,4 +1,5 @@
 // https://docs.expo.dev/guides/using-eslint/
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { defineConfig } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 
@@ -27,6 +28,13 @@ module.exports = defineConfig([
       'space-before-function-paren': ['error', 'never'],
       'no-trailing-spaces': 'error',
       'eol-last': ['error', 'always'],
+    },
+  },
+  // Allow CommonJS for config files
+  {
+    files: ['*.config.js', 'scripts/**/*.js'],
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
     },
   },
 ]);

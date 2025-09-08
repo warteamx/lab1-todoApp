@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
 const eslint = require('@eslint/js');
 const tseslint = require('@typescript-eslint/eslint-plugin');
 const tsparser = require('@typescript-eslint/parser');
@@ -58,7 +59,17 @@ module.exports = [
       '@typescript-eslint/no-non-null-asserted-optional-chain': 'warn',
     },
   },
+  // Allow CommonJS for config files
   {
-    ignores: ['dist/**', 'node_modules/**', 'scripts/**'],
+    files: ['*.config.js', 'scripts/**/*.js'],
+    languageOptions: {
+      sourceType: 'commonjs',
+    },
+    rules: {
+      '@typescript-eslint/no-require-imports': 'off',
+    },
+  },
+  {
+    ignores: ['dist/**', 'node_modules/**'],
   },
 ];
