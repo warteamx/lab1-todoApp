@@ -83,6 +83,20 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 
 ## Quick Start
 
+### Environment Setup
+
+Before running the application, set up your environment variables:
+
+```bash
+# Create environment files from templates
+./scripts/setup-environment.sh
+
+# Configure your Supabase credentials and other settings
+# Edit client/.env.local and server/.env with your actual values
+```
+
+📖 **See [Environment Setup Guide](./docs/ENVIRONMENT_SETUP.md) for detailed configuration instructions**
+
 ### Client (Mobile/Web App)
 
 ```bash
@@ -142,6 +156,10 @@ This project implements automated semantic versioning with the following rules:
 - **Server**: Enhanced health check endpoint with build information
 
 ## Docs
+
+### Environment & Setup
+
+- 🔧 [Environment Setup Guide](./docs/ENVIRONMENT_SETUP.md) - Environment variables configuration and management
 
 ### Version Management
 
