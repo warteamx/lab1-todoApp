@@ -19,13 +19,14 @@ export const BUILD_NUMBER = process.env.EXPO_PUBLIC_BUILD_NUMBER || '1';
  * Build date in ISO format
  * Set during the build process
  */
-export const BUILD_DATE = process.env.EXPO_PUBLIC_BUILD_DATE || '2025-09-05T10:09:51.952Z';
+export const BUILD_DATE =
+  process.env.EXPO_PUBLIC_BUILD_DATE || '2025-09-08T11:00:23.749Z';
 
 /**
  * Git commit hash (short)
  * Useful for debugging and tracking specific builds
  */
-export const COMMIT_HASH = process.env.EXPO_PUBLIC_COMMIT_HASH || 'f3736d1';
+export const COMMIT_HASH = process.env.EXPO_PUBLIC_COMMIT_HASH || '903b7aa';
 
 /**
  * Build environment

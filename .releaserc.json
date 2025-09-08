@@ -15,8 +15,13 @@
       "semantic-release-gitmoji",
       {
         "releaseRules": {
-          "major": [":boom:", ":collision:"],
-          "minor": [":sparkles:"],
+          "major": [
+            ":boom:",
+            ":collision:"
+          ],
+          "minor": [
+            ":sparkles:"
+          ],
           "patch": [
             ":bug:",
             ":ambulance:",
@@ -99,8 +104,6 @@
           "client/package.json",
           "server/package.json",
           "CHANGELOG.md",
-          "client/CHANGELOG.md",
-          "server/CHANGELOG.md",
           "client/constants/version.ts"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}",

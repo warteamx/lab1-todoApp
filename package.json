@@ -1,5 +1,5 @@
 {
-  "name": "lab1todoApp",
+  "name": "lab1-todoapp",
   "version": "1.0.4",
   "description": "Server and Client Development Scripts",
   "main": "README.md",
@@ -32,11 +32,9 @@
     "build:version": "npm run build:version:client && npm run build:version:server",
     "build:version:client": "npm --prefix ./client run build:version",
     "build:version:server": "npm --prefix ./server run build:version",
-    "changelog:generate": "node scripts/generate-changelog.js",
     "deploy": "node scripts/deploy.js",
     "deploy:staging": "node scripts/deploy.js staging",
-    "deploy:production": "node scripts/deploy.js production",
-    "version:manual": "node scripts/manual-version.js"
+    "deploy:production": "node scripts/deploy.js production"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",

@@ -1,8 +1,6 @@
-# 📦 Semantic Versioning Implementation
+# Semantic Versioning & Changelog
 
-**⚠️ DEPRECATED: This document has been replaced with a simplified approach.**
-
-This file has been updated with the new simplified semantic versioning approach. The previous complex implementation has been streamlined.
+This document describes the simplified semantic versioning and changelog system for Lab1 TodoApp.
 
 ## Overview
 

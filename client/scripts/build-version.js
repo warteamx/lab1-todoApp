@@ -12,7 +12,9 @@ function getBuildInfo() {
   const packageJson = require('../package.json');
 
   try {
-    const commitHash = execSync('git rev-parse --short HEAD', { encoding: 'utf8' }).trim();
+    const commitHash = execSync('git rev-parse --short HEAD', {
+      encoding: 'utf8',
+    }).trim();
     const buildDate = new Date().toISOString();
     const buildEnv = process.env.NODE_ENV || 'development';
 
@@ -21,7 +23,7 @@ function getBuildInfo() {
       buildNumber: process.env.BUILD_NUMBER || '1',
       buildDate,
       commitHash,
-      buildEnv
+      buildEnv,
     };
   } catch (error) {
     console.warn('Warning: Could not get git info:', error.message);
@@ -30,7 +32,7 @@ function getBuildInfo() {
       buildNumber: process.env.BUILD_NUMBER || '1',
       buildDate: new Date().toISOString(),
       commitHash: 'unknown',
-      buildEnv: process.env.NODE_ENV || 'development'
+      buildEnv: process.env.NODE_ENV || 'development',
     };
   }
 }
@@ -102,36 +104,6 @@ export const DETAILED_VERSION_STRING = \`\${VERSION_STRING} - \${new Date(BUILD_
   console.log('✅ Updated client version constants');
 }
 
-function generateEnvExample() {
-  const envExamplePath = path.join(__dirname, '..', '.env.example');
-  const buildInfo = getBuildInfo();
-
-  const envContent = `# Expo Environment Variables
-# These will be available at build time and runtime
-
-# Version Information (injected during build)
-EXPO_PUBLIC_APP_VERSION=${buildInfo.version}
-EXPO_PUBLIC_BUILD_NUMBER=${buildInfo.buildNumber}
-EXPO_PUBLIC_BUILD_DATE=${buildInfo.buildDate}
-EXPO_PUBLIC_COMMIT_HASH=${buildInfo.commitHash}
-EXPO_PUBLIC_BUILD_ENV=${buildInfo.buildEnv}
-
-# API Configuration
-EXPO_PUBLIC_API_URL=http://localhost:3000
-EXPO_PUBLIC_API_TIMEOUT=10000
-
-# Supabase Configuration (if using)
-EXPO_PUBLIC_SUPABASE_URL=
-EXPO_PUBLIC_SUPABASE_ANON_KEY=
-
-# Development
-EXPO_PUBLIC_DEV_MODE=true
-`;
-
-  fs.writeFileSync(envExamplePath, envContent);
-  console.log('✅ Generated .env.example');
-}
-
 function main() {
   console.log('🔨 Building client version information...');
 
@@ -139,7 +111,6 @@ function main() {
   console.log('📦 Build Info:', buildInfo);
 
   updateVersionFile(buildInfo);
-  generateEnvExample();
 
   console.log('✅ Client version build completed');
 }
