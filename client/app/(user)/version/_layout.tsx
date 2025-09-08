@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 
-export default function VrStack() {
+export default function VersionStack() {
   return (
     <Stack
       screenOptions={{
@@ -10,7 +10,7 @@ export default function VrStack() {
       <Stack.Screen
         name="index"
         options={{
-          title: 'VR Experience',
+          title: 'Version Info',
         }}
       />
     </Stack>

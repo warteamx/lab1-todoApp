@@ -55,6 +55,15 @@ const Index = () => {
             fullWidth
           />
         </Link>
+
+        <Link href={'/(user)/version'} asChild>
+          <Button
+            title="📱 Version Demo"
+            variant="outline"
+            size="small"
+          />
+        </Link>
+
       </View>
     </View>
   );
