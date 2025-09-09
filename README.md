@@ -1,7 +1,7 @@
 # Lab1-TodoApp
 
 [![Release](https://img.shields.io/github/v/release/warteamx/lab1-todoApp?style=flat-square&logo=github&labelColor=2f3136)](https://github.com/warteamx/lab1-todoApp/releases)
-[![Build](https://img.shields.io/github/actions/workflow/status/warteamx/lab1-todoApp/release.yml?branch=main&style=flat-square&logo=github&labelColor=2f3136)](https://github.com/warteamx/lab1-todoApp/actions/workflows/release.yml)
+[![Build](https://img.shields.io/github/actions/workflow/status/warteamx/lab1-todoApp/ci-cd.yml?branch=main&style=flat-square&logo=github&labelColor=2f3136)](https://github.com/warteamx/lab1-todoApp/actions/workflows/ci-cd.yml)
 [![License](https://img.shields.io/github/license/warteamx/lab1-todoApp?style=flat-square&logo=opensourceinitiative&logoColor=white&labelColor=2f3136)](./LICENSE)
 [![Node.js](https://img.shields.io/badge/node.js-20-green?style=flat-square&logo=node.js&labelColor=2f3136)](https://nodejs.org)
 [![Gitmoji](https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67?style=flat-square&labelColor=2f3136)](https://gitmoji.dev)
@@ -63,8 +63,8 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 [![Expo SDK](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/expo?filename=client%2Fpackage.json&style=flat-square&logo=expo&labelColor=2f3136)](https://expo.dev)
 [![React Native](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/react-native?filename=client%2Fpackage.json&style=flat-square&logo=react&labelColor=2f3136)](https://reactnative.dev)
 [![React](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/react?filename=client%2Fpackage.json&style=flat-square&logo=react&labelColor=2f3136)](https://reactjs.org)
-[![TypeScript](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/typescript?filename=client%2Fpackage.json&style=flat-square&logo=typescript&labelColor=2f3136)](https://www.typescriptlang.org)
-[![Jest](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/jest?filename=client%2Fpackage.json&style=flat-square&logo=jest&labelColor=2f3136)](https://jestjs.io)
+[![TypeScript](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/typescript?filename=client%2Fpackage.json&scope=dev&style=flat-square&logo=typescript&labelColor=2f3136)](https://www.typescriptlang.org)
+[![Jest](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/jest?filename=client%2Fpackage.json&scope=dev&style=flat-square&logo=jest&labelColor=2f3136)](https://jestjs.io)
 
 ### 🖥️ Server Badges
 
@@ -73,7 +73,7 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 [![Express](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/express?filename=server%2Fpackage.json&style=flat-square&logo=express&labelColor=2f3136)](https://expressjs.com)
 [![PostgreSQL](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/pg?filename=server%2Fpackage.json&style=flat-square&logo=postgresql&labelColor=2f3136)](https://postgresql.org)
 [![Supabase](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/@supabase/supabase-js?filename=server%2Fpackage.json&style=flat-square&logo=supabase&labelColor=2f3136)](https://supabase.com)
-[![Vitest](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/vitest?filename=server%2Fpackage.json&style=flat-square&logo=vitest&labelColor=2f3136)](https://vitest.dev)
+[![Vitest](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/vitest?filename=server%2Fpackage.json&scope=dev&style=flat-square&logo=vitest&labelColor=2f3136)](https://vitest.dev)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&labelColor=2f3136)](https://docker.com)
 
 ## Project Structure
@@ -178,6 +178,5 @@ This project implements automated semantic versioning with the following rules:
 
 ---
 
-**Current Branch**: `main`  
-**Last Updated**: September 8, 2025  
+**Last Updated**: September 9, 2025  
 **License**: MIT
