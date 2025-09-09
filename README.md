@@ -31,8 +31,6 @@ A **production-ready full-stack boilerplate** to kickstart your next project, bu
 [![Expo SDK](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/expo?filename=client%2Fpackage.json&style=flat-square&logo=expo&labelColor=2f3136)](https://expo.dev)
 [![React Native](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/react-native?filename=client%2Fpackage.json&style=flat-square&logo=react&labelColor=2f3136)](https://reactnative.dev)
 [![React](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/react?filename=client%2Fpackage.json&style=flat-square&logo=react&labelColor=2f3136)](https://reactjs.org)
-[![TypeScript](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/typescript?filename=client%2Fpackage.json&scope=dev&style=flat-square&logo=typescript&labelColor=2f3136)](https://www.typescriptlang.org)
-[![Jest](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/jest?filename=client%2Fpackage.json&scope=dev&style=flat-square&logo=jest&labelColor=2f3136)](https://jestjs.io)
 
 
 - Cross-platform support: **iOS**, **Android**, **Web**, **Desktop**
@@ -46,7 +44,6 @@ A **production-ready full-stack boilerplate** to kickstart your next project, bu
 [![Express](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/express?filename=server%2Fpackage.json&style=flat-square&logo=express&labelColor=2f3136)](https://expressjs.com)
 [![PostgreSQL](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/pg?filename=server%2Fpackage.json&style=flat-square&logo=postgresql&labelColor=2f3136)](https://postgresql.org)
 [![Supabase](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/@supabase/supabase-js?filename=server%2Fpackage.json&style=flat-square&logo=supabase&labelColor=2f3136)](https://supabase.com)
-[![Vitest](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/vitest?filename=server%2Fpackage.json&scope=dev&style=flat-square&logo=vitest&labelColor=2f3136)](https://vitest.dev)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&labelColor=2f3136)](https://docker.com)
 
 
