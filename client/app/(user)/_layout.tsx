@@ -27,14 +27,14 @@ export default function TabLayout() {
 
     if (routeString === 'newTodo') {
       return {
-        title: 'Add New Todo',
+        title: 'Add New ToDo',
         subtitle: 'Create a new task',
       };
     }
 
     if (segments.some(segment => String(segment) === 'todo')) {
       return {
-        title: 'Todo List',
+        title: 'ToDo List',
         subtitle: 'Manage your tasks',
       };
     }
@@ -91,11 +91,11 @@ export default function TabLayout() {
       <Tabs.Screen
         name="todo"
         options={{
-          title: 'Todo',
+          title: 'ToDo',
           headerShown: true,
           header: () => (
             <NavigationHeader
-              title="Todo List"
+              title="ToDo List"
               subtitle="Manage your tasks"
             />
           ),

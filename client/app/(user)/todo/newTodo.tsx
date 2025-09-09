@@ -33,7 +33,7 @@ export default function NewTodoTab() {
         color="textPrimary"
         style={{ marginBottom: 24 }}
       >
-        Add New Todo
+        Add New ToDo
       </Text>
 
       <View style={{ gap: 20 }}>
@@ -64,7 +64,7 @@ export default function NewTodoTab() {
         </View>
 
         <Button
-          title="Add Todo"
+          title="Add ToDo"
           variant="primary"
           size="large"
           fullWidth

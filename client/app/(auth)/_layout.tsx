@@ -14,7 +14,7 @@ export default function AuthLayout() {
       screenOptions={{
         header: () => (
           <NavigationHeader
-            title="Todo App"
+            title="✅ ToDoApp"
             subtitle="Authentication"
             showBack={true}
             showAuth={false}

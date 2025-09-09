@@ -24,7 +24,7 @@ export default function TodoIndexTab() {
         color="textPrimary"
         style={{ marginBottom: 16 }}
       >
-        Todo List
+        ToDo List
       </Text>
 
       {isLoading && (
@@ -85,7 +85,7 @@ export default function TodoIndexTab() {
                   </View>
 
                   <View marginLeft="md">
-                    <Link href={`/todo/editTodo?id=${item.id}`} asChild>
+                    <Link href={`/(user)/todo/editTodo?id=${item.id}`} asChild>
                       <Text variant="labelMedium" color="interactive">
                         ✏️ Edit
                       </Text>

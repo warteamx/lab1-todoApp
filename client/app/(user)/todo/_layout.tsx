@@ -10,19 +10,19 @@ export default function TodoStack() {
       <Stack.Screen
         name="index"
         options={{
-          title: 'Todo List',
+          title: 'ToDo List',
         }}
       />
       <Stack.Screen
         name="newTodo"
         options={{
-          title: 'Add New Todo',
+          title: 'Add New ToDo',
         }}
       />
       <Stack.Screen
-        name="[id]"
+        name="editTodo"
         options={{
-          title: 'Edit Todo',
+          title: 'Edit ToDo',
         }}
       />
     </Stack>

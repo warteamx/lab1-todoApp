@@ -9,7 +9,7 @@ export default function RootLayout() {
         screenOptions={{
           header: () => (
             <NavigationHeader
-              title="Todo App"
+              title="✅ ToDoApp"
               showBack={false}
             />
           ),
@@ -21,7 +21,7 @@ export default function RootLayout() {
             title: 'Home',
             header: () => (
               <NavigationHeader
-                title="Todo App"
+                title="✅ ToDoApp"
                 subtitle="Welcome back!"
                 showBack={false}
               />

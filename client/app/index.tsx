@@ -27,7 +27,7 @@ const Index = () => {
       <View flex={1} justifyContent="center">
         <View marginBottom="xl">
           <Text variant="headlineMedium" color="textPrimary" align="center">
-            ✅ Welcome to Your Tasks App ✅
+            ✅ ToDoApp ✅
           </Text>
           <Text
             variant="bodyLarge"

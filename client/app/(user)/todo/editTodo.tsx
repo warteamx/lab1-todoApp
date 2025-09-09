@@ -25,7 +25,7 @@ export default function EditTodoTab() {
     return (
       <View flex={1} justifyContent="center" alignItems="center" padding="lg">
         <Text variant="bodyMedium" color="textPrimary">
-          Todo not found
+          ToDo not found
         </Text>
       </View>
     );
@@ -55,7 +55,7 @@ export default function EditTodoTab() {
         color="textPrimary"
         style={{ marginBottom: 24 }}
       >
-        Edit Todo
+        Edit ToDo
       </Text>
 
       <View style={{ gap: 20 }}>
@@ -96,7 +96,7 @@ export default function EditTodoTab() {
         />
 
         <Button
-          title="Delete Todo"
+          title="Delete ToDo"
           variant="secondary"
           size="large"
           fullWidth
