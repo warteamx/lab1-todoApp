@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [v1.1.1](https://github.com/warteamx/lab1-todoApp/compare/v1.1.0...v1.1.1) (2025-09-09)
+
+## 🐛 Bug Fixes
+- [`0562f56`](https://github.com/warteamx/lab1-todoApp/commit/0562f56)  fix(openapi): Update server configuration for HTTP-only serving and enhance Swagger UI functionality
+
 # [v1.1.0](https://github.com/warteamx/lab1-todoApp/compare/v1.0.4...v1.1.0) (2025-09-08)
 
 ## ✨ New Features
