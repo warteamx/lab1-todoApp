@@ -55,12 +55,13 @@ const mergedOpenapiDoc = {
     },
     {
       url: 'http://56.228.14.41',
-      description: 'Production server',
+      description: 'Production server (HTTP)',
     },
-    {
-      url: 'https://lab1.warteamx.com',
-      description: 'Production server (HTTPS)',
-    },
+    // Note: HTTPS endpoint not available yet - EC2 serves HTTP only
+    // {
+    //   url: 'https://lab1.warteamx.com',
+    //   description: 'Production server (HTTPS)',
+    // },
   ],
   tags: [
     ...(todoOpenapiDoc.tags || []),

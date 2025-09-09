@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Modal, Pressable, TouchableOpacity } from 'react-native';
-import { Link, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useAuth } from '@/providers/authProvider';
 import { useTheme } from '@/providers/themeProvider';
 import { ThemeVariant } from '@/themes/themes';

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import { ScrollView } from 'react-native';
-import { useRouter } from 'expo-router';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
@@ -14,7 +13,6 @@ import { Stack, Inline, Section } from '@/components/ui/Layout/Layout';
 export default function ThemeDemoScreen() {
   const { setThemeVariant, themeVariant } = useTheme();
   const [inputValue, setInputValue] = useState('');
-  const router = useRouter();
 
   const themeVariants: ('modern' | 'dark' | 'warm' | 'cool')[] = [
     'modern',
