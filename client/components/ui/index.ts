@@ -6,4 +6,5 @@ export * from './Input/Input';
 export * from './Card/Card';
 export * from './Layout/Layout';
 export * from './Version/Version';
+export * from './Footer/Footer';
 export * from '../modules/Navigation';

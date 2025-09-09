@@ -6,6 +6,7 @@ import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
 import { TextInput } from '@/components/ui/Input/Input';
 import { Button } from '@/components/ui/Button/Button';
+import { Footer } from '@/components/ui/Footer/Footer';
 
 const SignInScreen = () => {
   const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ const SignInScreen = () => {
     <View
       flex={1}
       padding="lg"
+      paddingBottom="xl"
       backgroundColor="background"
       justifyContent="center"
     >
@@ -34,8 +36,16 @@ const SignInScreen = () => {
 
       <View style={{ maxWidth: 400, alignSelf: 'center', width: '100%' }}>
         <Text
-          variant="displaySmall"
+          variant="displayLarge"
           color="textPrimary"
+          align="center"
+          style={{ marginBottom: 8 }}
+        >
+          ✅ ToDoApp
+        </Text>
+        <Text
+          variant="displaySmall"
+          color="textSecondary"
           align="center"
           style={{ marginBottom: 8 }}
         >
@@ -92,6 +102,8 @@ const SignInScreen = () => {
           </View>
         </View>
       </View>
+
+      <Footer />
     </View>
   );
 };
