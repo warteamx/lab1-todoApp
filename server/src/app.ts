@@ -22,7 +22,9 @@ const app = express();
 app.use(
   helmet({
     // Content Security Policy - More permissive for Swagger UI
+    // Content Security Policy - Custom configuration for HTTP-only serving
     contentSecurityPolicy: {
+      useDefaults: false, // Disable Helmet defaults that include upgrade-insecure-requests
       directives: {
         defaultSrc: ['\'self\''],
         scriptSrc: ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\'', 'blob:'], // Add blob: for Swagger UI
@@ -34,18 +36,19 @@ app.use(
         mediaSrc: ['\'self\''],
         frameSrc: ['\'self\''], // Allow frames for Swagger UI
         workerSrc: ['\'self\'', 'blob:'], // Add worker-src for Swagger UI
+        baseUri: ['\'self\''],
+        formAction: ['\'self\''],
+        frameAncestors: ['\'self\''],
+        scriptSrcAttr: ['\'none\''],
+        // Explicitly DO NOT include upgrade-insecure-requests for HTTP-only serving
       },
     },
     // Cross-Origin Embedder Policy
     crossOriginEmbedderPolicy: false, // Disabled for Swagger UI compatibility
     // Cross-Origin Opener Policy - Allow for Swagger UI compatibility
     crossOriginOpenerPolicy: false,
-    // HTTP Strict Transport Security
-    hsts: {
-      maxAge: 31536000, // 1 year
-      includeSubDomains: true,
-      preload: true,
-    },
+    // HTTP Strict Transport Security - Disabled for HTTP-only serving
+    hsts: false, // Disabled since we're serving over HTTP
     // Prevent MIME type sniffing
     noSniff: true,
     // X-Frame-Options
@@ -62,7 +65,11 @@ const allowedOrigins =
   process.env.NODE_ENV === 'production'
     ? process.env.ALLOWED_ORIGINS
       ? process.env.ALLOWED_ORIGINS.split(',')
-      : ['http://56.228.14.41', 'https://lab1.warteamx.com']
+      : [
+        'http://56.228.14.41',
+        'https://lab1.warteamx.com',
+        'http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com',
+      ]
     : '*';
 
 app.use(
@@ -91,7 +98,17 @@ app.get(
       showExtensions: true,
       showCommonExtensions: true,
       tryItOutEnabled: true,
+      // Force HTTP scheme for asset loading
+      url: undefined, // Let Swagger UI auto-detect the current URL
+      validatorUrl: null, // Disable validator to prevent HTTPS calls
     },
+    customCss: `
+      .swagger-ui .topbar { display: none; }
+      .swagger-ui .info .title { color: #3b82f6; }
+    `,
+    customSiteTitle: 'Lab1 TodoApp API Documentation',
+    // Ensure assets are loaded via HTTP
+    swaggerUrl: undefined, // Use current protocol
   })
 );
 
