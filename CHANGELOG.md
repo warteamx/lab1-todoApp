@@ -5,31 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+# [v1.1.3](https://github.com/warteamx/lab1-todoApp/compare/v1.1.2...v1.1.3) (2025-09-09)
+
+## 🐛 Bug Fixes
+
+- [`62018ab`](https://github.com/warteamx/lab1-todoApp/commit/62018ab) fix: Update app naming conventions to use &quot;ToDo&quot; consistently across the application
 
 # [v1.1.2](https://github.com/warteamx/lab1-todoApp/compare/v1.1.1...v1.1.2) (2025-09-09)
 
 ## 🐛 Bug Fixes
-- [`bfdba59`](https://github.com/warteamx/lab1-todoApp/commit/bfdba59)  fix(ci): add coverage flag to server test:ci command
+
+- [`bfdba59`](https://github.com/warteamx/lab1-todoApp/commit/bfdba59) fix(ci): add coverage flag to server test:ci command
 
 # [v1.1.1](https://github.com/warteamx/lab1-todoApp/compare/v1.1.0...v1.1.1) (2025-09-09)
 
 ## 🐛 Bug Fixes
-- [`0562f56`](https://github.com/warteamx/lab1-todoApp/commit/0562f56)  fix(openapi): Update server configuration for HTTP-only serving and enhance Swagger UI functionality
+
+- [`0562f56`](https://github.com/warteamx/lab1-todoApp/commit/0562f56) fix(openapi): Update server configuration for HTTP-only serving and enhance Swagger UI functionality
 
 # [v1.1.0](https://github.com/warteamx/lab1-todoApp/compare/v1.0.4...v1.1.0) (2025-09-08)
 
 ## ✨ New Features
-- [`cb3a54d`](https://github.com/warteamx/lab1-todoApp/commit/cb3a54d)  feat(docs): add emoji support to documentation titles and update content 
-- [`78fa2c1`](https://github.com/warteamx/lab1-todoApp/commit/78fa2c1)  feat(ui): enhance welcome message with emojis and add version button in NavigationHeader modal 
-- [`903b7aa`](https://github.com/warteamx/lab1-todoApp/commit/903b7aa)  feat(coverage): enhance coverage reporting for client and server, update CI/CD workflow, and add Codecov configuration 
-- [`024d633`](https://github.com/warteamx/lab1-todoApp/commit/024d633)  feat(semver): Simplify changelog and versioning system 
-- [`14c1221`](https://github.com/warteamx/lab1-todoApp/commit/14c1221)  feat(env): Enhance environment variable management and setup scripts 
-- [`cdd2091`](https://github.com/warteamx/lab1-todoApp/commit/cdd2091)  feat(docs): Add documentation structure 
-- [`cdb5a9d`](https://github.com/warteamx/lab1-todoApp/commit/cdb5a9d)  feat(security): Enhance Helmet configuration for Swagger UI and improve path resolution for OpenAPI files 
+
+- [`cb3a54d`](https://github.com/warteamx/lab1-todoApp/commit/cb3a54d) feat(docs): add emoji support to documentation titles and update content
+- [`78fa2c1`](https://github.com/warteamx/lab1-todoApp/commit/78fa2c1) feat(ui): enhance welcome message with emojis and add version button in NavigationHeader modal
+- [`903b7aa`](https://github.com/warteamx/lab1-todoApp/commit/903b7aa) feat(coverage): enhance coverage reporting for client and server, update CI/CD workflow, and add Codecov configuration
+- [`024d633`](https://github.com/warteamx/lab1-todoApp/commit/024d633) feat(semver): Simplify changelog and versioning system
+- [`14c1221`](https://github.com/warteamx/lab1-todoApp/commit/14c1221) feat(env): Enhance environment variable management and setup scripts
+- [`cdd2091`](https://github.com/warteamx/lab1-todoApp/commit/cdd2091) feat(docs): Add documentation structure
+- [`cdb5a9d`](https://github.com/warteamx/lab1-todoApp/commit/cdb5a9d) feat(security): Enhance Helmet configuration for Swagger UI and improve path resolution for OpenAPI files
 
 ## 🐛 Bug Fixes
-- [`9b8dace`](https://github.com/warteamx/lab1-todoApp/commit/9b8dace)  fix(client): version component 
-- [`6656d2e`](https://github.com/warteamx/lab1-todoApp/commit/6656d2e)  fix(lint): replace eslint --fix with npm lint:fix for client and server
+
+- [`9b8dace`](https://github.com/warteamx/lab1-todoApp/commit/9b8dace) fix(client): version component
+- [`6656d2e`](https://github.com/warteamx/lab1-todoApp/commit/6656d2e) fix(lint): replace eslint --fix with npm lint:fix for client and server
 
 # [v1.0.4](https://github.com/warteamx/lab1-todoApp/compare/v1.0.3...v1.0.4) (2025-09-05)
 
