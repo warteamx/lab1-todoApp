@@ -32,7 +32,7 @@
     "build:version": "node scripts/build-version.js",
     "// Testing Scripts": "",
     "test": "npx vitest run",
-    "test:ci": "npx vitest run",
+    "test:ci": "npx vitest run --coverage",
     "test:watch": "npx vitest",
     "test:coverage": "npx vitest run --coverage",
     "// Linting & Formatting Scripts": "",
