@@ -99,8 +99,15 @@ jobs:
           NODE_ENV: production
           EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
+          EXPO_PUBLIC_API_URL: http://56.228.14.41/api
+          EXPO_PUBLIC_APP_VERSION: ${{ github.ref_name }}
+          EXPO_PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
+          EXPO_PUBLIC_BUILD_DATE: ${{ github.run_started_at }}
+          EXPO_PUBLIC_COMMIT_HASH: ${{ github.sha }}
+          EXPO_PUBLIC_BUILD_ENV: production
         run: |
           cd client
+          npm run build:version
           npm run build
 
       - name: 🏗️ Build Server
