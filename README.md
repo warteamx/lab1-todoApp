@@ -32,7 +32,6 @@ A **production-ready full-stack boilerplate** to kickstart your next project, bu
 [![React Native](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/react-native?filename=client%2Fpackage.json&style=flat-square&logo=react&labelColor=2f3136)](https://reactnative.dev)
 [![React](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/react?filename=client%2Fpackage.json&style=flat-square&logo=react&labelColor=2f3136)](https://reactjs.org)
 
-
 - Cross-platform support: **iOS**, **Android**, **Web**, **Desktop**
 - TypeScript-first React Native with **hooks**, **navigation**, and **theming**
 - API integration layer with environment-based configs
@@ -45,7 +44,6 @@ A **production-ready full-stack boilerplate** to kickstart your next project, bu
 [![PostgreSQL](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/pg?filename=server%2Fpackage.json&style=flat-square&logo=postgresql&labelColor=2f3136)](https://postgresql.org)
 [![Supabase](https://img.shields.io/github/package-json/dependency-version/warteamx/lab1-todoApp/@supabase/supabase-js?filename=server%2Fpackage.json&style=flat-square&logo=supabase&labelColor=2f3136)](https://supabase.com)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED?style=flat-square&logo=docker&labelColor=2f3136)](https://docker.com)
-
 
 - RESTful API built with **Express 5.1** and **TypeScript**
 - Scalable architecture (supports DDD/Clean Architecture)
@@ -68,7 +66,6 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 - **Server (API)**: http://56.228.14.41/api
 - **Health Check**: http://56.228.14.41/api/health
 - **API Documentation**: http://56.228.14.41/api-docs
-
 
 ## Quick Start
 
@@ -167,5 +164,5 @@ This project implements automated semantic versioning with the following rules:
 
 ---
 
-**Last Updated**: September 9, 2025  
+**Last Updated**: (hotfix) September 16, 2025  
 **License**: MIT
