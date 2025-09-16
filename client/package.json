@@ -1,7 +1,7 @@
 {
   "name": "lab1-todoapp-client",
   "main": "expo-router/entry",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "React Native client for Todo application built with Expo",
   "author": "warteamx",
   "license": "MIT",
