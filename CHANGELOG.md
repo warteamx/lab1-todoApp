@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [v1.2.4](https://github.com/warteamx/lab1-todoApp/compare/v1.2.3...v1.2.4) (2025-09-16)
+
+## 🐛 Bug Fixes
+- [`5692cf3`](https://github.com/warteamx/lab1-todoApp/commit/5692cf3)  fix(ci): update api env variable + add no chache to aws s3/cloudfront
+
 # [v1.2.3](https://github.com/warteamx/lab1-todoApp/compare/v1.2.2...v1.2.3) (2025-09-16)
 
 ## 🐛 Bug Fixes
