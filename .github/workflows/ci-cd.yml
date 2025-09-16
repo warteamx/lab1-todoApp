@@ -107,7 +107,17 @@ jobs:
           EXPO_PUBLIC_BUILD_ENV: production
         run: |
           cd client
+          echo "\n--- ENVIRONMENT VARIABLES ---"
+          printenv | sort
+          echo "\n--- constants/api.ts ---"
+          cat constants/api.ts
+          echo "\n--- constants/version.ts ---"
+          cat constants/version.ts
+          echo "\n--- .env.local (if exists) ---"
+          if [ -f .env.local ]; then cat .env.local; else echo "(no .env.local)"; fi
           npm run build:version
+          echo "\n--- constants/version.ts (after build-version) ---"
+          cat constants/version.ts
           npm run build
 
       - name: 🏗️ Build Server
