@@ -172,7 +172,7 @@ jobs:
           NODE_ENV: production
           EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
-          EXPO_PUBLIC_API_URL: http://56.228.14.41
+          EXPO_PUBLIC_API_URL: https://api.lab1.warteamx.com
           EXPO_PUBLIC_APP_VERSION: ${{ needs.release.outputs.new-release-version }}
           EXPO_PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
           EXPO_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
@@ -306,17 +306,17 @@ jobs:
             sudo docker stop lab1-todoapp-server || true
             sudo docker rm lab1-todoapp-server || true
 
-            # Run new container with versioned tag
+            # Run new container with versioned tag (Nginx handles port 80/443)
             sudo docker run -d \
               --name lab1-todoapp-server \
               --restart unless-stopped \
-              -p 80:3000 \
+              -p 3000:3000 \
               -e NODE_ENV=production \
               -e PORT=3000 \
               -e SUPABASE_DB_URL="${{ secrets.SUPABASE_DB_URL }}" \
               -e SUPABASE_KEY="${{ secrets.SUPABASE_KEY }}" \
               -e SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
-              -e ALLOWED_ORIGINS="http://56.228.14.41,https://lab1.warteamx.com,http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com" \
+              -e ALLOWED_ORIGINS="https://api.lab1.warteamx.com,https://lab1.warteamx.com,http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com" \
               lab1-todoapp-server:${{ needs.release.outputs.new-release-version }}
 
             # Clean up old images (keep latest 3 versions)
@@ -329,22 +329,33 @@ jobs:
           echo "📦 Released Version: ${{ needs.release.outputs.new-release-version }}"
           echo "🏗️ Build Number: ${{ github.run_number }}"
           echo "🌐 Client: http://${{ secrets.S3_BUCKET }}.s3-website.eu-north-1.amazonaws.com"
-          echo "🖥️ Server: http://${{ secrets.EC2_HOST }}/api"
-          echo "🔍 Health endpoint: http://${{ secrets.EC2_HOST }}/api/health"
+          echo "🖥️ Server: https://api.lab1.warteamx.com/api"
+          echo "🔍 Health endpoint: https://api.lab1.warteamx.com/api/health"
 
       - name: 🔍 Health Check
         run: |
           echo "⏳ Waiting 30 seconds for server to start..."
           sleep 30
 
-          echo "🔍 Checking server health..."
-          if curl -f -s http://${{ secrets.EC2_HOST }}/api/health; then
-            echo "✅ Server health check passed"
+          echo "🔍 Checking server health via HTTPS..."
+          if curl -f -s https://api.lab1.warteamx.com/api/health; then
+            echo "✅ HTTPS server health check passed"
 
             echo "🔍 Checking version endpoint..."
-            curl -s http://${{ secrets.EC2_HOST }}/api/version || echo "Version endpoint not available"
+            curl -s https://api.lab1.warteamx.com/api/version || echo "Version endpoint not available"
           else
-            echo "❌ Server health check failed"
-            echo "📋 Checking server logs..."
-            exit 1
+            echo "❌ HTTPS server health check failed"
+            echo "🔍 Checking if container is running..."
+
+            # Check container status on EC2 using secrets
+            CONTAINER_STATUS=$(ssh -i ~/.ssh/lab1-todoapp-key.pem -o StrictHostKeyChecking=no ubuntu@56.228.14.41 \
+              'sudo docker ps --filter name=lab1-todoapp-server --format "{{.Status}}"' 2>/dev/null || echo "failed to connect")
+
+            if [[ "$CONTAINER_STATUS" == *"Up"* ]]; then
+              echo "✅ Container is running: $CONTAINER_STATUS"
+              echo "⚠️ HTTPS might need a few more seconds to stabilize"
+            else
+              echo "❌ Container issue: $CONTAINER_STATUS"
+              exit 1
+            fi
           fi
