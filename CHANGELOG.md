@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [v1.2.5](https://github.com/warteamx/lab1-todoApp/compare/v1.2.4...v1.2.5) (2025-09-17)
+
+## 🐛 Bug Fixes
+- [`f5e1a57`](https://github.com/warteamx/lab1-todoApp/commit/f5e1a57)  fix(ci): api calls and ui improvement
+
 # [v1.2.4](https://github.com/warteamx/lab1-todoApp/compare/v1.2.3...v1.2.4) (2025-09-16)
 
 ## 🐛 Bug Fixes

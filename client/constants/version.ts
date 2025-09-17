@@ -7,7 +7,7 @@
  * Application version following semantic versioning (SemVer)
  * Format: MAJOR.MINOR.PATCH
  */
-export const APP_VERSION = process.env.EXPO_PUBLIC_APP_VERSION || '1.2.4';
+export const APP_VERSION = process.env.EXPO_PUBLIC_APP_VERSION || '1.2.5';
 
 /**
  * Build number for tracking specific builds
@@ -19,13 +19,13 @@ export const BUILD_NUMBER = process.env.EXPO_PUBLIC_BUILD_NUMBER || '1';
  * Build date in ISO format
  * Set during the build process
  */
-export const BUILD_DATE = process.env.EXPO_PUBLIC_BUILD_DATE || '2025-09-16T14:02:49.554Z';
+export const BUILD_DATE = process.env.EXPO_PUBLIC_BUILD_DATE || '2025-09-17T08:06:38.297Z';
 
 /**
  * Git commit hash (short)
  * Useful for debugging and tracking specific builds
  */
-export const COMMIT_HASH = process.env.EXPO_PUBLIC_COMMIT_HASH || '5692cf3';
+export const COMMIT_HASH = process.env.EXPO_PUBLIC_COMMIT_HASH || 'f5e1a57';
 
 /**
  * Build environment
