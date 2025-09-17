@@ -59,108 +59,11 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
 
-  # Build applications (only on main branch)
-  build:
-    name: 🏗️ Build
-    runs-on: ubuntu-latest
-    needs: test-and-lint
-    if: github.ref == 'refs/heads/main'
-    strategy:
-      matrix:
-        package: [client, server]
-
-    steps:
-      - name: 📥 Checkout
-        uses: actions/checkout@v3
-
-      - name: 📦 Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '20'
-          cache: 'npm'
-          cache-dependency-path: '${{ matrix.package }}/package-lock.json'
-
-      - name: 📥 Install Dependencies
-        run: |
-          cd ${{ matrix.package }}
-          npm ci --include=optional || npm ci --omit=optional || (rm -rf node_modules package-lock.json && npm install --omit=optional)
-
-      - name: 🔨 Build Version Info
-        env:
-          BUILD_NUMBER: ${{ github.run_number }}
-          NODE_ENV: production
-        run: |
-          cd ${{ matrix.package }}
-          npm run build:version
-
-      - name: Get package versions
-        run: |
-          echo "client_version=$(jq -r .version client/package.json)" >> $GITHUB_OUTPUT
-          echo "server_version=$(jq -r .version server/package.json)" >> $GITHUB_OUTPUT
-        id: set_versions
-
-      - name: 🏗️ Build Client
-        if: matrix.package == 'client'
-        env:
-          NODE_ENV: production
-          EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
-          EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
-          EXPO_PUBLIC_API_URL: http://56.228.14.41
-          EXPO_PUBLIC_APP_VERSION: ${{ steps.set_versions.outputs.client_version }}
-          EXPO_PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
-          EXPO_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
-          EXPO_PUBLIC_COMMIT_HASH: ${{ github.sha }}
-          EXPO_PUBLIC_BUILD_ENV: production
-        run: |
-          cd client
-          echo "\n--- ENVIRONMENT VARIABLES ---"
-          printenv | sort
-          echo "\n--- constants/api.ts ---"
-          cat constants/api.ts
-          echo "\n--- constants/version.ts ---"
-          cat constants/version.ts
-          echo "\n--- .env.local (if exists) ---"
-          if [ -f .env.local ]; then cat .env.local; else echo "(no .env.local)"; fi
-          npm run build:version
-          echo "\n--- constants/version.ts (after build-version) ---"
-          cat constants/version.ts
-          npm run build
-
-      - name: 🏗️ Build Server
-        if: matrix.package == 'server'
-        env:
-          NODE_ENV: production
-          SERVER_VERSION: ${{ steps.set_versions.outputs.server_version }}
-          BUILD_NUMBER: ${{ github.run_number }}
-          BUILD_DATE: ${{ github.event.head_commit.timestamp }}
-          COMMIT_HASH: ${{ github.sha }}
-        run: |
-          cd server
-          echo "\n--- ENVIRONMENT VARIABLES ---"
-          printenv | sort
-          echo "\n--- src/common/config/version.ts (before) ---"
-          cat src/common/config/version.ts
-          npm run build:version
-          echo "\n--- src/common/config/version.ts (after build-version) ---"
-          cat src/common/config/version.ts
-          npm run build
-
-      - name: 📤 Upload Build Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.package }}-build
-          path: |
-            ${{ matrix.package }}/dist
-            ${{ matrix.package }}/web/dist
-            ${{ matrix.package }}/package.json
-            ${{ matrix.package }}/package-lock.json
-          retention-days: 30
-
-  # Release with semantic versioning (only on main)
+  # Release with semantic versioning (only on main branch)
   release:
     name: 🔖 Release
     runs-on: ubuntu-latest
-    needs: build
+    needs: test-and-lint
     if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
@@ -218,19 +121,125 @@ jobs:
             echo "No new release published"
           fi
 
-  # Deploy to AWS (only if new release)
-  deploy:
-    name: 🚀 Deploy
+  # Build applications (only if new release was published)
+  build:
+    name: 🏗️ Build
     runs-on: ubuntu-latest
     needs: release
+    if: needs.release.outputs.new-release-published == 'true'
+    strategy:
+      matrix:
+        package: [client, server]
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}  # Ensure we get the latest commit with updated version
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '${{ matrix.package }}/package-lock.json'
+
+      - name: 📥 Install Dependencies
+        run: |
+          cd ${{ matrix.package }}
+          npm ci --include=optional || npm ci --omit=optional || (rm -rf node_modules package-lock.json && npm install --omit=optional)
+
+      - name: Get package versions
+        run: |
+          echo "client_version=$(jq -r .version client/package.json)" >> $GITHUB_OUTPUT
+          echo "server_version=$(jq -r .version server/package.json)" >> $GITHUB_OUTPUT
+        id: set_versions
+
+      - name: 🔨 Build Version Info
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          NODE_ENV: production
+          # Use the released version (should match package.json after semantic-release)
+          APP_VERSION: ${{ needs.release.outputs.new-release-version }}
+          SERVER_VERSION: ${{ needs.release.outputs.new-release-version }}
+        run: |
+          cd ${{ matrix.package }}
+          npm run build:version
+
+      - name: 🏗️ Build Client
+        if: matrix.package == 'client'
+        env:
+          NODE_ENV: production
+          EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
+          EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
+          EXPO_PUBLIC_API_URL: http://56.228.14.41
+          EXPO_PUBLIC_APP_VERSION: ${{ needs.release.outputs.new-release-version }}
+          EXPO_PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
+          EXPO_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+          EXPO_PUBLIC_COMMIT_HASH: ${{ github.sha }}
+          EXPO_PUBLIC_BUILD_ENV: production
+        run: |
+          cd client
+          echo "\n--- VERSION INFO ---"
+          echo "Released Version: ${{ needs.release.outputs.new-release-version }}"
+          echo "Package.json Version: $(jq -r .version package.json)"
+          echo "\n--- ENVIRONMENT VARIABLES ---"
+          printenv | grep -E "(EXPO_PUBLIC_|NODE_ENV)" | sort
+          echo "\n--- constants/version.ts (before build-version) ---"
+          cat constants/version.ts || echo "File not found"
+          npm run build:version
+          echo "\n--- constants/version.ts (after build-version) ---"
+          cat constants/version.ts
+          npm run build
+
+      - name: 🏗️ Build Server
+        if: matrix.package == 'server'
+        env:
+          NODE_ENV: production
+          SERVER_VERSION: ${{ needs.release.outputs.new-release-version }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+          COMMIT_HASH: ${{ github.sha }}
+        run: |
+          cd server
+          echo "\n--- VERSION INFO ---"
+          echo "Released Version: ${{ needs.release.outputs.new-release-version }}"
+          echo "Package.json Version: $(jq -r .version package.json)"
+          echo "\n--- ENVIRONMENT VARIABLES ---"
+          printenv | grep -E "(SERVER_VERSION|BUILD_|NODE_ENV)" | sort
+          echo "\n--- src/common/config/version.ts (before build-version) ---"
+          cat src/common/config/version.ts || echo "File not found"
+          npm run build:version
+          echo "\n--- src/common/config/version.ts (after build-version) ---"
+          cat src/common/config/version.ts
+          npm run build
+
+      - name: 📤 Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.package }}-build-${{ needs.release.outputs.new-release-version }}
+          path: |
+            ${{ matrix.package }}/dist
+            ${{ matrix.package }}/web/dist
+            ${{ matrix.package }}/package.json
+            ${{ matrix.package }}/package-lock.json
+          retention-days: 30
+
+  # Deploy to AWS (only if new release was published)
+  deploy:
+    name: � Deploy
+    runs-on: ubuntu-latest
+    needs: [release, build]
     if: needs.release.outputs.new-release-published == 'true'
     environment: production
 
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v3
+        with:
+          ref: ${{ github.ref }}  # Ensure we get the latest commit
 
-      - name: 📥 Download Build Artifacts
+      - name: � Download Build Artifacts
         uses: actions/download-artifact@v4
         with:
           path: ./artifacts
@@ -245,16 +254,27 @@ jobs:
       # Deploy Client to S3
       - name: 🌐 Deploy Client to S3
         run: |
-          if [ -d "./artifacts/client-build/web/dist" ]; then
-            aws s3 sync ./artifacts/client-build/web/dist/ s3://${{ secrets.S3_BUCKET }} --delete --cache-control "no-cache, no-store, must-revalidate"
-            echo "✅ Client deployed to S3 with no-cache headers"
+          if [ -d "./artifacts/client-build-${{ needs.release.outputs.new-release-version }}/web/dist" ]; then
+            aws s3 sync "./artifacts/client-build-${{ needs.release.outputs.new-release-version }}/web/dist/" s3://${{ secrets.S3_BUCKET }} --delete --cache-control "no-cache, no-store, must-revalidate"
+            echo "✅ Client deployed to S3 with version ${{ needs.release.outputs.new-release-version }}"
           else
-            echo "❌ Client build not found"
+            echo "❌ Client build not found for version ${{ needs.release.outputs.new-release-version }}"
+            ls -la ./artifacts/ || echo "No artifacts directory"
           fi
 
       # Deploy Server to EC2
-      - name: 📦 Build Server Docker Image
+      - name: � Build Server Docker Image
         run: |
+          # Copy server build artifacts to server directory
+          if [ -d "./artifacts/server-build-${{ needs.release.outputs.new-release-version }}/dist" ]; then
+            cp -r "./artifacts/server-build-${{ needs.release.outputs.new-release-version }}/dist" server/
+            echo "✅ Server build artifacts copied"
+          else
+            echo "❌ Server build artifacts not found"
+            ls -la ./artifacts/
+            exit 1
+          fi
+
           cd server
           # Update package-lock.json to fix npm ci sync issues
           rm -f package-lock.json
@@ -286,7 +306,7 @@ jobs:
             sudo docker stop lab1-todoapp-server || true
             sudo docker rm lab1-todoapp-server || true
 
-            # Run new container
+            # Run new container with versioned tag
             sudo docker run -d \
               --name lab1-todoapp-server \
               --restart unless-stopped \
@@ -299,21 +319,32 @@ jobs:
               -e ALLOWED_ORIGINS="http://56.228.14.41,https://lab1.warteamx.com,http://lab1-todoapp.s3-website.eu-north-1.amazonaws.com" \
               lab1-todoapp-server:${{ needs.release.outputs.new-release-version }}
 
-            # Clean up old images
+            # Clean up old images (keep latest 3 versions)
             sudo docker image prune -f
+            sudo docker images lab1-todoapp-server --format "table {{.Repository}}\t{{.Tag}}\t{{.ID}}" | tail -n +2 | head -n -3 | awk '{print $3}' | xargs -r sudo docker rmi || echo "No old images to remove"
 
       - name: ✅ Deployment Summary
         run: |
           echo "🎉 Deployment completed for version ${{ needs.release.outputs.new-release-version }}"
+          echo "📦 Released Version: ${{ needs.release.outputs.new-release-version }}"
+          echo "🏗️ Build Number: ${{ github.run_number }}"
           echo "🌐 Client: http://${{ secrets.S3_BUCKET }}.s3-website.eu-north-1.amazonaws.com"
           echo "🖥️ Server: http://${{ secrets.EC2_HOST }}/api"
+          echo "🔍 Health endpoint: http://${{ secrets.EC2_HOST }}/api/health"
 
       - name: 🔍 Health Check
         run: |
+          echo "⏳ Waiting 30 seconds for server to start..."
           sleep 30
-          if curl -f http://${{ secrets.EC2_HOST }}/api/health; then
+
+          echo "🔍 Checking server health..."
+          if curl -f -s http://${{ secrets.EC2_HOST }}/api/health; then
             echo "✅ Server health check passed"
+
+            echo "🔍 Checking version endpoint..."
+            curl -s http://${{ secrets.EC2_HOST }}/api/version || echo "Version endpoint not available"
           else
             echo "❌ Server health check failed"
+            echo "📋 Checking server logs..."
             exit 1
           fi
