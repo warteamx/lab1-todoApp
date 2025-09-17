@@ -1,6 +1,6 @@
 {
   "name": "lab1-todoapp-server",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "description": "Node.js server for Todo application with PostgreSQL and Supabase",
   "author": "warteamx",
   "license": "MIT",
