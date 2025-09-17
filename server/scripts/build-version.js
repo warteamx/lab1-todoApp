@@ -16,14 +16,14 @@ function getBuildInfo() {
     const commitHash = execSync('git rev-parse --short HEAD', {
       encoding: 'utf8',
     }).trim();
-    const buildDate = new Date().toISOString();
+    const buildDate = process.env.BUILD_DATE || new Date().toISOString();
     const buildEnv = process.env.NODE_ENV || 'development';
 
     return {
-      version: packageJson.version,
+      version: process.env.SERVER_VERSION || packageJson.version,
       buildNumber: process.env.BUILD_NUMBER || '1',
       buildDate,
-      commitHash,
+      commitHash: process.env.COMMIT_HASH || commitHash,
       buildEnv,
       name: packageJson.name,
       description: packageJson.description || 'Express API Server',
@@ -31,10 +31,10 @@ function getBuildInfo() {
   } catch (error) {
     console.warn('Warning: Could not get git info:', error.message);
     return {
-      version: packageJson.version,
+      version: process.env.SERVER_VERSION || packageJson.version,
       buildNumber: process.env.BUILD_NUMBER || '1',
-      buildDate: new Date().toISOString(),
-      commitHash: 'unknown',
+      buildDate: process.env.BUILD_DATE || new Date().toISOString(),
+      commitHash: process.env.COMMIT_HASH || 'unknown',
       buildEnv: process.env.NODE_ENV || 'development',
       name: packageJson.name,
       description: packageJson.description || 'Express API Server',
