@@ -18,19 +18,18 @@ import cors from 'cors';
 
 const app = express();
 
-// Security middleware - Helmet configuration with best practices
+// Security middleware - Helmet configuration optimized for HTTP-only deployment
 app.use(
   helmet({
-    // Content Security Policy - More permissive for Swagger UI
-    // Content Security Policy - Custom configuration for HTTP-only serving
+    // Content Security Policy - Permissive for HTTP-only cross-origin requests
     contentSecurityPolicy: {
       useDefaults: false, // Disable Helmet defaults that include upgrade-insecure-requests
       directives: {
         defaultSrc: ['\'self\''],
         scriptSrc: ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\'', 'blob:'], // Add blob: for Swagger UI
         styleSrc: ['\'self\'', '\'unsafe-inline\'', 'fonts.googleapis.com'], // Allow Google Fonts
-        imgSrc: ['\'self\'', 'data:', 'https:', 'blob:'], // Add blob: for Swagger UI
-        connectSrc: ['\'self\''],
+        imgSrc: ['\'self\'', 'data:', 'https:', 'http:', 'blob:'], // Allow both HTTP and HTTPS images
+        connectSrc: ['\'self\'', 'http:', 'https:', 'ws:', 'wss:'], // Allow all HTTP/HTTPS connections for API calls
         fontSrc: ['\'self\'', 'fonts.gstatic.com'], // Allow Google Fonts
         objectSrc: ['\'none\''],
         mediaSrc: ['\'self\''],
@@ -44,19 +43,19 @@ app.use(
       },
     },
     // Cross-Origin Embedder Policy
-    crossOriginEmbedderPolicy: false, // Disabled for Swagger UI compatibility
-    // Cross-Origin Opener Policy - Allow for Swagger UI compatibility
+    crossOriginEmbedderPolicy: false, // Disabled for cross-origin compatibility
+    // Cross-Origin Opener Policy - Allow for cross-origin compatibility
     crossOriginOpenerPolicy: false,
     // HTTP Strict Transport Security - Disabled for HTTP-only serving
     hsts: false, // Disabled since we're serving over HTTP
     // Prevent MIME type sniffing
     noSniff: true,
-    // X-Frame-Options
-    frameguard: { action: 'sameorigin' }, // Allow same origin frames for Swagger UI
+    // X-Frame-Options - Allow cross-origin frames
+    frameguard: false, // Disabled to allow cross-origin iframe embedding if needed
     // Hide X-Powered-By header
     hidePoweredBy: true,
-    // Referrer Policy
-    referrerPolicy: { policy: 'strict-origin-when-cross-origin' },
+    // Referrer Policy - More permissive for HTTP-only
+    referrerPolicy: { policy: 'no-referrer-when-downgrade' },
   })
 );
 
