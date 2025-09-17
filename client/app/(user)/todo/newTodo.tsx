@@ -27,7 +27,7 @@ export default function NewTodoTab() {
   };
 
   return (
-    <View flex={1} padding="lg" backgroundColor="background">
+    <View flex={1} padding="6xl" backgroundColor="background">
       <Text
         variant="headlineMedium"
         color="textPrimary"
@@ -62,16 +62,17 @@ export default function NewTodoTab() {
             {isCompleted ? 'Mark as completed' : 'Mark as pending'}
           </Text>
         </View>
-
-        <Button
-          title="Add ToDo"
-          variant="primary"
-          size="large"
-          fullWidth
-          onPress={handleAddTodo}
-          disabled={isPending || !task.trim()}
-          loading={isPending}
-        />
+        <View marginTop="lg" maxWidth={400} alignSelf="center" width="100%">
+          <Button
+            title="Add ToDo Task"
+            variant="primary"
+            size="large"
+            fullWidth
+            onPress={handleAddTodo}
+            disabled={isPending || !task.trim()}
+            loading={isPending}
+          />
+        </View>
 
         {error && (
           <View padding="md" backgroundColor="error" borderRadius="md">

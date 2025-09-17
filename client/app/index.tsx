@@ -23,7 +23,7 @@ const Index = () => {
   }
 
   return (
-    <View flex={1} padding="lg">
+    <View flex={1} padding="md">
       <View flex={1} justifyContent="center">
         <View marginBottom="xl">
           <Text variant="headlineMedium" color="textPrimary" align="center">
@@ -39,7 +39,7 @@ const Index = () => {
           </Text>
         </View>
 
-        <View style={{ gap: 16 }}>
+        <View style={{ gap: 16 }} maxWidth={400} alignSelf="center" width="100%">
           <Link href={'/(user)'} asChild>
             <Button
               title="👀 See Task List"

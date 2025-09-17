@@ -7,6 +7,19 @@ import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 import { Card } from '@/components/ui/Card/Card';
 
+// Fast date formatter: "YYYY-MM-DD HH:mm"
+const formatDateYMDHM = (value: any): string => {
+  const d = value instanceof Date ? value : new Date(value);
+  if (Number.isNaN(d.getTime())) return '';
+  const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
+  const yyyy = d.getFullYear();
+  const mm = pad(d.getMonth() + 1);
+  const dd = pad(d.getDate());
+  const hh = pad(d.getHours());
+  const mi = pad(d.getMinutes());
+  return ` 📅 ${yyyy}-${mm}-${dd} ⏰ ${hh}:${mi}`;
+};
+
 export default function TodoIndexTab() {
   const { data, isLoading, error } = useTodos();
   const updateTodo = useUpdateTodo();
@@ -18,7 +31,7 @@ export default function TodoIndexTab() {
   };
 
   return (
-    <View flex={1} padding="md" backgroundColor="background">
+    <View flex={1} padding="lg" backgroundColor="background">
       <Text
         variant="headlineMedium"
         color="textPrimary"
@@ -48,7 +61,7 @@ export default function TodoIndexTab() {
           data={data}
           keyExtractor={item => String(item.id)}
           renderItem={({ item }) => (
-            <View marginBottom="md">
+            <View marginBottom="md" maxWidth={800} alignSelf="center" width="100%">
               <Card padding="lg">
                 <View
                   flexDirection="row"
@@ -64,7 +77,7 @@ export default function TodoIndexTab() {
                       color="textSecondary"
                       style={{ marginTop: 4 }}
                     >
-                      {item.inserted_at.toLocaleString()}
+                      {formatDateYMDHM(item.inserted_at)}
                     </Text>
                     <Text variant="bodySmall" color="textTertiary">
                       Day{' '}
@@ -111,7 +124,7 @@ export default function TodoIndexTab() {
       )}
 
       {/* Add new todo button */}
-      <View marginTop="lg">
+      <View marginTop="lg" maxWidth={400} alignSelf="center" width="100%">
         <Link href={'/(user)/todo/newTodo'} asChild>
           <Button
             title="➕ Add New Task"

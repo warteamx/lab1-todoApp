@@ -105,7 +105,7 @@ jobs:
           NODE_ENV: production
           EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
-          EXPO_PUBLIC_API_URL: http://56.228.14.41/
+          EXPO_PUBLIC_API_URL: http://56.228.14.41
           EXPO_PUBLIC_APP_VERSION: ${{ steps.set_client_version.outputs.client_version }}
           EXPO_PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
           EXPO_PUBLIC_BUILD_DATE: ${{ github.run_started_at }}

@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../providers/authProvider';
+import { API_CONFIG } from '../constants/api';
 
 export type Todo = {
   id: string;
@@ -8,7 +9,7 @@ export type Todo = {
   inserted_at: string;
 };
 
-const API_URL = 'http://localhost:3000/api/todo';
+const API_URL = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TODO}`;
 
 async function fetchTodos(token?: string): Promise<Todo[]> {
   const res = await fetch(API_URL, {

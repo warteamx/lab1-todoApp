@@ -4,6 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { View } from '../View/View';
 import { Text } from '../Text/Text';
 import { useTheme } from '@/providers/themeProvider';
+import { Version } from '../Version';
 
 export const Footer: React.FC = () => {
   const { theme } = useTheme();
@@ -47,6 +48,7 @@ export const Footer: React.FC = () => {
           </Text>
         </View>
       </TouchableOpacity>
+      <Version />
     </View>
   );
 };
