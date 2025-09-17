@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [v1.2.7](https://github.com/warteamx/lab1-todoApp/compare/v1.2.6...v1.2.7) (2025-09-17)
+
+## 🐛 Bug Fixes
+- [`21f42c6`](https://github.com/warteamx/lab1-todoApp/commit/21f42c6)  fix(serve): Very permisive helmet config to allow http cross orign request
+
 # [v1.2.6](https://github.com/warteamx/lab1-todoApp/compare/v1.2.5...v1.2.6) (2025-09-17)
 
 ## 🐛 Bug Fixes
