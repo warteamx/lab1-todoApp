@@ -93,11 +93,11 @@ jobs:
           cd ${{ matrix.package }}
           npm run build:version
 
-      - name: Get client package version
-        if: matrix.package == 'client'
-        id: set_client_version
+      - name: Get package versions
         run: |
           echo "client_version=$(jq -r .version client/package.json)" >> $GITHUB_OUTPUT
+          echo "server_version=$(jq -r .version server/package.json)" >> $GITHUB_OUTPUT
+        id: set_versions
 
       - name: 🏗️ Build Client
         if: matrix.package == 'client'
@@ -106,9 +106,9 @@ jobs:
           EXPO_PUBLIC_SUPABASE_URL: ${{ secrets.EXPO_PUBLIC_SUPABASE_URL }}
           EXPO_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.EXPO_PUBLIC_SUPABASE_ANON_KEY }}
           EXPO_PUBLIC_API_URL: http://56.228.14.41
-          EXPO_PUBLIC_APP_VERSION: ${{ steps.set_client_version.outputs.client_version }}
+          EXPO_PUBLIC_APP_VERSION: ${{ steps.set_versions.outputs.client_version }}
           EXPO_PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
-          EXPO_PUBLIC_BUILD_DATE: ${{ github.run_started_at }}
+          EXPO_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
           EXPO_PUBLIC_COMMIT_HASH: ${{ github.sha }}
           EXPO_PUBLIC_BUILD_ENV: production
         run: |
@@ -128,8 +128,21 @@ jobs:
 
       - name: 🏗️ Build Server
         if: matrix.package == 'server'
+        env:
+          NODE_ENV: production
+          SERVER_VERSION: ${{ steps.set_versions.outputs.server_version }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+          COMMIT_HASH: ${{ github.sha }}
         run: |
           cd server
+          echo "\n--- ENVIRONMENT VARIABLES ---"
+          printenv | sort
+          echo "\n--- src/common/config/version.ts (before) ---"
+          cat src/common/config/version.ts
+          npm run build:version
+          echo "\n--- src/common/config/version.ts (after build-version) ---"
+          cat src/common/config/version.ts
           npm run build
 
       - name: 📤 Upload Build Artifacts

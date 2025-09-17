@@ -7,31 +7,31 @@
  * Server version following semantic versioning (SemVer)
  * Format: MAJOR.MINOR.PATCH
  */
-export const SERVER_VERSION = process.env.SERVER_VERSION || process.env.npm_package_version || '1.1.1';
+export const SERVER_VERSION = '1.2.7';
 
 /**
  * Build number for tracking specific builds
  * Typically incremented with each CI/CD build
  */
-export const BUILD_NUMBER = process.env.BUILD_NUMBER || '1';
+export const BUILD_NUMBER = '999';
 
 /**
  * Build date in ISO format
  * Set during the build process
  */
-export const BUILD_DATE = process.env.BUILD_DATE || new Date().toISOString();
+export const BUILD_DATE = '2025-09-17T09:15:43.978Z';
 
 /**
  * Git commit hash (short)
  * Useful for debugging and tracking specific builds
  */
-export const COMMIT_HASH = process.env.COMMIT_HASH || 'unknown';
+export const COMMIT_HASH = '1a73403';
 
 /**
  * Build environment
  * development, staging, production
  */
-export const BUILD_ENV = process.env.NODE_ENV || 'development';
+export const BUILD_ENV = 'production';
 
 /**
  * Complete version information object

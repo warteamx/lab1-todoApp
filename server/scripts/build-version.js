@@ -42,85 +42,71 @@ function getBuildInfo() {
   }
 }
 
-function createVersionEndpoint(buildInfo) {
-  const versionDir = path.join(__dirname, '..', 'src/api/system');
-  const versionFilePath = path.join(versionDir, 'version.controller.ts');
+function updateVersionConfig(buildInfo) {
+  const versionConfigPath = path.join(__dirname, '..', 'src/common/config/version.ts');
 
-  // Ensure directory exists
-  if (!fs.existsSync(versionDir)) {
-    fs.mkdirSync(versionDir, { recursive: true });
-  }
-
-  const content = `import { Request, Response } from 'express';
+  const content = `/**
+ * Version configuration for the Express.js server
+ * These values are injected during build time from environment variables
+ */
 
 /**
- * Version information for the server
- * Updated during build process
+ * Server version following semantic versioning (SemVer)
+ * Format: MAJOR.MINOR.PATCH
+ */
+export const SERVER_VERSION = '${buildInfo.version}';
+
+/**
+ * Build number for tracking specific builds
+ * Typically incremented with each CI/CD build
+ */
+export const BUILD_NUMBER = '${buildInfo.buildNumber}';
+
+/**
+ * Build date in ISO format
+ * Set during the build process
+ */
+export const BUILD_DATE = '${buildInfo.buildDate}';
+
+/**
+ * Git commit hash (short)
+ * Useful for debugging and tracking specific builds
+ */
+export const COMMIT_HASH = '${buildInfo.commitHash}';
+
+/**
+ * Build environment
+ * development, staging, production
+ */
+export const BUILD_ENV = '${buildInfo.buildEnv}';
+
+/**
+ * Complete version information object
  */
 export const VERSION_INFO = {
-  name: '${buildInfo.name}',
-  description: '${buildInfo.description}',
-  version: '${buildInfo.version}',
-  buildNumber: '${buildInfo.buildNumber}',
-  buildDate: '${buildInfo.buildDate}',
-  commitHash: '${buildInfo.commitHash}',
-  environment: '${buildInfo.buildEnv}',
+  version: SERVER_VERSION,
+  buildNumber: BUILD_NUMBER,
+  buildDate: BUILD_DATE,
+  commitHash: COMMIT_HASH,
+  environment: BUILD_ENV,
   timestamp: Date.now(),
-  uptime: process.uptime(),
-  nodeVersion: process.version,
-  platform: process.platform,
-  arch: process.arch
 } as const;
 
 /**
- * GET /api/version
- * Returns version and build information
+ * Human-readable version string
+ * Format: "v1.1.1 (Build 42)"
  */
-export const getVersion = (req: Request, res: Response) => {
-  res.json({
-    ...VERSION_INFO,
-    uptime: process.uptime(),
-    timestamp: Date.now()
-  });
-};
+export const VERSION_STRING = \`v\${SERVER_VERSION} (Build \${BUILD_NUMBER})\`;
 
 /**
- * GET /api/health
- * Health check endpoint with version info
+ * Detailed version string with date
+ * Format: "v1.1.1 (Build 42) - Sep 4, 2025"
  */
-export const getHealth = (req: Request, res: Response) => {
-  res.json({
-    status: 'healthy',
-    version: VERSION_INFO.version,
-    buildNumber: VERSION_INFO.buildNumber,
-    uptime: process.uptime(),
-    timestamp: Date.now(),
-    environment: VERSION_INFO.environment
-  });
-};
+export const DETAILED_VERSION_STRING = \`\${VERSION_STRING} - \${new Date(BUILD_DATE).toLocaleDateString()}\`;
 `;
 
-  fs.writeFileSync(versionFilePath, content);
-  console.log('✅ Created version controller');
-
-  // Create routes file
-  const routesFilePath = path.join(versionDir, 'version.routes.ts');
-  const routesContent = `import { Router } from 'express';
-import { getVersion, getHealth } from './version.controller';
-
-const router = Router();
-
-/**
- * Version and health routes
- */
-router.get('/version', getVersion);
-router.get('/health', getHealth);
-
-export default router;
-`;
-
-  fs.writeFileSync(routesFilePath, routesContent);
-  console.log('✅ Created version routes');
+  fs.writeFileSync(versionConfigPath, content);
+  console.log('✅ Updated version configuration');
 }
 
 function main() {
@@ -129,7 +115,7 @@ function main() {
   const buildInfo = getBuildInfo();
   console.log('📦 Build Info:', buildInfo);
 
-  createVersionEndpoint(buildInfo);
+  updateVersionConfig(buildInfo);
 
   console.log('✅ Server version build completed');
 }
@@ -138,4 +124,4 @@ if (require.main === module) {
   main();
 }
 
-module.exports = { getBuildInfo, createVersionEndpoint };
+module.exports = { getBuildInfo, updateVersionConfig };
