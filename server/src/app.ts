@@ -18,44 +18,32 @@ import cors from 'cors';
 
 const app = express();
 
-// Security middleware - Helmet configuration optimized for HTTP-only deployment
+// Security middleware - VERY permissive Helmet configuration for HTTP-only deployment
 app.use(
   helmet({
-    // Content Security Policy - Permissive for HTTP-only cross-origin requests
-    contentSecurityPolicy: {
-      useDefaults: false, // Disable Helmet defaults that include upgrade-insecure-requests
-      directives: {
-        defaultSrc: ['\'self\''],
-        scriptSrc: ['\'self\'', '\'unsafe-inline\'', '\'unsafe-eval\'', 'blob:'], // Add blob: for Swagger UI
-        styleSrc: ['\'self\'', '\'unsafe-inline\'', 'fonts.googleapis.com'], // Allow Google Fonts
-        imgSrc: ['\'self\'', 'data:', 'https:', 'http:', 'blob:'], // Allow both HTTP and HTTPS images
-        connectSrc: ['\'self\'', 'http:', 'https:', 'ws:', 'wss:'], // Allow all HTTP/HTTPS connections for API calls
-        fontSrc: ['\'self\'', 'fonts.gstatic.com'], // Allow Google Fonts
-        objectSrc: ['\'none\''],
-        mediaSrc: ['\'self\''],
-        frameSrc: ['\'self\''], // Allow frames for Swagger UI
-        workerSrc: ['\'self\'', 'blob:'], // Add worker-src for Swagger UI
-        baseUri: ['\'self\''],
-        formAction: ['\'self\''],
-        frameAncestors: ['\'self\''],
-        scriptSrcAttr: ['\'none\''],
-        // Explicitly DO NOT include upgrade-insecure-requests for HTTP-only serving
-      },
-    },
+    // Completely disable Content Security Policy for HTTP-only cross-origin compatibility
+    contentSecurityPolicy: false, // Disabled to allow all cross-origin requests
     // Cross-Origin Embedder Policy
     crossOriginEmbedderPolicy: false, // Disabled for cross-origin compatibility
     // Cross-Origin Opener Policy - Allow for cross-origin compatibility
     crossOriginOpenerPolicy: false,
+    // Cross-Origin Resource Policy - CRITICAL: Allow cross-origin requests
+    crossOriginResourcePolicy: false, // Disabled to allow cross-origin API calls
     // HTTP Strict Transport Security - Disabled for HTTP-only serving
     hsts: false, // Disabled since we're serving over HTTP
     // Prevent MIME type sniffing
     noSniff: true,
-    // X-Frame-Options - Allow cross-origin frames
-    frameguard: false, // Disabled to allow cross-origin iframe embedding if needed
+    // X-Frame-Options - Completely disabled for cross-origin frames
+    frameguard: false, // Disabled to allow cross-origin iframe embedding
     // Hide X-Powered-By header
     hidePoweredBy: true,
-    // Referrer Policy - More permissive for HTTP-only
-    referrerPolicy: { policy: 'no-referrer-when-downgrade' },
+    // Referrer Policy - Most permissive for HTTP-only cross-origin requests
+    referrerPolicy: false, // Disabled to allow all referrer information
+    // Disable all other restrictive policies
+    permittedCrossDomainPolicies: false,
+    dnsPrefetchControl: false,
+    // Origin Agent Cluster - Disable for cross-origin compatibility
+    originAgentCluster: false,
   })
 );
 
@@ -71,13 +59,33 @@ const allowedOrigins =
       ]
     : '*';
 
+// VERY permissive CORS configuration for HTTP-only cross-origin requests
 app.use(
   cors({
     origin: allowedOrigins,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'Origin', 'X-Requested-With'],
+    credentials: false, // Disable credentials for HTTP-only cross-origin requests
+    optionsSuccessStatus: 200, // Support legacy browsers
   })
 );
+
+// Add explicit headers to override any browser restrictions
+app.use((req, res, next) => {
+  // Allow cross-origin requests explicitly
+  res.header('Access-Control-Allow-Origin', allowedOrigins === '*' ? '*' : req.headers.origin);
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept,Origin,X-Requested-With');
+  res.header('Access-Control-Max-Age', '86400'); // Cache preflight for 24 hours
+
+  // Remove any restrictive headers that might block cross-origin requests
+  res.removeHeader('Cross-Origin-Resource-Policy');
+  res.removeHeader('Cross-Origin-Embedder-Policy');
+  res.removeHeader('Cross-Origin-Opener-Policy');
+
+  next();
+});
+
 app.use(json());
 app.use(loggerMiddleware);
 
