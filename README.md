@@ -120,6 +120,13 @@ This project implements automated semantic versioning with the following rules:
 📝 docs: update README               → PATCH bump
 ```
 
+### Commit Message Regex
+
+```js
+commit_regex =
+  '^(🎨|✨|🐛|🚑️|💄|♻️|⚡️|📝|🔥|🚚|🔧|🔖|🚧|💚|👷|📦️|🔨|🧪|✅|🏗️|💡|🎉|🔒️|🔐) (feat|fix|docs|style|refactor|perf|test|build|ci|chore|security)(\(.+\))?: .{1,50}';
+```
+
 ### Version Display
 
 - **Client**: Version component in settings and about screens
