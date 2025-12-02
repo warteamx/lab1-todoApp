@@ -1,0 +1,131 @@
+version: '3.8'
+
+services:
+  n8n:
+    image: docker.n8n.io/n8nio/n8n
+    restart: unless-stopped
+    ports:
+      - '5678:5678'
+    environment:
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_DATABASE=${DB_POSTGRESDB_DATABASE}
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_USER=${DB_POSTGRESDB_USER}
+      - DB_POSTGRESDB_PASSWORD=${DB_POSTGRESDB_PASSWORD}
+      - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE}
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD}
+      - N8N_HOST=${N8N_HOST}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL}
+      - WEBHOOK_URL=${WEBHOOK_URL}
+      - GENERIC_TIMEZONE=${GENERIC_TIMEZONE}
+      - N8N_LOG_LEVEL=${N8N_LOG_LEVEL}
+      - N8N_EXECUTION_DATA_PRUNE=${N8N_EXECUTION_DATA_PRUNE}
+      - N8N_EXECUTION_DATA_MAX_AGE=${N8N_EXECUTION_DATA_MAX_AGE}
+      - N8N_RUNNERS_ENABLED=true
+      - DB_SQLITE_POOL_SIZE=10
+      - N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+      - N8N_GIT_NODE_DISABLE_BARE_REPOS=true
+      - N8N_SECURE_COOKIE=false
+      - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./workflows:/home/node/.n8n/workflows
+      - ./credentials:/home/node/.n8n/credentials
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - n8n_network
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'wget',
+          '--no-verbose',
+          '--tries=1',
+          '--spider',
+          'http://localhost:5678/healthz',
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_POSTGRESDB_USER}
+      - POSTGRES_PASSWORD=${DB_POSTGRESDB_PASSWORD}
+      - POSTGRES_DB=${DB_POSTGRESDB_DATABASE}
+      - POSTGRES_NON_ROOT_USER=${DB_POSTGRESDB_USER}
+      - POSTGRES_NON_ROOT_PASSWORD=${DB_POSTGRESDB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql:ro
+    ports:
+      - '5432:5432'
+    networks:
+      - n8n_network
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'pg_isready -U ${DB_POSTGRESDB_USER} -d ${DB_POSTGRESDB_DATABASE}',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Optional: Redis for caching and queue management
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    ports:
+      - '6379:6379'
+    networks:
+      - n8n_network
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Optional: Nginx reverse proxy for SSL termination
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./ssl:/etc/ssl/certs:ro
+      - nginx_logs:/var/log/nginx
+    depends_on:
+      - n8n
+    networks:
+      - n8n_network
+    profiles:
+      - with-proxy
+
+volumes:
+  n8n_data:
+    driver: local
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  nginx_logs:
+    driver: local
+
+networks:
+  n8n_network:
+    driver: bridge
