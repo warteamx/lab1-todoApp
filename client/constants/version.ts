@@ -19,7 +19,8 @@ export const BUILD_NUMBER = process.env.EXPO_PUBLIC_BUILD_NUMBER || '1';
  * Build date in ISO format
  * Set during the build process
  */
-export const BUILD_DATE = process.env.EXPO_PUBLIC_BUILD_DATE || '2025-09-17T14:55:50.820Z';
+export const BUILD_DATE =
+  process.env.EXPO_PUBLIC_BUILD_DATE || '2026-07-18T00:00:00.000Z';
 
 /**
  * Git commit hash (short)
@@ -53,6 +54,6 @@ export const VERSION_STRING = `v${APP_VERSION} (Build ${BUILD_NUMBER})`;
 
 /**
  * Detailed version string with date
- * Format: "v1.1.1 (Build 42) - Sep 4, 2025"
+ * Format: "v1.1.1 (Build 42) - Sep 4, 2026"
  */
 export const DETAILED_VERSION_STRING = `${VERSION_STRING} - ${new Date(BUILD_DATE).toLocaleDateString()}`;

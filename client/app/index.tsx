@@ -39,7 +39,12 @@ const Index = () => {
           </Text>
         </View>
 
-        <View style={{ gap: 16 }} maxWidth={400} alignSelf="center" width="100%">
+        <View
+          style={{ gap: 16 }}
+          maxWidth={400}
+          alignSelf="center"
+          width="100%"
+        >
           <Link href={'/(user)'} asChild>
             <Button
               title="👀 See Task List"
@@ -112,7 +117,7 @@ const Index = () => {
         style={{ gap: 8 }}
         marginTop="lg"
       >
-        <Text>WarTeamX © 2025</Text>
+        <Text>WarTeamX © 2026</Text>
         <Link href={'https://github.com/warteamx/lab1-todoApp'} asChild>
           <Ionicons name="logo-github" size={24} color="black" />
         </Link>
