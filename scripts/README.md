@@ -9,6 +9,7 @@ This directory contains automation scripts for version management, deployment, a
 - **`setup-environment.sh`** - Creates .env files from examples and provides setup guidance
 - **`setup-github-secrets-template.sh`** - Interactive template for configuring GitHub secrets
 - **`setup-supabase-secrets.sh`** - Configures Supabase secrets from server/.env file
+- **`setup-supabase-keepalive-cron.sh`** - Installs a host cron entry to run `db:keepalive` in Docker every 3 days at fixed UTC time
 
 ### Version Management
 

@@ -8,6 +8,7 @@ import { Version } from '../Version';
 
 export const Footer: React.FC = () => {
   const { theme } = useTheme();
+  const currentYear = new Date().getFullYear();
 
   const handleWarteamXPress = () => {
     Linking.openURL('https://www.warteamx.com');
@@ -31,7 +32,7 @@ export const Footer: React.FC = () => {
     >
       <View flexDirection="row" alignItems="center" style={{ gap: 4 }}>
         <Text variant="bodySmall" color="textSecondary">
-          © 2025
+          © {currentYear}
         </Text>
         <TouchableOpacity onPress={handleWarteamXPress}>
           <Text variant="bodySmall" color="interactive">
