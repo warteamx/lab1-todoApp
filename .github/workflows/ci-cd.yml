@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force build and deploy even if no new release is published'
+        required: false
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -118,7 +124,10 @@ jobs:
             echo "✅ New release published: $VERSION"
           else
             echo "new-release-published=false" >> $GITHUB_OUTPUT
+            CURRENT_VERSION=$(jq -r .version client/package.json)
+            echo "new-release-version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
             echo "No new release published"
+            echo "ℹ️ Reusing current version: $CURRENT_VERSION"
           fi
 
   # Build applications (only if new release was published)
@@ -126,7 +135,7 @@ jobs:
     name: 🏗️ Build
     runs-on: ubuntu-latest
     needs: release
-    if: needs.release.outputs.new-release-published == 'true'
+    if: needs.release.outputs.new-release-published == 'true' || github.event.inputs.force_deploy == 'true'
     strategy:
       matrix:
         package: [client, server]
@@ -135,7 +144,7 @@ jobs:
       - name: 📥 Checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref }}  # Ensure we get the latest commit with updated version
+          ref: ${{ github.ref }} # Ensure we get the latest commit with updated version
 
       - name: 📦 Setup Node.js
         uses: actions/setup-node@v3
@@ -175,7 +184,7 @@ jobs:
           EXPO_PUBLIC_API_URL: https://api.lab1.warteamx.com
           EXPO_PUBLIC_APP_VERSION: ${{ needs.release.outputs.new-release-version }}
           EXPO_PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
-          EXPO_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+          EXPO_PUBLIC_BUILD_DATE: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           EXPO_PUBLIC_COMMIT_HASH: ${{ github.sha }}
           EXPO_PUBLIC_BUILD_ENV: production
         run: |
@@ -198,7 +207,7 @@ jobs:
           NODE_ENV: production
           SERVER_VERSION: ${{ needs.release.outputs.new-release-version }}
           BUILD_NUMBER: ${{ github.run_number }}
-          BUILD_DATE: ${{ github.event.head_commit.timestamp }}
+          BUILD_DATE: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
           COMMIT_HASH: ${{ github.sha }}
         run: |
           cd server
@@ -230,14 +239,14 @@ jobs:
     name: � Deploy
     runs-on: ubuntu-latest
     needs: [release, build]
-    if: needs.release.outputs.new-release-published == 'true'
+    if: needs.release.outputs.new-release-published == 'true' || github.event.inputs.force_deploy == 'true'
     environment: production
 
     steps:
       - name: 📥 Checkout
         uses: actions/checkout@v3
         with:
-          ref: ${{ github.ref }}  # Ensure we get the latest commit
+          ref: ${{ github.ref }} # Ensure we get the latest commit
 
       - name: � Download Build Artifacts
         uses: actions/download-artifact@v4
