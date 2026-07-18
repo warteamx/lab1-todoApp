@@ -67,6 +67,21 @@ Each package follows [SemVer 2.0.0](https://semver.org/) specification with auto
 - **Health Check**: http://56.228.14.41/api/health
 - **API Documentation**: http://56.228.14.41/api-docs
 
+### Manual Deploy Override (GitHub Actions)
+
+If `build` or `deploy` are skipped because no new semantic release was published, you can force deployment manually:
+
+1. Go to **Actions** -> **CI/CD Pipeline**
+2. Click **Run workflow**
+3. Select branch **main**
+4. Set **force_deploy** to **true**
+5. Click **Run workflow**
+
+#### Notes
+
+- Normal path: `build` and `deploy` run automatically when semantic-release publishes a new release.
+- Override path: setting `force_deploy=true` allows `build` and `deploy` to run even if no new release is published.
+
 ## Quick Start
 
 ### Environment Setup
