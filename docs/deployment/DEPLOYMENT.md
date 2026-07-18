@@ -201,6 +201,37 @@ docker build -t lab1-todoapp-server .
 docker run -d -p 3000:3000 --env-file .env --name lab1-app lab1-todoapp-server
 ```
 
+### 5. Supabase Keep-Alive Cron (EC2 Host)
+
+Run the keep-alive command on the EC2 host so it executes inside the live Docker Compose `server` service.
+
+```bash
+# From repository root on EC2
+chmod +x ./scripts/setup-supabase-keepalive-cron.sh
+./scripts/setup-supabase-keepalive-cron.sh ~/app/server
+```
+
+Default schedule is every 3 days at `03:17 UTC`.
+
+Installed cron command:
+
+```bash
+17 3 */3 * * cd ~/app/server && docker compose exec -T server npm run db:keepalive >> ~/app/server/logs/combined.log 2>&1
+```
+
+Validation commands:
+
+```bash
+# Manual run inside container
+cd ~/app/server && docker compose exec -T server npm run db:keepalive
+
+# Confirm cron registration
+crontab -l
+
+# Check keep-alive logs
+tail -n 50 ~/app/server/logs/combined.log
+```
+
 ## 🤖 Automated CI/CD Deployment
 
 ### GitHub Actions Configuration

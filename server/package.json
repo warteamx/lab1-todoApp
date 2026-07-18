@@ -27,6 +27,7 @@
     "// Development Scripts": "",
     "dev": "NODE_ENV=development npx dotenvx run -- ts-node-dev -r tsconfig-paths/register src/server.ts",
     "start": "node dist/server.js",
+    "db:keepalive": "node dist/scripts/db-keepalive.js",
     "// Build Scripts": "",
     "build": "tsc && npx cpx \"src/**/*.yml\" dist/",
     "build:version": "node scripts/build-version.js",
