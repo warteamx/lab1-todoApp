@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [v1.3.0](https://github.com/warteamx/lab1-todoApp/compare/v1.2.11...v1.3.0) (2026-07-18)
+
+## ✨ New Features
+- [`2462918`](https://github.com/warteamx/lab1-todoApp/commit/2462918)  feat(server): add Supabase DB keep-alive script and EC2 cron setup (Issues: [`#41`](https://github.com/warteamx/lab1-todoApp/issues/41))
+
+## 🐛 Bug Fixes
+- [`a3a4e29`](https://github.com/warteamx/lab1-todoApp/commit/a3a4e29)  fix(client): update frontend app date references to 2026
+
 # [v1.2.11](https://github.com/warteamx/lab1-todoApp/compare/v1.2.10...v1.2.11) (2025-09-17)
 
 ## 🐛 Bug Fixes
