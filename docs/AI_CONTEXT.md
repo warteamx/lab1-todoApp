@@ -11,7 +11,7 @@
 **Frontend (Client)**
 
 - **Expo SDK 53** - React Native framework for iOS, Android, Web, Desktop
-- **React Native 0.74** - Cross-platform mobile development
+- **React Native 0.79** - Cross-platform mobile development
 - **TypeScript** - Type-safe JavaScript
 - **React Navigation** - Navigation library
 - **Themed UI Components** - Custom design system
@@ -19,7 +19,7 @@
 
 **Backend (Server)**
 
-- **Express 5.1** - Node.js web framework
+- **Express 5.2** - Node.js web framework
 - **TypeScript** - Type-safe server development
 - **Supabase** - PostgreSQL database and authentication
 - **Swagger/OpenAPI** - API documentation
