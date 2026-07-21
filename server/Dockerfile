@@ -1,6 +1,6 @@
 # Use official Node.js runtime as the base image
 # Using LTS version for stability and security
-FROM node:20-alpine AS base
+FROM node:22-alpine AS base
 
 # Set working directory
 WORKDIR /app

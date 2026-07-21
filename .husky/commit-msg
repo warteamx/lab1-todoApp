@@ -2,7 +2,7 @@
 echo "📝 Validating commit message format..."
 
 # Check commit message follows conventional commits with gitmoji
-commit_regex="^(🎨|✨|🐛|🚑️|💄|♻️|⚡️|📝|🔥|🚚|🔧|🔖|🚧|💚|👷|📦️|🔨|🧪|✅|🏗️|💡|🎉|🔒️|🔐) (feat|fix|docs|style|refactor|perf|test|build|ci|chore|security)(\(.+\))?: .{1,50}"
+commit_regex="^(🎨|✨|🐛|🚑️|💄|♻️|⚡️|📝|🔥|🚚|🔧|🔖|🚧|💚|👷|📦️|🔨|🧪|✅|🏗️|💡|🎉|🔒️|🔐|⬆️) (feat|fix|docs|style|refactor|perf|test|build|ci|chore|security)(\(.+\))?: .{1,50}"
 
 if ! grep -qE "$commit_regex" "$1"; then
   echo "❌ Invalid commit message format!"
