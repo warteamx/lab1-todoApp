@@ -19,7 +19,7 @@
     "typescript"
   ],
   "engines": {
-    "node": ">=20.0.0",
+    "node": ">=22.0.0",
     "npm": ">=10.0.0"
   },
   "main": "src/server.ts",
@@ -53,17 +53,17 @@
     "docker:clean": "./docker.sh clean"
   },
   "dependencies": {
-    "@supabase/supabase-js": "2.52.0",
-    "cors": "2.8.5",
-    "express": "5.1.0",
-    "helmet": "^8.1.0",
-    "morgan": "^1.10.1",
-    "multer": "^2.0.2",
-    "pg": "8.16.3",
-    "postgres": "3.4.7",
+    "@supabase/supabase-js": "2.110.7",
+    "cors": "2.8.6",
+    "express": "5.2.1",
+    "helmet": "^8.3.0",
+    "morgan": "^1.11.0",
+    "multer": "^2.2.0",
+    "pg": "8.22.0",
+    "postgres": "3.4.9",
     "swagger-ui-express": "5.0.1",
-    "winston": "^3.17.0",
-    "yaml": "^2.8.0"
+    "winston": "^3.19.0",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@dotenvx/dotenvx": "1.47.6",
