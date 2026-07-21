@@ -11,7 +11,7 @@ import { Text } from '../../ui/Text/Text';
 import { Button } from '../../ui/Button/Button';
 import { Inline } from '../../ui/Layout/Layout';
 import { THEME_OPTIONS } from './NavigationHeader.helper';
-import { Version } from '@/components';
+import { Version } from '@/components/ui/Version/Version';
 
 interface NavigationHeaderModalProps {
   visible: boolean;
