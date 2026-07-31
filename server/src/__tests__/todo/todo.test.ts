@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import request from 'supertest';
 import express, { Request, Response, NextFunction } from 'express';
 import { getTodos, createTodo, updateTodo, deleteTodo } from '../../api/todo/todo.controller';
+import { Todo } from '../../domain/todo/entities/todo.entity';
 
 // Mock the todoService
 vi.mock('../../domain/todo/services/todo.service', () => ({
@@ -47,13 +48,16 @@ describe('Todo API Integration Tests', () => {
   describe('GET /api/todo', () => {
     it('should get all todos for the user', async () => {
       // Arrange
-      const mockTodos = [
+      const mockTodos: Todo[] = [
         {
           id: 1,
           user_id: mockUserId,
           task: 'Test todo 1',
           is_complete: false,
           created_at: new Date(fixedDate),
+          importance: 'medium',
+          status: 'pending',
+          display_order: 1,
         },
         {
           id: 2,
@@ -61,6 +65,9 @@ describe('Todo API Integration Tests', () => {
           task: 'Test todo 2',
           is_complete: true,
           created_at: new Date(fixedDate),
+          importance: 'high',
+          status: 'completed',
+          display_order: 2,
         },
       ];
       vi.mocked(todoService.getTodos).mockResolvedValue(mockTodos);
@@ -77,6 +84,9 @@ describe('Todo API Integration Tests', () => {
           task: 'Test todo 1',
           is_complete: false,
           created_at: fixedDate,
+          importance: 'medium',
+          status: 'pending',
+          display_order: 1,
         },
         {
           id: 2,
@@ -84,9 +94,18 @@ describe('Todo API Integration Tests', () => {
           task: 'Test todo 2',
           is_complete: true,
           created_at: fixedDate,
+          importance: 'high',
+          status: 'completed',
+          display_order: 2,
         },
       ]);
-      expect(todoService.getTodos).toHaveBeenCalledWith(mockUserId);
+      expect(todoService.getTodos).toHaveBeenCalledWith(mockUserId, {
+        view: undefined,
+        importance: undefined,
+        status: undefined,
+        page: undefined,
+        limit: undefined,
+      });
     });
 
     it('should return empty array when no todos exist', async () => {
@@ -100,17 +119,37 @@ describe('Todo API Integration Tests', () => {
       expect(response.status).toBe(200);
       expect(response.body).toEqual([]);
     });
+
+    it('should pass query filters to service', async () => {
+      vi.mocked(todoService.getTodos).mockResolvedValue([]);
+
+      const response = await request(app).get(
+        '/api/todo?view=month&status=pending&importance=high&page=2&limit=5'
+      );
+
+      expect(response.status).toBe(200);
+      expect(todoService.getTodos).toHaveBeenCalledWith(mockUserId, {
+        view: 'month',
+        importance: 'high',
+        status: 'pending',
+        page: 2,
+        limit: 5,
+      });
+    });
   });
 
   describe('POST /api/todo', () => {
     it('should create a new todo', async () => {
       // Arrange
-      const newTodo = {
+      const newTodo: Todo = {
         id: 1,
         user_id: mockUserId,
         task: 'New test todo',
         is_complete: false,
         created_at: new Date(fixedDate),
+        importance: 'medium',
+        status: 'pending',
+        display_order: 1,
       };
       vi.mocked(todoService.createTodo).mockResolvedValue(newTodo);
 
@@ -127,8 +166,15 @@ describe('Todo API Integration Tests', () => {
         task: 'New test todo',
         is_complete: false,
         created_at: fixedDate,
+        importance: 'medium',
+        status: 'pending',
+        display_order: 1,
       });
-      expect(todoService.createTodo).toHaveBeenCalledWith('New test todo', mockUserId);
+      expect(todoService.createTodo).toHaveBeenCalledWith('New test todo', mockUserId, {
+        importance: undefined,
+        status: undefined,
+        display_order: undefined,
+      });
     });
 
     it('should handle missing task field', async () => {
@@ -145,12 +191,15 @@ describe('Todo API Integration Tests', () => {
   describe('PUT /api/todo', () => {
     it('should update an existing todo', async () => {
       // Arrange
-      const updatedTodo = {
+      const updatedTodo: Todo = {
         id: 1,
         user_id: mockUserId,
         task: 'Updated todo',
         is_complete: true,
         created_at: new Date(fixedDate),
+        importance: 'high',
+        status: 'completed',
+        display_order: 4,
       };
       vi.mocked(todoService.updateTodo).mockResolvedValue(updatedTodo);
 
@@ -171,8 +220,21 @@ describe('Todo API Integration Tests', () => {
         task: 'Updated todo',
         is_complete: true,
         created_at: fixedDate,
+        importance: 'high',
+        status: 'completed',
+        display_order: 4,
       });
-      expect(todoService.updateTodo).toHaveBeenCalledWith(1, 'Updated todo', true, mockUserId);
+      expect(todoService.updateTodo).toHaveBeenCalledWith(
+        1,
+        'Updated todo',
+        true,
+        mockUserId,
+        {
+          importance: undefined,
+          status: undefined,
+          display_order: undefined,
+        }
+      );
     });
   });
 

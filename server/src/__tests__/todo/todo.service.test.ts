@@ -21,6 +21,9 @@ describe('TodoService', () => {
     task: 'Test todo',
     is_complete: false,
     created_at: fixedDate,
+    importance: 'medium',
+    status: 'pending',
+    display_order: 1,
   };
 
   beforeEach(() => {
@@ -30,7 +33,7 @@ describe('TodoService', () => {
   describe('getTodos', () => {
     it('should return todos for a user', async () => {
       // Arrange
-      const mockTodos = [mockTodo];
+      const mockTodos = [{ ...mockTodo, inserted_at: new Date() }];
       vi.mocked(todoRepository.getTodos).mockResolvedValue(mockTodos);
 
       // Act
@@ -53,6 +56,41 @@ describe('TodoService', () => {
       expect(result).toEqual([]);
       expect(todoRepository.getTodos).toHaveBeenCalledWith(mockUserId);
     });
+
+    it('should filter by week and status', async () => {
+      const now = new Date();
+      const currentWeekTodo = {
+        ...mockTodo,
+        id: 2,
+        inserted_at: now,
+        status: 'in_progress' as const,
+      };
+      const completedTodo = {
+        ...mockTodo,
+        id: 3,
+        inserted_at: now,
+        is_complete: true,
+        status: 'completed' as const,
+      };
+      const oldTodo = {
+        ...mockTodo,
+        id: 4,
+        inserted_at: new Date('2000-01-01T00:00:00.000Z'),
+        status: 'in_progress' as const,
+      };
+      vi.mocked(todoRepository.getTodos).mockResolvedValue([
+        currentWeekTodo,
+        completedTodo,
+        oldTodo,
+      ]);
+
+      const result = await todoService.getTodos(mockUserId, {
+        view: 'week',
+        status: 'in_progress',
+      });
+
+      expect(result).toEqual([currentWeekTodo]);
+    });
   });
 
   describe('createTodo', () => {
@@ -66,7 +104,7 @@ describe('TodoService', () => {
 
       // Assert
       expect(result).toEqual(mockTodo);
-      expect(todoRepository.createTodo).toHaveBeenCalledWith(task, mockUserId);
+      expect(todoRepository.createTodo).toHaveBeenCalledWith(task, mockUserId, undefined);
       expect(todoRepository.createTodo).toHaveBeenCalledTimes(1);
     });
   });
@@ -89,7 +127,8 @@ describe('TodoService', () => {
         todoId,
         task,
         isComplete,
-        mockUserId
+        mockUserId,
+        undefined
       );
       expect(todoRepository.updateTodo).toHaveBeenCalledTimes(1);
     });
