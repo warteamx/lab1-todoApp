@@ -99,6 +99,10 @@
     "react-test-renderer": "19.2.3",
     "typescript": "~6.0.3"
   },
+  "overrides": {
+    "react-native-reanimated": "4.3.0",
+    "react-native-worklets": "0.8.3"
+  },
   "private": true,
   "jest": {
     "preset": "jest-expo",
