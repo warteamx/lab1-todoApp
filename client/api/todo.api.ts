@@ -23,7 +23,7 @@ type TodoFilters = {
   limit?: number;
 };
 
-async function fetchTodos(token?: string, filters?: TodoFilters): Promise<Todo[]> {
+export async function fetchTodos(token?: string, filters?: TodoFilters): Promise<Todo[]> {
   const params = new URLSearchParams();
   if (filters?.view) params.set('view', filters.view);
   if (filters?.status) params.set('status', filters.status);
@@ -38,7 +38,7 @@ async function fetchTodos(token?: string, filters?: TodoFilters): Promise<Todo[]
   return res.json();
 }
 
-async function createTodo(
+export async function createTodo(
   data: {
     task: string;
     is_complete?: boolean;
@@ -60,7 +60,7 @@ async function createTodo(
   return res.json();
 }
 
-async function updateTodo(
+export async function updateTodo(
   data: {
     id: string | number;
     task: string;
@@ -91,7 +91,7 @@ async function updateTodo(
   return res.json();
 }
 
-async function deleteTodo(id: string, token?: string): Promise<void> {
+export async function deleteTodo(id: string, token?: string): Promise<void> {
   const res = await fetch(API_URL, {
     method: 'DELETE',
     headers: {

@@ -91,6 +91,53 @@ describe('TodoService', () => {
 
       expect(result).toEqual([currentWeekTodo]);
     });
+
+    it('should sort day view by display_order ascending', async () => {
+      const now = new Date();
+      const second = {
+        ...mockTodo,
+        id: 10,
+        inserted_at: now,
+        display_order: 2,
+      };
+      const first = {
+        ...mockTodo,
+        id: 11,
+        inserted_at: now,
+        display_order: 1,
+      };
+
+      vi.mocked(todoRepository.getTodos).mockResolvedValue([second, first]);
+
+      const result = await todoService.getTodos(mockUserId, { view: 'day' });
+
+      expect(result).toEqual([first, second]);
+    });
+
+    it('should filter by month and sort by newest date first', async () => {
+      const now = new Date();
+      const newer = {
+        ...mockTodo,
+        id: 20,
+        created_at: new Date(now.getFullYear(), now.getMonth(), 20),
+      };
+      const older = {
+        ...mockTodo,
+        id: 21,
+        created_at: new Date(now.getFullYear(), now.getMonth(), 5),
+      };
+      const otherMonth = {
+        ...mockTodo,
+        id: 22,
+        created_at: new Date(now.getFullYear(), now.getMonth() - 1, 25),
+      };
+
+      vi.mocked(todoRepository.getTodos).mockResolvedValue([older, otherMonth, newer]);
+
+      const result = await todoService.getTodos(mockUserId, { view: 'month' });
+
+      expect(result).toEqual([newer, older]);
+    });
   });
 
   describe('createTodo', () => {
