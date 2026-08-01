@@ -65,4 +65,15 @@ describe('TodoIndexTab filters toggle', () => {
     expect(screen.getByText('Importance')).toBeTruthy();
     expect(screen.getByText('Status')).toBeTruthy();
   });
+
+  it('uses day view and pending status as default filters', () => {
+    renderWithProviders(<TodoIndexTab />);
+
+    expect(mockedUseTodos).toHaveBeenCalledWith({
+      view: 'day',
+      status: 'pending',
+      importance: undefined,
+      limit: 300,
+    });
+  });
 });

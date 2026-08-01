@@ -25,8 +25,9 @@ const FILTER_BUTTON_STYLE = { marginRight: 8, marginBottom: 8 };
 
 export default function TodoIndexTab() {
   const [showFilters, setShowFilters] = React.useState(false);
-  const [viewMode, setViewMode] = React.useState<ViewMode>('all');
-  const [statusFilter, setStatusFilter] = React.useState<StatusFilter>('all');
+  const [viewMode, setViewMode] = React.useState<ViewMode>('day');
+  const [statusFilter, setStatusFilter] =
+    React.useState<StatusFilter>('pending');
   const [importanceFilter, setImportanceFilter] =
     React.useState<ImportanceFilter>('all');
   const [orderingTodoId, setOrderingTodoId] = React.useState<
