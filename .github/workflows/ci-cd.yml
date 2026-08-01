@@ -266,6 +266,7 @@ jobs:
         run: |
           if [ -d "./artifacts/client-build-${{ needs.release.outputs.new-release-version }}/web/dist" ]; then
             aws s3 sync "./artifacts/client-build-${{ needs.release.outputs.new-release-version }}/web/dist/" s3://${{ secrets.S3_BUCKET }} --delete --cache-control "no-cache, no-store, must-revalidate"
+            aws s3 website s3://${{ secrets.S3_BUCKET }} --index-document index.html --error-document index.html
             echo "✅ Client deployed to S3 with version ${{ needs.release.outputs.new-release-version }}"
           else
             echo "❌ Client build not found for version ${{ needs.release.outputs.new-release-version }}"
