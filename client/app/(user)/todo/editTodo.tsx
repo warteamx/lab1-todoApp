@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Switch } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useTodos, useUpdateTodo, useDeleteTodo } from '@/api/todo.api';
@@ -13,17 +13,42 @@ export default function EditTodoTab() {
   const router = useRouter();
   const { theme } = useTheme();
   const { id: rawId } = params || {};
-  const id = Array.isArray(rawId) ? rawId[0] : rawId;
-  const { data: todos } = useTodos();
-  const todo = todos?.find(t => t.id === id);
+  const idParam = Array.isArray(rawId) ? rawId[0] : rawId;
+  const id = idParam ? Number(idParam) : undefined;
+  const { data: todos, isLoading, error } = useTodos();
+  const todo = typeof id === 'number' ? todos?.find(t => t.id === id) : undefined;
   const [task, setTask] = useState(todo?.task || '');
   const [isCompleted, setIsCompleted] = useState(todo?.is_complete || false);
   const updateTodo = useUpdateTodo();
   const deleteTodo = useDeleteTodo();
 
+  useEffect(() => {
+   if (!todo) return;
+   setTask(todo.task);
+   setIsCompleted(todo.is_complete);
+  }, [todo]);
+
+  if (isLoading) {
+   return (
+     <View flex={1} justifyContent="center" alignItems="center" padding="lg">
+       <ActivityIndicator size="large" />
+     </View>
+   );
+  }
+
+  if (error) {
+   return (
+     <View flex={1} justifyContent="center" alignItems="center" padding="lg">
+       <Text variant="bodyMedium" color="textPrimary">
+         Error: {(error as Error).message}
+       </Text>
+     </View>
+   );
+  }
+
   if (!todo) {
-    return (
-      <View flex={1} justifyContent="center" alignItems="center" padding="lg">
+   return (
+     <View flex={1} justifyContent="center" alignItems="center" padding="lg">
         <Text variant="bodyMedium" color="textPrimary">
           ToDo not found
         </Text>

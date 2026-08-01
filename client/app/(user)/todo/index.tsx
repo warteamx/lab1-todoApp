@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/Button/Button';
 import { Card } from '@/components/ui/Card/Card';
 
 // Fast date formatter: "YYYY-MM-DD HH:mm"
-const formatDateYMDHM = (value: any): string => {
+const formatDateYMDHM = (value?: string): string => {
+  if (!value) return '';
   const d = value instanceof Date ? value : new Date(value);
   if (Number.isNaN(d.getTime())) return '';
   const pad = (n: number) => (n < 10 ? `0${n}` : `${n}`);
@@ -18,6 +19,13 @@ const formatDateYMDHM = (value: any): string => {
   const hh = pad(d.getHours());
   const mi = pad(d.getMinutes());
   return ` 📅 ${yyyy}-${mm}-${dd} ⏰ ${hh}:${mi}`;
+};
+
+const getDaysAgo = (value?: string): number | null => {
+  if (!value) return null;
+  const createdAt = new Date(value).getTime();
+  if (Number.isNaN(createdAt)) return null;
+  return Math.floor((Date.now() - createdAt) / (1000 * 60 * 60 * 24));
 };
 
 export default function TodoIndexTab() {
@@ -77,17 +85,13 @@ export default function TodoIndexTab() {
                       color="textSecondary"
                       style={{ marginTop: 4 }}
                     >
-                      {formatDateYMDHM(item.inserted_at)}
+                      {formatDateYMDHM(item.created_at)}
                     </Text>
-                    <Text variant="bodySmall" color="textTertiary">
-                      Day{' '}
-                      {Math.floor(
-                        (new Date().getTime() -
-                          new Date(item.inserted_at).getTime()) /
-                        (1000 * 60 * 60 * 24)
-                      )}{' '}
-                      ago
-                    </Text>
+                    {getDaysAgo(item.created_at) !== null && (
+                      <Text variant="bodySmall" color="textTertiary">
+                        Day {getDaysAgo(item.created_at)} ago
+                      </Text>
+                    )}
                     <Text
                       variant="labelMedium"
                       color={item.is_complete ? 'success' : 'textTertiary'}

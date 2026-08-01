@@ -1,66 +1,73 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../providers/authProvider';
 import { API_CONFIG } from '../constants/api';
+import { createAuthHeaders, validateResponse } from '../lib/api-utils';
 
 export type Todo = {
-  id: string;
+  id: number;
   task: string;
   is_complete: boolean;
-  inserted_at: string;
+  created_at?: string;
 };
 
 const API_URL = `${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.TODO}`;
 
+type TodoResponse = Partial<Todo> & {
+  id?: number | string;
+  inserted_at?: string;
+};
+
+function normalizeTodo(todo: TodoResponse): Todo {
+  return {
+    id: typeof todo.id === 'string' ? Number(todo.id) : (todo.id ?? 0),
+    task: todo.task ?? '',
+    is_complete: Boolean(todo.is_complete),
+    created_at: todo.created_at ?? todo.inserted_at,
+  };
+}
+
 async function fetchTodos(token?: string): Promise<Todo[]> {
-  const res = await fetch(API_URL, {
-    headers: token ? { Authorization: `${token}` } : {},
+  const response = await fetch(API_URL, {
+    headers: createAuthHeaders(token),
   });
-  if (!res.ok) throw new Error('Failed to fetch todos');
-  return res.json();
+  await validateResponse(response);
+  const todos = (await response.json()) as TodoResponse[];
+  return todos.map(normalizeTodo);
 }
 
 async function createTodo(
   data: { task: string; is_complete?: boolean },
   token?: string
 ): Promise<Todo> {
-  const res = await fetch(API_URL, {
+  const response = await fetch(API_URL, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `${token}` } : {}),
-    },
+    headers: createAuthHeaders(token),
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to create todo');
-  return res.json();
+  await validateResponse(response);
+  return normalizeTodo((await response.json()) as TodoResponse);
 }
 
 async function updateTodo(
-  data: { id: string; task: string; is_complete: boolean },
+  data: { id: number; task: string; is_complete: boolean },
   token?: string
 ): Promise<Todo> {
-  const res = await fetch(API_URL, {
+  const response = await fetch(API_URL, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `${token}` } : {}),
-    },
+    headers: createAuthHeaders(token),
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to update todo');
-  return res.json();
+  await validateResponse(response);
+  return normalizeTodo((await response.json()) as TodoResponse);
 }
 
-async function deleteTodo(id: string, token?: string): Promise<void> {
-  const res = await fetch(API_URL, {
+async function deleteTodo(id: number, token?: string): Promise<void> {
+  const response = await fetch(API_URL, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `${token}` } : {}),
-    },
+    headers: createAuthHeaders(token),
     body: JSON.stringify({ id }),
   });
-  if (!res.ok) throw new Error('Failed to delete todo');
+  await validateResponse(response);
 }
 
 export function useTodos() {
@@ -91,7 +98,7 @@ export function useUpdateTodo() {
   const token = session?.access_token;
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (data: { id: string; task: string; is_complete: boolean }) =>
+    mutationFn: (data: { id: number; task: string; is_complete: boolean }) =>
       updateTodo(data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
@@ -104,7 +111,7 @@ export function useDeleteTodo() {
   const token = session?.access_token;
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => deleteTodo(id, token),
+    mutationFn: (id: number) => deleteTodo(id, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
     },
