@@ -4,8 +4,6 @@ import { Todo } from '../../domain/todo/entities/todo.entity';
 import { DatabaseException, NotFoundException } from '../../common/exceptions';
 import logger from '../../common/utils/logger';
 
-let metadataTableInitialized = false;
-
 const normalizeStatus = (
   is_complete: boolean,
   status?: Todo['status']
@@ -15,47 +13,76 @@ const normalizeStatus = (
   return 'pending';
 };
 
-async function ensureTodoMetadataTable(): Promise<void> {
-  if (metadataTableInitialized) return;
-  await sql`
-    CREATE TABLE IF NOT EXISTS todo_metadata (
-      todo_id BIGINT PRIMARY KEY REFERENCES todos(id) ON DELETE CASCADE,
-      user_id TEXT NOT NULL,
-      importance TEXT NOT NULL DEFAULT 'medium' CHECK (importance IN ('low', 'medium', 'high')),
-      status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'in_progress', 'completed')),
-      display_order INTEGER,
-      created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-      updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-    )
-  `;
-  await sql`
-    CREATE INDEX IF NOT EXISTS idx_todo_metadata_user_id ON todo_metadata(user_id)
-  `;
-  metadataTableInitialized = true;
-}
+type QueryError = Error & { code?: string };
+
+const isRecoverableMetadataError = (error: unknown): boolean => {
+  const queryError = error as QueryError;
+  if (
+    queryError?.code === '42P01' ||
+    queryError?.code === '42501' ||
+    queryError?.code === '42883'
+  ) {
+    return true;
+  }
+  const message = queryError?.message ?? '';
+  return (
+    message.includes('todo_metadata') ||
+    message.includes('operator does not exist')
+  );
+};
 
 export async function getTodos(user_id: string): Promise<Todo[]> {
   try {
-    await ensureTodoMetadataTable();
-    const res = await sql<RowList<Todo[]>>`
-      SELECT
-        t.*,
-        COALESCE(m.importance, 'medium') AS importance,
-        CASE
-          WHEN t.is_complete THEN 'completed'
-          ELSE COALESCE(m.status, 'pending')
-        END AS status,
-        COALESCE(m.display_order, t.id) AS display_order
-      FROM
-        todos t
-      LEFT JOIN todo_metadata m ON m.todo_id = t.id
-        AND m.user_id = t.user_id
-      WHERE
-        t.user_id = ${user_id}
-      ORDER BY
-        COALESCE(m.display_order, t.id) ASC, t.id ASC
-    `;
-    return res;
+    try {
+      const res = await sql<RowList<Todo[]>>`
+        SELECT
+          t.*,
+          COALESCE(m.importance, 'medium') AS importance,
+          CASE
+            WHEN t.is_complete THEN 'completed'
+            ELSE COALESCE(m.status, 'pending')
+          END AS status,
+          COALESCE(m.display_order, t.id) AS display_order
+        FROM
+          todos t
+        LEFT JOIN todo_metadata m ON m.todo_id = t.id
+          AND m.user_id = t.user_id::text
+        WHERE
+          t.user_id = ${user_id}
+        ORDER BY
+          COALESCE(m.display_order, t.id) ASC, t.id ASC
+      `;
+      return res;
+    } catch (error) {
+      if (!isRecoverableMetadataError(error)) {
+        throw error;
+      }
+      logger.warn(
+        'todo_metadata unavailable while reading todos; using base todos table',
+        {
+          user_id,
+          reason: (error as QueryError).message,
+          code: (error as QueryError).code,
+        }
+      );
+      const fallback = await sql<RowList<Todo[]>>`
+        SELECT
+          t.*,
+          'medium'::TEXT AS importance,
+          CASE
+            WHEN t.is_complete THEN 'completed'
+            ELSE 'pending'
+          END AS status,
+          t.id AS display_order
+        FROM
+          todos t
+        WHERE
+          t.user_id = ${user_id}
+        ORDER BY
+          t.id ASC
+      `;
+      return fallback;
+    }
   } catch (error) {
     throw new DatabaseException(`Failed to get todos: ${error}`);
   }
@@ -67,7 +94,6 @@ export async function createTodo(
   metadata?: Partial<Pick<Todo, 'importance' | 'status' | 'display_order'>>
 ): Promise<Todo> {
   try {
-    await ensureTodoMetadataTable();
     const res = await sql<Todo[]>`
       INSERT INTO todos (task, user_id, is_complete)
         VALUES (${task}, ${user_id}, FALSE)
@@ -89,16 +115,28 @@ export async function createTodo(
     const status = normalizeStatus(todo.is_complete, metadata?.status);
     const displayOrder = metadata?.display_order ?? todo.id;
 
-    await sql`
-      INSERT INTO todo_metadata (todo_id, user_id, importance, status, display_order)
-      VALUES (${todo.id}, ${user_id}, ${importance}, ${status}, ${displayOrder})
-      ON CONFLICT (todo_id)
-      DO UPDATE SET
-        importance = EXCLUDED.importance,
-        status = EXCLUDED.status,
-        display_order = EXCLUDED.display_order,
-        updated_at = NOW()
-    `;
+    try {
+      await sql`
+        INSERT INTO todo_metadata (todo_id, user_id, importance, status, display_order)
+        VALUES (${todo.id}, ${user_id}, ${importance}, ${status}, ${displayOrder})
+        ON CONFLICT (todo_id)
+        DO UPDATE SET
+          importance = EXCLUDED.importance,
+          status = EXCLUDED.status,
+          display_order = EXCLUDED.display_order,
+          updated_at = NOW()
+      `;
+    } catch (error) {
+      if (!isRecoverableMetadataError(error)) {
+        throw error;
+      }
+      logger.warn('todo_metadata unavailable while creating todo metadata', {
+        todo_id: todo.id,
+        user_id,
+        reason: (error as QueryError).message,
+        code: (error as QueryError).code,
+      });
+    }
 
     return {
       ...todo,
@@ -119,16 +157,35 @@ export async function updateTodo(
   metadata?: Partial<Pick<Todo, 'importance' | 'status' | 'display_order'>>
 ): Promise<Todo> {
   try {
-    await ensureTodoMetadataTable();
-    const existingMetadata = await sql<
-      Array<Pick<Todo, 'importance' | 'status' | 'display_order'>>
-    >`
-      SELECT importance, status, display_order
-      FROM todo_metadata
-      WHERE todo_id = ${id}
-        AND user_id = ${user_id}
-      LIMIT 1
-    `;
+    let existingMetadata: Array<
+      Pick<Todo, 'importance' | 'status' | 'display_order'>
+    > = [];
+    let metadataUnavailable = false;
+    try {
+      existingMetadata = await sql<
+        Array<Pick<Todo, 'importance' | 'status' | 'display_order'>>
+      >`
+        SELECT importance, status, display_order
+        FROM todo_metadata
+        WHERE todo_id = ${id}
+          AND user_id = ${user_id}
+        LIMIT 1
+      `;
+    } catch (error) {
+      if (!isRecoverableMetadataError(error)) {
+        throw error;
+      }
+      metadataUnavailable = true;
+      logger.warn(
+        'todo_metadata unavailable while reading todo metadata for update',
+        {
+          todo_id: id,
+          user_id,
+          reason: (error as QueryError).message,
+          code: (error as QueryError).code,
+        }
+      );
+    }
     const res = await sql<Todo[]>`
       UPDATE
         todos
@@ -152,23 +209,42 @@ export async function updateTodo(
     }
 
     const todo = res[0];
-    const importance = metadata?.importance ?? existingMetadata[0]?.importance ?? 'medium';
+    const importance =
+      metadata?.importance ?? existingMetadata[0]?.importance ?? 'medium';
     const status = normalizeStatus(
       is_complete,
       metadata?.status ?? existingMetadata[0]?.status
     );
-    const displayOrder = metadata?.display_order ?? existingMetadata[0]?.display_order ?? id;
+    const displayOrder =
+      metadata?.display_order ?? existingMetadata[0]?.display_order ?? id;
 
-    await sql`
-      INSERT INTO todo_metadata (todo_id, user_id, importance, status, display_order)
-      VALUES (${id}, ${user_id}, ${importance}, ${status}, ${displayOrder})
-      ON CONFLICT (todo_id)
-      DO UPDATE SET
-        importance = EXCLUDED.importance,
-        status = EXCLUDED.status,
-        display_order = EXCLUDED.display_order,
-        updated_at = NOW()
-    `;
+    if (!metadataUnavailable) {
+      try {
+        await sql`
+          INSERT INTO todo_metadata (todo_id, user_id, importance, status, display_order)
+          VALUES (${id}, ${user_id}, ${importance}, ${status}, ${displayOrder})
+          ON CONFLICT (todo_id)
+          DO UPDATE SET
+            importance = EXCLUDED.importance,
+            status = EXCLUDED.status,
+            display_order = EXCLUDED.display_order,
+            updated_at = NOW()
+        `;
+      } catch (error) {
+        if (!isRecoverableMetadataError(error)) {
+          throw error;
+        }
+        logger.warn(
+          'todo_metadata unavailable while upserting metadata on update',
+          {
+            todo_id: id,
+            user_id,
+            reason: (error as QueryError).message,
+            code: (error as QueryError).code,
+          }
+        );
+      }
+    }
 
     return {
       ...todo,

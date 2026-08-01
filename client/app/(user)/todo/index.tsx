@@ -8,7 +8,7 @@ import { Text } from '@/components/ui/Text/Text';
 import { Button } from '@/components/ui/Button/Button';
 import { Card } from '@/components/ui/Card/Card';
 
-type ViewMode = 'day' | 'week' | 'month';
+type ViewMode = 'all' | 'day' | 'week' | 'month';
 type StatusFilter = 'all' | Todo['status'];
 type ImportanceFilter = 'all' | Todo['importance'];
 
@@ -24,17 +24,17 @@ const formatDateYMDHM = (value: unknown): string => {
 const FILTER_BUTTON_STYLE = { marginRight: 8, marginBottom: 8 };
 
 export default function TodoIndexTab() {
-  const [viewMode, setViewMode] = React.useState<ViewMode>('day');
+  const [viewMode, setViewMode] = React.useState<ViewMode>('all');
   const [statusFilter, setStatusFilter] = React.useState<StatusFilter>('all');
   const [importanceFilter, setImportanceFilter] =
     React.useState<ImportanceFilter>('all');
-  const [orderingTodoId, setOrderingTodoId] = React.useState<string | number | null>(
-    null
-  );
+  const [orderingTodoId, setOrderingTodoId] = React.useState<
+    string | number | null
+  >(null);
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useTodos({
-    view: viewMode,
+    view: viewMode === 'all' ? undefined : viewMode,
     status: statusFilter === 'all' ? undefined : statusFilter,
     importance: importanceFilter === 'all' ? undefined : importanceFilter,
     limit: 300,
@@ -92,7 +92,11 @@ export default function TodoIndexTab() {
     onPress: (value: string) => void
   ) => (
     <View marginBottom="sm">
-      <Text variant="labelMedium" color="textSecondary" style={{ marginBottom: 8 }}>
+      <Text
+        variant="labelMedium"
+        color="textSecondary"
+        style={{ marginBottom: 8 }}
+      >
         {title}
       </Text>
       <View flexDirection="row" style={{ flexWrap: 'wrap' }}>
@@ -112,13 +116,20 @@ export default function TodoIndexTab() {
 
   return (
     <View flex={1} padding="lg" backgroundColor="background">
-      <Text variant="headlineMedium" color="textPrimary" style={{ marginBottom: 16 }}>
+      <Text
+        variant="headlineMedium"
+        color="textPrimary"
+        style={{ marginBottom: 16 }}
+      >
         ToDo List
       </Text>
 
       <Card padding="md" style={{ marginBottom: 12 }}>
-        {renderFilterRow('View', ['day', 'week', 'month'], viewMode, value =>
-          setViewMode(value as ViewMode)
+        {renderFilterRow(
+          'View',
+          ['all', 'day', 'week', 'month'],
+          viewMode,
+          value => setViewMode(value as ViewMode)
         )}
         {renderFilterRow(
           'Importance',
@@ -155,7 +166,12 @@ export default function TodoIndexTab() {
           data={todos}
           keyExtractor={item => String(item.id)}
           renderItem={({ item, index }) => (
-            <View marginBottom="md" maxWidth={900} alignSelf="center" width="100%">
+            <View
+              marginBottom="md"
+              maxWidth={900}
+              alignSelf="center"
+              width="100%"
+            >
               <Card padding="lg">
                 <View
                   flexDirection="row"
@@ -173,10 +189,18 @@ export default function TodoIndexTab() {
                     >
                       {formatDateYMDHM(item.inserted_at ?? item.created_at)}
                     </Text>
-                    <Text variant="bodySmall" color="textTertiary" style={{ marginTop: 4 }}>
+                    <Text
+                      variant="bodySmall"
+                      color="textTertiary"
+                      style={{ marginTop: 4 }}
+                    >
                       Importance: {item.importance}
                     </Text>
-                    <Text variant="labelMedium" color="textPrimary" style={{ marginTop: 6 }}>
+                    <Text
+                      variant="labelMedium"
+                      color="textPrimary"
+                      style={{ marginTop: 6 }}
+                    >
                       Status: {item.status}
                     </Text>
                   </View>
@@ -203,7 +227,8 @@ export default function TodoIndexTab() {
                           variant="outline"
                           onPress={() => moveTodo(index, index + 1)}
                           disabled={
-                            index === todos.length - 1 || orderingTodoId === item.id
+                            index === todos.length - 1 ||
+                            orderingTodoId === item.id
                           }
                         />
                       </View>
@@ -237,7 +262,12 @@ export default function TodoIndexTab() {
 
       <View marginTop="lg" maxWidth={420} alignSelf="center" width="100%">
         <Link href={'/(user)/todo/newTodo'} asChild>
-          <Button title="➕ Add New Task" variant="primary" size="large" fullWidth />
+          <Button
+            title="➕ Add New Task"
+            variant="primary"
+            size="large"
+            fullWidth
+          />
         </Link>
       </View>
     </View>

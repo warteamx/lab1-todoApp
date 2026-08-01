@@ -29,20 +29,27 @@ const isInCurrentWeek = (date: Date, now: Date): boolean => {
 };
 
 export const todoService: ITodoService = {
-  async getTodos(user_id: string, filters: GetTodosFiltersDto = {}): Promise<Todo[]> {
+  async getTodos(
+    user_id: string,
+    filters: GetTodosFiltersDto = {}
+  ): Promise<Todo[]> {
     const todos = await getTodos(user_id);
     const now = new Date();
-    const view = filters.view ?? 'day';
+    const view = filters.view;
     const status = filters.status;
     const importance = filters.importance;
     const page = Math.max(1, Number(filters.page ?? 1));
     const limit = Math.min(200, Math.max(1, Number(filters.limit ?? 100)));
 
     const filteredByDate = todos.filter(todo => {
+      if (!view) return true;
       const date = getTodoDate(todo);
       if (view === 'day') return isSameDay(date, now);
       if (view === 'week') return isInCurrentWeek(date, now);
-      return date.getFullYear() === now.getFullYear() && date.getMonth() === now.getMonth();
+      return (
+        date.getFullYear() === now.getFullYear() &&
+        date.getMonth() === now.getMonth()
+      );
     });
 
     const filtered = filteredByDate.filter(todo => {
@@ -53,6 +60,7 @@ export const todoService: ITodoService = {
 
     const sorted = [...filtered].sort((a, b) => {
       if (view === 'day') return a.display_order - b.display_order;
+      if (!view) return a.display_order - b.display_order;
       return getTodoDate(b).getTime() - getTodoDate(a).getTime();
     });
 
