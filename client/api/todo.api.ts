@@ -23,7 +23,29 @@ type TodoFilters = {
   limit?: number;
 };
 
-export async function fetchTodos(token?: string, filters?: TodoFilters): Promise<Todo[]> {
+const getApiErrorMessage = async(
+  response: Response,
+  fallbackMessage: string
+): Promise<string> => {
+  try {
+    const errorPayload = await response.json();
+    const message =
+      (errorPayload as { error?: { message?: unknown } })?.error?.message ??
+      (errorPayload as { message?: unknown })?.message;
+    if (typeof message === 'string' && message.trim().length > 0) {
+      return message;
+    }
+  } catch {
+    // Ignore JSON parsing issues and return fallback message.
+  }
+
+  return fallbackMessage;
+};
+
+export async function fetchTodos(
+  token?: string,
+  filters?: TodoFilters
+): Promise<Todo[]> {
   const params = new URLSearchParams();
   if (filters?.view) params.set('view', filters.view);
   if (filters?.status) params.set('status', filters.status);
@@ -31,10 +53,15 @@ export async function fetchTodos(token?: string, filters?: TodoFilters): Promise
   if (filters?.page) params.set('page', String(filters.page));
   if (filters?.limit) params.set('limit', String(filters.limit));
 
-  const res = await fetch(params.size ? `${API_URL}?${params.toString()}` : API_URL, {
-    headers: token ? { Authorization: `${token}` } : {},
-  });
-  if (!res.ok) throw new Error('Failed to fetch todos');
+  const res = await fetch(
+    params.size ? `${API_URL}?${params.toString()}` : API_URL,
+    {
+      headers: token ? { Authorization: `${token}` } : {},
+    }
+  );
+  if (!res.ok) {
+    throw new Error(await getApiErrorMessage(res, 'Failed to fetch todos'));
+  }
   return res.json();
 }
 
@@ -56,7 +83,9 @@ export async function createTodo(
     },
     body: JSON.stringify(data),
   });
-  if (!res.ok) throw new Error('Failed to create todo');
+  if (!res.ok) {
+    throw new Error(await getApiErrorMessage(res, 'Failed to create todo'));
+  }
   return res.json();
 }
 
@@ -87,7 +116,9 @@ export async function updateTodo(
       display_order,
     }),
   });
-  if (!res.ok) throw new Error('Failed to update todo');
+  if (!res.ok) {
+    throw new Error(await getApiErrorMessage(res, 'Failed to update todo'));
+  }
   return res.json();
 }
 
@@ -100,7 +131,9 @@ export async function deleteTodo(id: string, token?: string): Promise<void> {
     },
     body: JSON.stringify({ id }),
   });
-  if (!res.ok) throw new Error('Failed to delete todo');
+  if (!res.ok) {
+    throw new Error(await getApiErrorMessage(res, 'Failed to delete todo'));
+  }
 }
 
 export function useTodos(filters?: TodoFilters) {
@@ -124,8 +157,7 @@ export function useCreateTodo() {
       importance?: Todo['importance'];
       status?: Todo['status'];
       display_order?: number;
-    }) =>
-      createTodo(data, token),
+    }) => createTodo(data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
     },
@@ -144,8 +176,7 @@ export function useUpdateTodo() {
       importance?: Todo['importance'];
       status?: Todo['status'];
       display_order?: number;
-    }) =>
-      updateTodo(data, token),
+    }) => updateTodo(data, token),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
     },

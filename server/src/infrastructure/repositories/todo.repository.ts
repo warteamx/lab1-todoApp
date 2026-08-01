@@ -20,7 +20,8 @@ const isRecoverableMetadataError = (error: unknown): boolean => {
   if (
     queryError?.code === '42P01' ||
     queryError?.code === '42501' ||
-    queryError?.code === '42883'
+    queryError?.code === '42883' ||
+    queryError?.code === '42P10'
   ) {
     return true;
   }
@@ -102,8 +103,7 @@ export async function createTodo(
         user_id,
         task,
         is_complete,
-        inserted_at,
-        created_at
+        inserted_at
     `;
 
     if (res.length === 0) {
@@ -200,8 +200,7 @@ export async function updateTodo(
         user_id,
         task,
         is_complete,
-        inserted_at,
-        created_at
+        inserted_at
     `;
 
     if (res.length === 0) {

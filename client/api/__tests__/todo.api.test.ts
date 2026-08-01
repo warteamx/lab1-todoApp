@@ -1,8 +1,14 @@
+import {
+  fetchTodos,
+  createTodo,
+  updateTodo,
+  deleteTodo,
+  Todo,
+} from '../todo.api';
+
 jest.mock('../../providers/authProvider', () => ({
   useAuth: () => ({ session: null }),
 }));
-
-import { fetchTodos, createTodo, updateTodo, deleteTodo, Todo } from '../todo.api';
 
 describe('todo.api', () => {
   const originalFetch = global.fetch;
@@ -15,7 +21,7 @@ describe('todo.api', () => {
     global.fetch = originalFetch;
   });
 
-  it('builds query params and authorization header when fetching todos', async () => {
+  it('builds query params and authorization header when fetching todos', async() => {
     const todos: Todo[] = [
       {
         id: 1,
@@ -46,7 +52,7 @@ describe('todo.api', () => {
     );
   });
 
-  it('uses base url without query when no filters are provided', async () => {
+  it('uses base url without query when no filters are provided', async() => {
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: jest.fn().mockResolvedValue([]),
@@ -54,16 +60,19 @@ describe('todo.api', () => {
 
     await fetchTodos();
 
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3000/api/todo', { headers: {} });
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://localhost:3000/api/todo',
+      { headers: {} }
+    );
   });
 
-  it('throws when fetch todos response is not ok', async () => {
+  it('throws when fetch todos response is not ok', async() => {
     (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
 
     await expect(fetchTodos()).rejects.toThrow('Failed to fetch todos');
   });
 
-  it('sends metadata fields when creating todo', async () => {
+  it('sends metadata fields when creating todo', async() => {
     const createdTodo: Todo = {
       id: 2,
       task: 'New',
@@ -86,17 +95,33 @@ describe('todo.api', () => {
     const result = await createTodo(payload, '******');
 
     expect(result).toEqual(createdTodo);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3000/api/todo', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: '******',
-      },
-      body: JSON.stringify(payload),
-    });
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://localhost:3000/api/todo',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: '******',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
   });
 
-  it('sends metadata fields when updating todo', async () => {
+  it('surfaces backend error details when creating todo fails', async() => {
+    (global.fetch as jest.Mock).mockResolvedValue({
+      ok: false,
+      json: jest.fn().mockResolvedValue({
+        error: { message: 'todo_metadata upsert failed' },
+      }),
+    });
+
+    await expect(createTodo({ task: 'New task' }, '******')).rejects.toThrow(
+      'todo_metadata upsert failed'
+    );
+  });
+
+  it('sends metadata fields when updating todo', async() => {
     const updatedTodo: Todo = {
       id: 1,
       task: 'Updated',
@@ -121,17 +146,20 @@ describe('todo.api', () => {
     const result = await updateTodo(payload, '******');
 
     expect(result).toEqual(updatedTodo);
-    expect(global.fetch).toHaveBeenCalledWith('http://localhost:3000/api/todo', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: '******',
-      },
-      body: JSON.stringify(payload),
-    });
+    expect(global.fetch).toHaveBeenCalledWith(
+      'http://localhost:3000/api/todo',
+      {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: '******',
+        },
+        body: JSON.stringify(payload),
+      }
+    );
   });
 
-  it('throws when deleting todo fails', async () => {
+  it('throws when deleting todo fails', async() => {
     (global.fetch as jest.Mock).mockResolvedValue({ ok: false });
 
     await expect(deleteTodo('10')).rejects.toThrow('Failed to delete todo');
