@@ -24,6 +24,7 @@ const formatDateYMDHM = (value: unknown): string => {
 const FILTER_BUTTON_STYLE = { marginRight: 8, marginBottom: 8 };
 
 export default function TodoIndexTab() {
+  const [showFilters, setShowFilters] = React.useState(false);
   const [viewMode, setViewMode] = React.useState<ViewMode>('all');
   const [statusFilter, setStatusFilter] = React.useState<StatusFilter>('all');
   const [importanceFilter, setImportanceFilter] =
@@ -124,26 +125,37 @@ export default function TodoIndexTab() {
         ToDo List
       </Text>
 
-      <Card padding="md" style={{ marginBottom: 12 }}>
-        {renderFilterRow(
-          'View',
-          ['all', 'day', 'week', 'month'],
-          viewMode,
-          value => setViewMode(value as ViewMode)
-        )}
-        {renderFilterRow(
-          'Importance',
-          ['all', 'high', 'medium', 'low'],
-          importanceFilter,
-          value => setImportanceFilter(value as ImportanceFilter)
-        )}
-        {renderFilterRow(
-          'Status',
-          ['all', 'pending', 'in_progress', 'completed'],
-          statusFilter,
-          value => setStatusFilter(value as StatusFilter)
-        )}
-      </Card>
+      <View marginBottom="md" maxWidth={220}>
+        <Button
+          title={showFilters ? '▼ Filter' : '▶ Filter'}
+          variant="outline"
+          size="small"
+          onPress={() => setShowFilters(prev => !prev)}
+        />
+      </View>
+
+      {showFilters && (
+        <Card padding="md" style={{ marginBottom: 12 }}>
+          {renderFilterRow(
+            'View',
+            ['all', 'day', 'week', 'month'],
+            viewMode,
+            value => setViewMode(value as ViewMode)
+          )}
+          {renderFilterRow(
+            'Importance',
+            ['all', 'high', 'medium', 'low'],
+            importanceFilter,
+            value => setImportanceFilter(value as ImportanceFilter)
+          )}
+          {renderFilterRow(
+            'Status',
+            ['all', 'pending', 'in_progress', 'completed'],
+            statusFilter,
+            value => setStatusFilter(value as StatusFilter)
+          )}
+        </Card>
+      )}
 
       {isLoading && (
         <View flex={1} justifyContent="center" alignItems="center">
