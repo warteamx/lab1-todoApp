@@ -5,8 +5,19 @@ export const TodoSchema = {
     task: { type: 'string' },
     is_complete: { type: 'boolean' },
     user_id: { type: 'string' },
+    importance: { type: 'string', enum: ['low', 'medium', 'high'] },
+    status: { type: 'string', enum: ['pending', 'in_progress', 'completed'] },
+    display_order: { type: 'number' },
   },
-  required: ['id', 'task', 'is_complete', 'user_id'],
+  required: [
+    'id',
+    'task',
+    'is_complete',
+    'user_id',
+    'importance',
+    'status',
+    'display_order',
+  ],
 };
 
 export const TodoListSchema = {
@@ -20,8 +31,11 @@ export const CreateTodoDtoSchema = {
     task: { type: 'string' },
     user_id: { type: 'string' },
     is_complete: { type: 'boolean', default: false },
+    importance: { type: 'string', enum: ['low', 'medium', 'high'] },
+    status: { type: 'string', enum: ['pending', 'in_progress', 'completed'] },
+    display_order: { type: 'number' },
   },
-  required: ['task', 'user_id', 'is_complete'],
+  required: ['task', 'user_id'],
 };
 
 export const UpdateTodoDtoSchema = {
@@ -31,6 +45,9 @@ export const UpdateTodoDtoSchema = {
     task: { type: 'string' },
     is_complete: { type: 'boolean' },
     user_id: { type: 'string' },
+    importance: { type: 'string', enum: ['low', 'medium', 'high'] },
+    status: { type: 'string', enum: ['pending', 'in_progress', 'completed'] },
+    display_order: { type: 'number' },
   },
   required: ['id', 'task', 'is_complete', 'user_id'],
 };

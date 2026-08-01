@@ -10,17 +10,28 @@ import { TextInput } from '@/components/ui/Input/Input';
 export default function NewTodoTab() {
   const [task, setTask] = useState('');
   const [isCompleted, setIsCompleted] = useState(false);
+  const [importance, setImportance] = useState<'low' | 'medium' | 'high'>('medium');
+  const [status, setStatus] = useState<'pending' | 'in_progress' | 'completed'>(
+    'pending'
+  );
   const { mutate, isPending, error } = useCreateTodo();
   const { theme } = useTheme();
 
   const handleAddTodo = () => {
     if (!task.trim()) return;
     mutate(
-      { task, is_complete: isCompleted },
+      {
+        task,
+        is_complete: isCompleted || status === 'completed',
+        importance,
+        status,
+      },
       {
         onSuccess: () => {
           setTask('');
           setIsCompleted(false);
+          setImportance('medium');
+          setStatus('pending');
         },
       }
     );
@@ -49,7 +60,10 @@ export default function NewTodoTab() {
         <View flexDirection="row" alignItems="center" style={{ gap: 12 }}>
           <Switch
             value={isCompleted}
-            onValueChange={setIsCompleted}
+            onValueChange={value => {
+              setIsCompleted(value);
+              setStatus(value ? 'completed' : 'pending');
+            }}
             trackColor={{
               false: theme.colors.neutral300,
               true: theme.colors.interactive,
@@ -61,6 +75,42 @@ export default function NewTodoTab() {
           <Text variant="bodyMedium" color="textPrimary">
             {isCompleted ? 'Mark as completed' : 'Mark as pending'}
           </Text>
+        </View>
+        <View>
+          <Text variant="labelMedium" color="textSecondary" style={{ marginBottom: 8 }}>
+            Importance
+          </Text>
+          <View flexDirection="row" style={{ gap: 8 }}>
+            {(['low', 'medium', 'high'] as const).map(level => (
+              <Button
+                key={level}
+                title={level}
+                size="small"
+                variant={importance === level ? 'primary' : 'outline'}
+                onPress={() => setImportance(level)}
+              />
+            ))}
+          </View>
+        </View>
+
+        <View>
+          <Text variant="labelMedium" color="textSecondary" style={{ marginBottom: 8 }}>
+            Status
+          </Text>
+          <View flexDirection="row" style={{ gap: 8, flexWrap: 'wrap' }}>
+            {(['pending', 'in_progress', 'completed'] as const).map(nextStatus => (
+              <Button
+                key={nextStatus}
+                title={nextStatus}
+                size="small"
+                variant={status === nextStatus ? 'primary' : 'outline'}
+                onPress={() => {
+                  setStatus(nextStatus);
+                  setIsCompleted(nextStatus === 'completed');
+                }}
+              />
+            ))}
+          </View>
         </View>
         <View marginTop="lg" maxWidth={400} alignSelf="center" width="100%">
           <Button

@@ -21,6 +21,9 @@ describe('TodoService', () => {
     task: 'Test todo',
     is_complete: false,
     created_at: fixedDate,
+    importance: 'medium',
+    status: 'pending',
+    display_order: 1,
   };
 
   beforeEach(() => {
@@ -28,9 +31,9 @@ describe('TodoService', () => {
   });
 
   describe('getTodos', () => {
-    it('should return todos for a user', async () => {
+    it('should return todos for a user', async() => {
       // Arrange
-      const mockTodos = [mockTodo];
+      const mockTodos = [{ ...mockTodo, inserted_at: new Date() }];
       vi.mocked(todoRepository.getTodos).mockResolvedValue(mockTodos);
 
       // Act
@@ -42,7 +45,25 @@ describe('TodoService', () => {
       expect(todoRepository.getTodos).toHaveBeenCalledTimes(1);
     });
 
-    it('should return empty array when no todos exist', async () => {
+    it('should not apply date filtering when view is not provided', async() => {
+      const now = new Date();
+      const todayTodo = { ...mockTodo, id: 100, inserted_at: now };
+      const oldTodo = {
+        ...mockTodo,
+        id: 101,
+        inserted_at: new Date('2000-01-01T00:00:00.000Z'),
+      };
+      vi.mocked(todoRepository.getTodos).mockResolvedValue([
+        todayTodo,
+        oldTodo,
+      ]);
+
+      const result = await todoService.getTodos(mockUserId);
+
+      expect(result).toEqual([todayTodo, oldTodo]);
+    });
+
+    it('should return empty array when no todos exist', async() => {
       // Arrange
       vi.mocked(todoRepository.getTodos).mockResolvedValue([]);
 
@@ -53,10 +74,96 @@ describe('TodoService', () => {
       expect(result).toEqual([]);
       expect(todoRepository.getTodos).toHaveBeenCalledWith(mockUserId);
     });
+
+    it('should filter by week and status', async() => {
+      const now = new Date();
+      const currentWeekTodo = {
+        ...mockTodo,
+        id: 2,
+        inserted_at: now,
+        status: 'in_progress' as const,
+      };
+      const completedTodo = {
+        ...mockTodo,
+        id: 3,
+        inserted_at: now,
+        is_complete: true,
+        status: 'completed' as const,
+      };
+      const oldTodo = {
+        ...mockTodo,
+        id: 4,
+        inserted_at: new Date('2000-01-01T00:00:00.000Z'),
+        status: 'in_progress' as const,
+      };
+      vi.mocked(todoRepository.getTodos).mockResolvedValue([
+        currentWeekTodo,
+        completedTodo,
+        oldTodo,
+      ]);
+
+      const result = await todoService.getTodos(mockUserId, {
+        view: 'week',
+        status: 'in_progress',
+      });
+
+      expect(result).toEqual([currentWeekTodo]);
+    });
+
+    it('should sort day view by display_order ascending', async() => {
+      const now = new Date();
+      const second = {
+        ...mockTodo,
+        id: 10,
+        inserted_at: now,
+        display_order: 2,
+      };
+      const first = {
+        ...mockTodo,
+        id: 11,
+        inserted_at: now,
+        display_order: 1,
+      };
+
+      vi.mocked(todoRepository.getTodos).mockResolvedValue([second, first]);
+
+      const result = await todoService.getTodos(mockUserId, { view: 'day' });
+
+      expect(result).toEqual([first, second]);
+    });
+
+    it('should filter by month and sort by newest date first', async() => {
+      const now = new Date();
+      const newer = {
+        ...mockTodo,
+        id: 20,
+        created_at: new Date(now.getFullYear(), now.getMonth(), 20),
+      };
+      const older = {
+        ...mockTodo,
+        id: 21,
+        created_at: new Date(now.getFullYear(), now.getMonth(), 5),
+      };
+      const otherMonth = {
+        ...mockTodo,
+        id: 22,
+        created_at: new Date(now.getFullYear(), now.getMonth() - 1, 25),
+      };
+
+      vi.mocked(todoRepository.getTodos).mockResolvedValue([
+        older,
+        otherMonth,
+        newer,
+      ]);
+
+      const result = await todoService.getTodos(mockUserId, { view: 'month' });
+
+      expect(result).toEqual([newer, older]);
+    });
   });
 
   describe('createTodo', () => {
-    it('should create a new todo', async () => {
+    it('should create a new todo', async() => {
       // Arrange
       const task = 'New todo task';
       vi.mocked(todoRepository.createTodo).mockResolvedValue(mockTodo);
@@ -66,13 +173,17 @@ describe('TodoService', () => {
 
       // Assert
       expect(result).toEqual(mockTodo);
-      expect(todoRepository.createTodo).toHaveBeenCalledWith(task, mockUserId);
+      expect(todoRepository.createTodo).toHaveBeenCalledWith(
+        task,
+        mockUserId,
+        undefined
+      );
       expect(todoRepository.createTodo).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('updateTodo', () => {
-    it('should update a todo', async () => {
+    it('should update a todo', async() => {
       // Arrange
       const todoId = 1;
       const task = 'Updated task';
@@ -81,7 +192,12 @@ describe('TodoService', () => {
       vi.mocked(todoRepository.updateTodo).mockResolvedValue(updatedTodo);
 
       // Act
-      const result = await todoService.updateTodo(todoId, task, isComplete, mockUserId);
+      const result = await todoService.updateTodo(
+        todoId,
+        task,
+        isComplete,
+        mockUserId
+      );
 
       // Assert
       expect(result).toEqual(updatedTodo);
@@ -89,14 +205,15 @@ describe('TodoService', () => {
         todoId,
         task,
         isComplete,
-        mockUserId
+        mockUserId,
+        undefined
       );
       expect(todoRepository.updateTodo).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('deleteTodo', () => {
-    it('should delete a todo', async () => {
+    it('should delete a todo', async() => {
       // Arrange
       const todoId = 1;
       vi.mocked(todoRepository.deleteTodo).mockResolvedValue(undefined);
@@ -105,7 +222,10 @@ describe('TodoService', () => {
       await todoService.deleteTodo(todoId, mockUserId);
 
       // Assert
-      expect(todoRepository.deleteTodo).toHaveBeenCalledWith(todoId, mockUserId);
+      expect(todoRepository.deleteTodo).toHaveBeenCalledWith(
+        todoId,
+        mockUserId
+      );
       expect(todoRepository.deleteTodo).toHaveBeenCalledTimes(1);
     });
   });

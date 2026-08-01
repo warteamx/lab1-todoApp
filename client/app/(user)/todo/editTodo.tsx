@@ -15,9 +15,15 @@ export default function EditTodoTab() {
   const { id: rawId } = params || {};
   const id = Array.isArray(rawId) ? rawId[0] : rawId;
   const { data: todos } = useTodos();
-  const todo = todos?.find(t => t.id === id);
+  const todo = todos?.find(t => String(t.id) === String(id));
   const [task, setTask] = useState(todo?.task || '');
   const [isCompleted, setIsCompleted] = useState(todo?.is_complete || false);
+  const [importance, setImportance] = useState<
+    'low' | 'medium' | 'high'
+  >(todo?.importance ?? 'medium');
+  const [status, setStatus] = useState<'pending' | 'in_progress' | 'completed'>(
+    todo?.status ?? 'pending'
+  );
   const updateTodo = useUpdateTodo();
   const deleteTodo = useDeleteTodo();
 
@@ -33,7 +39,13 @@ export default function EditTodoTab() {
 
   const handleUpdate = () => {
     updateTodo.mutate(
-      { id, task, is_complete: isCompleted },
+      {
+        id: String(id),
+        task,
+        is_complete: isCompleted || status === 'completed',
+        importance,
+        status,
+      },
       {
         onSuccess: () => router.back(),
         onError: err => Alert.alert('Error', (err as Error).message),
@@ -42,7 +54,7 @@ export default function EditTodoTab() {
   };
 
   const handleDelete = () => {
-    deleteTodo.mutate(id, {
+    deleteTodo.mutate(String(id), {
       onSuccess: () => router.back(),
       onError: err => Alert.alert('Error', (err as Error).message),
     });
@@ -71,7 +83,10 @@ export default function EditTodoTab() {
         <View flexDirection="row" alignItems="center" style={{ gap: 12 }}>
           <Switch
             value={isCompleted}
-            onValueChange={setIsCompleted}
+            onValueChange={value => {
+              setIsCompleted(value);
+              setStatus(value ? 'completed' : 'pending');
+            }}
             trackColor={{
               false: theme.colors.neutral300,
               true: theme.colors.interactive,
@@ -83,6 +98,43 @@ export default function EditTodoTab() {
           <Text variant="bodyMedium" color="textPrimary">
             {isCompleted ? 'Completed' : 'Pending'}
           </Text>
+        </View>
+
+        <View>
+          <Text variant="labelMedium" color="textSecondary" style={{ marginBottom: 8 }}>
+            Importance
+          </Text>
+          <View flexDirection="row" style={{ gap: 8 }}>
+            {(['low', 'medium', 'high'] as const).map(level => (
+              <Button
+                key={level}
+                title={level}
+                size="small"
+                variant={importance === level ? 'primary' : 'outline'}
+                onPress={() => setImportance(level)}
+              />
+            ))}
+          </View>
+        </View>
+
+        <View>
+          <Text variant="labelMedium" color="textSecondary" style={{ marginBottom: 8 }}>
+            Status
+          </Text>
+          <View flexDirection="row" style={{ gap: 8, flexWrap: 'wrap' }}>
+            {(['pending', 'in_progress', 'completed'] as const).map(nextStatus => (
+              <Button
+                key={nextStatus}
+                title={nextStatus}
+                size="small"
+                variant={status === nextStatus ? 'primary' : 'outline'}
+                onPress={() => {
+                  setStatus(nextStatus);
+                  setIsCompleted(nextStatus === 'completed');
+                }}
+              />
+            ))}
+          </View>
         </View>
 
         <Button
