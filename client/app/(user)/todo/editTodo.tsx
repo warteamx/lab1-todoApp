@@ -1,77 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ActivityIndicator, Alert, Switch } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useTodos, useUpdateTodo, useDeleteTodo } from '@/api/todo.api';
+import { Todo, useTodos, useUpdateTodo, useDeleteTodo } from '@/api/todo.api';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '@/components/ui/View/View';
 import { Text } from '@/components/ui/Text/Text';
 import { TextInput } from '@/components/ui/Input/Input';
 import { Button } from '@/components/ui/Button/Button';
 
-export default function EditTodoTab() {
-  const params = useLocalSearchParams();
-  const router = useRouter();
-  const { theme } = useTheme();
-  const { id: rawId } = params || {};
-  const idParam = Array.isArray(rawId) ? rawId[0] : rawId;
-  const id = idParam ? Number(idParam) : undefined;
-  const { data: todos, isLoading, error } = useTodos();
-  const todo = typeof id === 'number' ? todos?.find(t => t.id === id) : undefined;
-  const [task, setTask] = useState(todo?.task || '');
-  const [isCompleted, setIsCompleted] = useState(todo?.is_complete || false);
-  const updateTodo = useUpdateTodo();
-  const deleteTodo = useDeleteTodo();
+type EditTodoFormProps = {
+  todo: Todo;
+  onDelete: (id: number) => void;
+  onUpdate: (data: { id: number; task: string; is_complete: boolean }) => void;
+  isDeleting: boolean;
+  isUpdating: boolean;
+  theme: ReturnType<typeof useTheme>['theme'];
+};
 
-  useEffect(() => {
-   if (!todo) return;
-   setTask(todo.task);
-   setIsCompleted(todo.is_complete);
-  }, [todo]);
-
-  if (isLoading) {
-   return (
-     <View flex={1} justifyContent="center" alignItems="center" padding="lg">
-       <ActivityIndicator size="large" />
-     </View>
-   );
-  }
-
-  if (error) {
-   return (
-     <View flex={1} justifyContent="center" alignItems="center" padding="lg">
-       <Text variant="bodyMedium" color="textPrimary">
-         Error: {(error as Error).message}
-       </Text>
-     </View>
-   );
-  }
-
-  if (!todo) {
-   return (
-     <View flex={1} justifyContent="center" alignItems="center" padding="lg">
-        <Text variant="bodyMedium" color="textPrimary">
-          ToDo not found
-        </Text>
-      </View>
-    );
-  }
-
-  const handleUpdate = () => {
-    updateTodo.mutate(
-      { id, task, is_complete: isCompleted },
-      {
-        onSuccess: () => router.back(),
-        onError: err => Alert.alert('Error', (err as Error).message),
-      }
-    );
-  };
-
-  const handleDelete = () => {
-    deleteTodo.mutate(id, {
-      onSuccess: () => router.back(),
-      onError: err => Alert.alert('Error', (err as Error).message),
-    });
-  };
+function EditTodoForm({
+  todo,
+  onDelete,
+  onUpdate,
+  isDeleting,
+  isUpdating,
+  theme,
+}: EditTodoFormProps) {
+  const [task, setTask] = useState(todo.task);
+  const [isCompleted, setIsCompleted] = useState(todo.is_complete);
 
   return (
     <View flex={1} padding="lg" backgroundColor="background">
@@ -115,9 +70,11 @@ export default function EditTodoTab() {
           variant="primary"
           size="large"
           fullWidth
-          onPress={handleUpdate}
-          disabled={updateTodo.isPending}
-          loading={updateTodo.isPending}
+          onPress={() =>
+            onUpdate({ id: todo.id, task, is_complete: isCompleted })
+          }
+          disabled={isUpdating}
+          loading={isUpdating}
         />
 
         <Button
@@ -125,17 +82,90 @@ export default function EditTodoTab() {
           variant="secondary"
           size="large"
           fullWidth
-          onPress={handleDelete}
-          disabled={deleteTodo.isPending}
-          loading={deleteTodo.isPending}
+          onPress={() => onDelete(todo.id)}
+          disabled={isDeleting}
+          loading={isDeleting}
         />
 
-        {(updateTodo.isPending || deleteTodo.isPending) && (
+        {(isUpdating || isDeleting) && (
           <View alignItems="center" marginTop="md">
             <ActivityIndicator size="large" />
           </View>
         )}
       </View>
     </View>
+  );
+}
+
+export default function EditTodoTab() {
+  const params = useLocalSearchParams();
+  const router = useRouter();
+  const { theme } = useTheme();
+  const { id: rawId } = params || {};
+  const idParam = Array.isArray(rawId) ? rawId[0] : rawId;
+  const id = idParam ? Number(idParam) : undefined;
+  const { data: todos, isLoading, error } = useTodos();
+  const todo = typeof id === 'number' ? todos?.find(t => t.id === id) : undefined;
+  const updateTodo = useUpdateTodo();
+  const deleteTodo = useDeleteTodo();
+
+  if (isLoading) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center" padding="lg">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center" padding="lg">
+        <Text variant="bodyMedium" color="textPrimary">
+         Error: {(error as Error).message}
+        </Text>
+      </View>
+    );
+  }
+
+  if (!todo) {
+    return (
+      <View flex={1} justifyContent="center" alignItems="center" padding="lg">
+        <Text variant="bodyMedium" color="textPrimary">
+         ToDo not found
+        </Text>
+      </View>
+    );
+  }
+
+  const handleUpdate = (data: {
+    id: number;
+    task: string;
+    is_complete: boolean;
+  }) => {
+    updateTodo.mutate(
+      data,
+      {
+        onSuccess: () => router.back(),
+        onError: err => Alert.alert('Error', (err as Error).message),
+      }
+    );
+  };
+
+  const handleDelete = (todoId: number) => {
+    deleteTodo.mutate(todoId, {
+      onSuccess: () => router.back(),
+      onError: err => Alert.alert('Error', (err as Error).message),
+    });
+  };
+
+  return (
+    <EditTodoForm
+      todo={todo}
+      onDelete={handleDelete}
+      onUpdate={handleUpdate}
+      isDeleting={deleteTodo.isPending}
+      isUpdating={updateTodo.isPending}
+      theme={theme}
+    />
   );
 }
