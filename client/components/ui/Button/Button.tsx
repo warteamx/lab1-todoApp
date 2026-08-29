@@ -2,6 +2,7 @@
 
 import React from 'react';
 import {
+  Animated,
   TouchableOpacity,
   ActivityIndicator,
   StyleSheet,
@@ -35,6 +36,7 @@ export const Button: React.FC<ThemedButtonProps> = ({
 }) => {
   const { theme } = useTheme();
   const [pressed, setPressed] = React.useState(false);
+  const scaleAnim = React.useRef(new Animated.Value(1)).current;
 
   const isDisabled = disabled || loading;
   const buttonStyles = getButtonStyles(
@@ -92,10 +94,22 @@ export const Button: React.FC<ThemedButtonProps> = ({
 
   const handlePressIn = () => {
     setPressed(true);
+    Animated.spring(scaleAnim, {
+      toValue: 0.96,
+      useNativeDriver: true,
+      speed: 50,
+      bounciness: 0,
+    }).start();
   };
 
   const handlePressOut = () => {
     setPressed(false);
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 4,
+    }).start();
   };
 
   const handlePress = (event: any) => {
@@ -127,17 +141,19 @@ export const Button: React.FC<ThemedButtonProps> = ({
   };
 
   return (
-    <TouchableOpacity
-      style={[themedStyle.button, style]}
-      onPress={handlePress}
-      onPressIn={handlePressIn}
-      onPressOut={handlePressOut}
-      disabled={isDisabled}
-      activeOpacity={0.8}
-      {...props}
-    >
-      {renderContent()}
-    </TouchableOpacity>
+    <Animated.View style={{ transform: [{ scale: scaleAnim }], ...(fullWidth && { width: '100%' }) }}>
+      <TouchableOpacity
+        style={[themedStyle.button, style]}
+        onPress={handlePress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        disabled={isDisabled}
+        activeOpacity={1}
+        {...props}
+      >
+        {renderContent()}
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 

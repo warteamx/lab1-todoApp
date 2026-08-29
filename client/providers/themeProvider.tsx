@@ -12,16 +12,16 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [themeVariant, setThemeVariant] = useState<ThemeVariant>('modern');
+  const [themeVariant, setThemeVariant] = useState<ThemeVariant>('warteamxDark');
 
   const theme = themes[themeVariant];
   const isDark = theme.isDark;
 
   const toggleDarkMode = () => {
     if (isDark) {
-      setThemeVariant('modern'); // Switch to light mode
+      setThemeVariant('warteamxLight');
     } else {
-      setThemeVariant('dark'); // Switch to dark mode
+      setThemeVariant('warteamxDark');
     }
   };
 

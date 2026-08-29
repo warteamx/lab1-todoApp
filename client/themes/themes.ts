@@ -62,10 +62,12 @@ export const themes = {
   dark: createTheme('dark', colorThemes.dark, 'Dark', true),
   warm: createTheme('warm', colorThemes.warm, 'Warm', false),
   cool: createTheme('cool', colorThemes.cool, 'Cool', false),
+  warteamxDark: createTheme('warteamxDark', colorThemes.warteamxDark, 'WarteamX Dark', true),
+  warteamxLight: createTheme('warteamxLight', colorThemes.warteamxLight, 'WarteamX Light', false),
 } as const;
 
 // Default theme
-export const defaultTheme = themes.modern;
+export const defaultTheme = themes.warteamxDark;
 
 // Theme utilities
 export const getResponsiveTypography = (

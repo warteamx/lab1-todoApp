@@ -349,11 +349,154 @@ export const coolColors: ColorPalette = {
   interactiveDisabled: '#9CA3AF',
 };
 
-export type ThemeVariant = 'modern' | 'dark' | 'warm' | 'cool';
+// WarteamX Brand Dark Theme Colors
+// Based on https://github.com/warteamx/website/blob/main/brand-guidelines.md
+export const warteamxDarkColors: ColorPalette = {
+  // Primary scale anchored to Neon Electric Blue (#7ECFFF)
+  primary50: '#0A1A2E',
+  primary100: '#0D2340',
+  primary200: '#0F3054',
+  primary300: '#1A4A7A',
+  primary400: '#2E6FAD',
+  primary500: '#7ECFFF',
+  primary600: '#A8DDFF',
+  primary700: '#C5E9FF',
+  primary800: '#DCF2FF',
+  primary900: '#EFF9FF',
+
+  // Secondary scale anchored to Neon Fuchsia (#F102CE)
+  secondary50: '#2A0020',
+  secondary100: '#4A0038',
+  secondary200: '#6A0050',
+  secondary300: '#900070',
+  secondary400: '#C0009A',
+  secondary500: '#F102CE',
+  secondary600: '#F540D8',
+  secondary700: '#F880E6',
+  secondary800: '#FBBAF2',
+  secondary900: '#FDE5FA',
+
+  // Neutral (dark slate for dark theme)
+  neutral50: '#232526',
+  neutral100: '#2A2D2F',
+  neutral200: '#333638',
+  neutral300: '#414345',
+  neutral400: '#555859',
+  neutral500: '#6B6E70',
+  neutral600: '#868A8C',
+  neutral700: '#B3B3B3',
+  neutral800: '#E0E0E0',
+  neutral900: '#FFFFFF',
+
+  // Semantic colors
+  success: '#39FF14',
+  warning: '#FF5722',
+  error: '#FF4444',
+  info: '#7ECFFF',
+
+  // Surface colors
+  background: '#232526',
+  surface: 'rgba(0, 0, 0, 0.6)',
+  card: 'rgba(255, 255, 255, 0.05)',
+  overlay: 'rgba(0, 0, 0, 0.8)',
+
+  // Text colors
+  textPrimary: '#FFFFFF',
+  textSecondary: '#B3B3B3',
+  textTertiary: '#E0E0E0',
+  textDisabled: '#555859',
+  textOnPrimary: '#0F172A',
+  textOnSecondary: '#FFFFFF',
+
+  // Border colors
+  border: 'rgba(255, 255, 255, 0.1)',
+  borderSecondary: 'rgba(255, 255, 255, 0.05)',
+  borderActive: '#7ECFFF',
+
+  // Interactive colors (Electric Blue as primary action)
+  interactive: '#7ECFFF',
+  interactiveHover: '#A8DDFF',
+  interactivePressed: '#C5E9FF',
+  interactiveDisabled: '#555859',
+};
+
+// WarteamX Brand Light Theme Colors
+export const warteamxLightColors: ColorPalette = {
+  // Primary scale anchored to Neon Electric Blue (#7ECFFF)
+  primary50: '#EFF9FF',
+  primary100: '#DCF2FF',
+  primary200: '#C5E9FF',
+  primary300: '#A8DDFF',
+  primary400: '#7ECFFF',
+  primary500: '#3AADEE',
+  primary600: '#1A8CC8',
+  primary700: '#0D6FA0',
+  primary800: '#085580',
+  primary900: '#053C5A',
+
+  // Secondary scale anchored to Neon Fuchsia (#F102CE)
+  secondary50: '#FDE5FA',
+  secondary100: '#FBBAF2',
+  secondary200: '#F880E6',
+  secondary300: '#F540D8',
+  secondary400: '#F102CE',
+  secondary500: '#C0009A',
+  secondary600: '#900070',
+  secondary700: '#6A0050',
+  secondary800: '#4A0038',
+  secondary900: '#2A0020',
+
+  // Neutral (light cool gray)
+  neutral50: '#F5F7FA',
+  neutral100: '#EDF0F5',
+  neutral200: '#E4E8F0',
+  neutral300: '#D1D8E6',
+  neutral400: '#A8B3C8',
+  neutral500: '#60646C',
+  neutral600: '#494D56',
+  neutral700: '#383C44',
+  neutral800: '#2D3139',
+  neutral900: '#111215',
+
+  // Semantic colors
+  success: '#1FA800',
+  warning: '#E03D00',
+  error: '#E03030',
+  info: '#1A8CC8',
+
+  // Surface colors
+  background: '#F5F7FA',
+  surface: 'rgba(255, 255, 255, 0.85)',
+  card: 'rgba(0, 0, 0, 0.03)',
+  overlay: 'rgba(0, 0, 0, 0.5)',
+
+  // Text colors
+  textPrimary: '#111215',
+  textSecondary: '#60646C',
+  textTertiary: '#2D3139',
+  textDisabled: '#A8B3C8',
+  textOnPrimary: '#FFFFFF',
+  textOnSecondary: '#FFFFFF',
+
+  // Border colors
+  border: 'rgba(0, 0, 0, 0.08)',
+  borderSecondary: 'rgba(0, 0, 0, 0.04)',
+  borderActive: '#3AADEE',
+
+  // Interactive colors
+  interactive: '#3AADEE',
+  interactiveHover: '#1A8CC8',
+  interactivePressed: '#0D6FA0',
+  interactiveDisabled: '#A8B3C8',
+};
+
+export type ThemeVariant = 'modern' | 'dark' | 'warm' | 'cool' | 'warteamxDark' | 'warteamxLight';
 
 export const colorThemes = {
   modern: modernColors,
   dark: darkColors,
   warm: warmColors,
   cool: coolColors,
+  warteamxDark: warteamxDarkColors,
+  warteamxLight: warteamxLightColors,
 } as const;

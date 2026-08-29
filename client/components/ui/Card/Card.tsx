@@ -1,7 +1,7 @@
 // Themed Card component for content grouping
 
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Animated, TouchableOpacity } from 'react-native';
 import { useTheme } from '@/providers/themeProvider';
 import { View } from '../View/View';
 import { Text } from '../Text/Text';
@@ -22,6 +22,7 @@ export const Card: React.FC<ThemedCardProps> = ({
   style,
   testID,
 }) => {
+  const scaleAnim = React.useRef(new Animated.Value(1)).current;
 
   const colors = getCardColors(variant, backgroundColor, borderColor);
 
@@ -36,17 +37,39 @@ export const Card: React.FC<ThemedCardProps> = ({
     style,
   };
 
+  const handlePressIn = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.98,
+      useNativeDriver: true,
+      speed: 50,
+      bounciness: 0,
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      speed: 30,
+      bounciness: 4,
+    }).start();
+  };
+
   if (onPress) {
     return (
-      <TouchableOpacity
-        onPress={onPress}
-        disabled={disabled}
-        activeOpacity={0.8}
-        style={{ opacity: disabled ? 0.6 : 1 }}
-        testID={testID}
-      >
-        <View {...cardProps}>{children}</View>
-      </TouchableOpacity>
+      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+        <TouchableOpacity
+          onPress={onPress}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          disabled={disabled}
+          activeOpacity={1}
+          style={{ opacity: disabled ? 0.6 : 1 }}
+          testID={testID}
+        >
+          <View {...cardProps}>{children}</View>
+        </TouchableOpacity>
+      </Animated.View>
     );
   }
 
