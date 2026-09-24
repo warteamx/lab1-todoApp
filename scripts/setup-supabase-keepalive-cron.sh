@@ -2,10 +2,10 @@
 set -euo pipefail
 
 # Install/update a host cron entry that runs DB keep-alive inside the running server container.
-# Default schedule is every 3 days at 03:17 UTC.
+# Default schedule is every day at 03:17 UTC.
 
 SERVER_DIR="${1:-$HOME/app/server}"
-CRON_SCHEDULE="${CRON_SCHEDULE:-17 3 */3 * *}"
+CRON_SCHEDULE="${CRON_SCHEDULE:-17 3 * * *}"
 MARKER_BEGIN="# BEGIN SUPABASE_KEEPALIVE_CRON"
 MARKER_END="# END SUPABASE_KEEPALIVE_CRON"
 LOG_FILE="$SERVER_DIR/logs/combined.log"

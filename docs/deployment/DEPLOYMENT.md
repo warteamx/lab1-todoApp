@@ -211,12 +211,12 @@ chmod +x ./scripts/setup-supabase-keepalive-cron.sh
 ./scripts/setup-supabase-keepalive-cron.sh ~/app/server
 ```
 
-Default schedule is every 3 days at `03:17 UTC`.
+Default schedule is every day at `03:17 UTC`.
 
 Installed cron command:
 
 ```bash
-17 3 */3 * * cd ~/app/server && docker compose exec -T server npm run db:keepalive >> ~/app/server/logs/combined.log 2>&1
+17 3 * * * cd ~/app/server && docker compose exec -T server npm run db:keepalive >> ~/app/server/logs/combined.log 2>&1
 ```
 
 Validation commands:
