@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [v1.6.0](https://github.com/warteamx/lab1-todoApp/compare/v1.5.0...v1.6.0) (2026-09-24)
+
+## ✨ New Features
+- [`22ad1b2`](https://github.com/warteamx/lab1-todoApp/commit/22ad1b2)  feat(cron): update Supabase keep-alive schedule to run daily and enhance keep-alive queries
+
 # [v1.5.0](https://github.com/warteamx/lab1-todoApp/compare/v1.4.1...v1.5.0) (2026-08-01)
 
 ## ✨ New Features
